@@ -195,6 +195,17 @@
 
 }
 
+
+
+#nav .button:hover {
+    background-color: #F8D49D;
+    color: #fff;
+}
+
+
+#nav li .link:hover {
+    color: #F8D49D;
+}
 footer {
     display: flex;
     justify-content: space-around;
