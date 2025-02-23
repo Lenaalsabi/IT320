@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
+    font-family: 'Bitter', sans-serif;
     background-color:#FFFCF5;
 }
 
@@ -63,7 +63,7 @@
     z-index: 1;
     position: relative;
     margin-top: -25em;
-    margin-bottom: 10em;
+    margin-bottom: 0;
     opacity: 0.8;
 
 }
@@ -163,9 +163,9 @@
     padding: 0.275em 1.1875em;
     border-radius: 2em;
     background-color: #FDE9C8;
-    color: #342721;
+    color: #2f231e;
     font-weight: 400;
-    font-family: 'Palanquin Dark', sans-serif;
+    font-family: 'Bitter', sans-serif;
     text-decoration: none; 
 
 }
@@ -188,9 +188,110 @@
     height: 3.75em;
     line-height: 3.75em;
     font-variation-settings: 'wght' 500;
-    color: #342721;
+    color: #2f231e;
     font-weight: 400;
-    font-family: 'Palanquin Dark', sans-serif;
+    font-family: 'Bitter', sans-serif;
     text-decoration: none; 
 
 }
+
+footer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 1em;
+    background-color: #f4f2ed !important;
+    color: #2f231e9e;
+}
+
+footer  * {
+    background-color: transparent !important; 
+}
+.bottom-bar  * {
+    background-color: transparent !important; 
+}
+.footer-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+  
+  .social-icons {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0px;
+    margin-bottom: 3.125em;
+     width: 4.375em;
+    height:4.375em;
+    
+  }
+  
+  .social-icons li {
+    display: inline;
+     display: flex;
+    align-items: center;
+    color: #2f231e9e;
+    text-decoration: none;
+      margin-top:  0.625em;
+    
+  }
+  
+  .social-icons li a img {
+   width: 1.25em;
+    height: 1.25em;
+    
+    
+  }
+  
+  .contact-us ul {
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 3.125em;
+      margin-top: 0.725em;
+      
+  }
+  
+  .contact-us li {
+    margin-bottom:  0.625em;
+    font-size: 0.875em;
+    color: #2f231e9e;
+    
+  }
+  
+  .contact-us li a {
+    display: flex;
+    align-items: center;
+    color: #2f231e9e;
+    text-decoration: none;
+      margin-left: 1.875em;
+  
+  }
+  
+  .contact-us li img {
+    margin-left: 2.375em; 
+    width:1.25em;
+    height: 1.25em;
+  }
+  h3{
+        margin-top: 3.125em;
+          margin-bottom: 0px;
+  
+  }
+  li{
+  margin-bottom: 1.25em;}
+   .bottom-bar{
+    background-color: #f4f2ed !important;
+          text-align: center;
+          padding: 0px 0;
+          margin-top: 0px;
+      }
+      .bottom-bar p{
+          color: #2f231e9e;
+          margin: 0;
+          font-size: 0.625em;
+          padding: 0.4375em;}
