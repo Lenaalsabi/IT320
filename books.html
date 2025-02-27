@@ -41,6 +41,7 @@
 </div>
     <div class="book-container">
         <div class="book-card">
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">♥</button>
             <img src="images/product-item1.jpg" alt="Book 1">
             <h3>Simple Way Of Piece Life</h3>
             <p>Armor Ramsy</p>
@@ -49,6 +50,7 @@
         </div>
 
         <div class="book-card">
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">♥</button>
             <img src="images/product-item2.jpg" alt="Book 2">
             <h3>Great Travel At Desert</h3>
             <p>Sanclist Howdy</p>
@@ -57,6 +59,7 @@
         </div>
 
         <div class="book-card">
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">♥</button>
             <img src="images/product-item3.jpg" alt="Book 3">
             <h3>Life Among The Pirates</h3>
             <p>David Woodard</p>
@@ -65,6 +68,7 @@
         </div>
 
         <div class="book-card">
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">♥</button>
             <img src="images/product-item4.jpg" alt="Book 4">
             <h3>Tips Of Simple Lifestyle</h3>
             <p>Brat Smith</p>
@@ -99,6 +103,10 @@
 <div class="bottom-bar">
     <p>Terms and Conditions | Privacy Policy<br>&copy; 2024 Mawj Company. All rights reserved</p>
 </div>
-
+<script>
+    function toggleWishlist(button) {
+        button.classList.toggle("active");
+    }
+</script>
 </body>
 </html>

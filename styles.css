@@ -400,22 +400,40 @@ footer  * {
         .book-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5em;
-            padding: 2em;
+            gap: 1em;
+            padding: 1.5em;
             justify-items: center;
         }
         
         .book-card {
+            position: relative;
             background-color: #FFFCF5 ;
-            padding: 1.5em;
+            padding: 2em;
             border-radius: 5px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
             max-width: 300px;
         }
+        .wishlist-btn {
+            position: absolute;
+            top: 0.3em;
+            right: 0.3em;
+            background: none;
+            border: none;
+            font-size: 2em;
+            color: #f4b5ae7a;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
         
+        .wishlist-btn:hover{
+            color: #F4B5AE;
+        }
+        .wishlist-btn.active {
+            color: #F4B5AE;   
+        }
         .book-card img {
-            width: 100%;
+            width: 90%;
             height: auto;
         }
         
@@ -437,7 +455,9 @@ footer  * {
         }
         
         .book-card .button {
-            width: 100%;
+            bottom: 0.3em;
+            left: 0.3em;
+            width: 80%;
             padding: 0.75em;
             font-size: 1em;
         }
