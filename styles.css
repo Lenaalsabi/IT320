@@ -462,4 +462,116 @@ footer  * {
             font-size: 1em;
         }
         
-        
+        /* Cart Page Styles */
+.cart-container {
+    max-width: 1200px;
+    margin: 2em auto;
+    padding: 0 1em;
+}
+
+.cart-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2em;
+    margin-top: 2em;
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    background-color: #FFFCF5;
+    padding: 1.5em;
+    margin-bottom: 1.5em;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.cart-item img {
+    width: 120px;
+    height: auto;
+    margin-right: 1.5em;
+}
+
+.item-details {
+    flex: 1;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    margin-top: 1em;
+}
+
+.quantity-btn {
+    background-color: #FDE9C8;
+    border: none;
+    padding: 0.5em 1em;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.quantity-input {
+    width: 50px;
+    text-align: center;
+    margin: 0 0.5em;
+    padding: 0.5em;
+    border: 1px solid #d1c4b6;
+    border-radius: 4px;
+}
+
+.remove-btn {
+    background: none;
+    border: none;
+    color: #F4B5AE;
+    cursor: pointer;
+    padding: 0.5em 1em;
+    margin-left: 1em;
+}
+
+.remove-btn:hover {
+    color: #e6958d;
+}
+
+.cart-summary {
+    background-color: #FFFCF5;
+    padding: 2em;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: fit-content;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin: 1em 0;
+    padding: 0.5em 0;
+    border-bottom: 1px solid #eee;
+}
+
+.summary-item.total {
+    font-weight: bold;
+    font-size: 1.1em;
+    border-bottom: none;
+}
+
+.checkout-btn {
+    width: 100%;
+    margin-top: 1.5em;
+    padding: 1em;
+    font-size: 1.1em;
+}
+
+@media (max-width: 768px) {
+    .cart-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .cart-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .cart-item img {
+        margin-bottom: 1em;
+    }
+}
