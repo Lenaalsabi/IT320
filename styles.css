@@ -9,7 +9,7 @@
 
 
 /* Logo section */
-.logo-section {
+.logo-section, .title-section{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -24,7 +24,7 @@
     background-color: #34272158;
 }
 
-.logo {
+.logo, .title{
     text-align: center;
     padding: 0 2.5em;
     position: relative;
@@ -34,7 +34,6 @@
 .logo img {
     width: 12.25em;
 }
-
 
 /* Link */
 .link-section {

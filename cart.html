@@ -31,14 +31,13 @@
     </header>
 
     <main class="cart-container">
-        <div class="logo-section">
+        <div class="title-section">
             <div class="horizontal-line"></div>
-            <div class="logo">
+            <div class="title">
                 <h1 class="page-title">Your Cart</h1>
             </div>
             <div class="horizontal-line"></div>
         </div>
-
         <div class="cart-content">
             <div class="cart-items">
                 <!-- Cart Item 1 -->
@@ -49,12 +48,12 @@
                         <p>Armor Ramsy</p>
                         <p class="price">$15.99</p>
                         <div class="quantity-controls">
-                            <button class="quantity-btn">-</button>
-                            <input type="number" value="1" min="1" class="quantity-input">
-                            <button class="quantity-btn">+</button>
+                            <button class="quantity-btn" onclick="decrementQuantity(this)">-</button>
+                            <input type="number" value="1" min="1" class="quantity-input" onchange="updateCartTotal()">
+                            <button class="quantity-btn" onclick="incrementQuantity(this)">+</button>
                         </div>
                     </div>
-                    <button class="remove-btn">Remove</button>
+                    <button class="remove-btn" onclick="removeItem(this)">Remove</button>
                 </div>
 
                 <!-- Cart Item 2 -->
@@ -65,12 +64,12 @@
                         <p>Sanclist Howdy</p>
                         <p class="price">$12.99</p>
                         <div class="quantity-controls">
-                            <button class="quantity-btn">-</button>
-                            <input type="number" value="1" min="1" class="quantity-input">
-                            <button class="quantity-btn">+</button>
+                            <button class="quantity-btn" onclick="decrementQuantity(this)">-</button>
+                            <input type="number" value="1" min="1" class="quantity-input" onchange="updateCartTotal()">
+                            <button class="quantity-btn" onclick="incrementQuantity(this)">+</button>
                         </div>
                     </div>
-                    <button class="remove-btn">Remove</button>
+                    <button class="remove-btn" onclick="removeItem(this)">Remove</button>
                 </div>
             </div>
 
@@ -78,21 +77,20 @@
                 <h2>Order Summary</h2>
                 <div class="summary-item">
                     <span>Items</span>
-                    <span>2</span>
+                    <span id="items-count">2</span>
                 </div>
                 <div class="summary-item">
                     <span>Subtotal</span>
-                    <span>$28.98</span>
+                    <span id="subtotal">$28.98</span>
                 </div>
                 <div class="summary-item total">
                     <span>Total</span>
-                    <span>$28.98</span>
+                    <span id="total">$28.98</span>
                 </div>
                 <button class="button primary checkout-btn">Checkout</button>
             </div>
         </div>
     </main>
-
     <footer>
         <div class="footer-section footer-logo">
             <img src="images/logo.png" alt="footer-logo" width="320">
@@ -118,6 +116,51 @@
         <p>  Terms and Conditions
 privacy policy<br>&copy; 2024 mawj company . All rights reserved</p>
     </div>
+    <script>
+    // Quantity Control Functions
+    function incrementQuantity(button) {
+        const input = button.parentElement.querySelector('.quantity-input');
+        input.value = parseInt(input.value) + 1;
+        updateCartTotal();
+    }
 
+    function decrementQuantity(button) {
+        const input = button.parentElement.querySelector('.quantity-input');
+        if (input.value > 1) {
+            input.value = parseInt(input.value) - 1;
+            updateCartTotal();
+        }
+    }
+
+    // Remove Item Function
+    function removeItem(button) {
+        const item = button.closest('.cart-item');
+        item.remove();
+        updateCartTotal();
+    }
+
+    // Update Cart Totals
+    function updateCartTotal() {
+        let itemCount = 0;
+        let subtotal = 0;
+
+        document.querySelectorAll('.cart-item').forEach(item => {
+            const price = parseFloat(item.querySelector('.price').textContent.replace('$', ''));
+            const quantity = parseInt(item.querySelector('.quantity-input').value);
+            itemCount += quantity;
+            subtotal += price * quantity;
+        });
+
+        const total = subtotal;
+        
+        // Update display values
+        document.getElementById('items-count').textContent = itemCount;
+        document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+        document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+    }
+
+    // Initialize cart totals on page load
+    document.addEventListener('DOMContentLoaded', updateCartTotal);
+    </script>
 </body>
 </html>
