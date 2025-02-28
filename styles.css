@@ -574,3 +574,102 @@ footer  * {
         margin-bottom: 1em;
     }
 }
+
+.orders-container {
+    width: 80%;
+    margin: auto;
+    padding: 3em 0;
+}
+.orders-title {
+    font-size: 2.5em;
+    color: #2f231e;
+    font-weight: bold;
+    margin-bottom: 1.5em;
+    text-transform: uppercase;
+    text-align: center;
+    width: 100%;
+}
+.order-section {
+    margin-bottom: 3em;
+}
+.section-title {
+    font-size: 1.4em;
+    margin-bottom: 1em;
+    color: #282f1e;
+    text-transform: uppercase;
+    border-bottom: 2px solid #2f231e;
+    display: inline-block;
+    padding-bottom: 0.5em;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    margin: auto;
+}
+.order-card {
+    background-color: #FFFCF5;
+    padding: 1.5em;
+    margin: 1em auto;
+    width: 75%;
+    border-radius: 12px;
+    box-shadow: #555 ;
+    text-align: left;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.order-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    font-size: 1.1em;
+    color: #2f231e;
+    background-color: #FFFCF5;
+}
+.order-id {
+    font-weight: bold;
+    font-size: 1.3em;
+    color: #998514;
+    text-transform: uppercase;
+    background-color: #FFFCF5;
+}
+.order-status {
+    font-weight: bold;
+    color: #F4B5AE;
+    background-color: #FFFCF5;
+}
+.total-price {
+    font-weight: bold;
+    font-size: 1.2em;
+    color: #342721;
+    background-color: #FFFCF5;
+}
+.delivery-address {
+    color: #555;
+    font-size: 1em;
+    background-color: #FFFCF5;
+}
+.book-images {
+    display: flex;
+    flex-direction: row;
+    gap: -15px;
+    position: relative;
+    left: 10px;
+    background-color: #FFFCF5;
+}
+.book-image {
+    width: 60px;
+    height: auto;
+    border-radius: 5px;
+    position: relative;
+    background-color: #FFFCF5;
+}
+.book-image:not(:first-child) {
+    margin-left: -40px;
+}
+.book-image:first-child {
+    transform: rotate(-45deg);
+}
