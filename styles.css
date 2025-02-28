@@ -593,9 +593,9 @@ footer  * {
     margin-bottom: 3em;
 }
 .section-title {
-    font-size: 1.4em;
+    font-size: 1.7em;
     
-    display: inline-block;
+   font-weight: normal;
     padding-bottom: 0.5em;
     text-align: center;
     display: flex;
@@ -627,10 +627,10 @@ footer  * {
     background-color: #FFFCF5;
 }
 .order-id {
-    font-weight: bold;
+    
     font-size: 1.3em;
     color: #998514;
-    text-transform: uppercase;
+    
     background-color: #FFFCF5;
 }
 .order-status {
@@ -669,4 +669,22 @@ footer  * {
 }
 .book-image:first-child {
     transform: rotate(-45deg);
+}
+.reservation-period{
+    color: #555;
+    font-size: 1em;
+    background-color: #FFFCF5;  
+}
+.edit-label {
+        font-size: 1.4em;
+        color: #F4B5AE;
+        font-weight: bold;
+        position: absolute;
+        right: 15px;
+        bottom: 10px;
+        cursor: pointer;
+        transition: color 0.3s ease-in-out;
+}
+.edit-label:hover {
+    color: #D489A3;
 }
