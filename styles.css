@@ -594,10 +594,7 @@ footer  * {
 }
 .section-title {
     font-size: 1.4em;
-    margin-bottom: 1em;
-    color: #282f1e;
-    text-transform: uppercase;
-    border-bottom: 2px solid #2f231e;
+    
     display: inline-block;
     padding-bottom: 0.5em;
     text-align: center;
