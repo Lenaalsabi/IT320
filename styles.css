@@ -102,7 +102,7 @@ body{
     color: #988414; 
     opacity: 0.8; 
     position: relative;
-    margin-left: 24.8%;
+    margin-left: 29.8%;
 
 }
 .books-container {
@@ -138,7 +138,7 @@ body{
 .bookg p {
     margin-top: 10px;
     font-size: 1em;
-    color: #333;
+    color: #988414;
     font-weight: bold;
 }
 .open-book {
@@ -838,4 +838,59 @@ footer  * {
     font-family: "Indie Flower", serif;
     text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
 
+}
+.offers-section, .best-selling-section {
+    text-align: center;
+    margin: 12em auto;
+    max-width: 89em;
+}
+
+h2 {
+    font-size: 1.8em;
+    color: #342721;
+    margin-bottom: 20px;
+    font-family: 'Bitter', sans-serif;
+}
+
+.books2-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: nowrap;
+}
+
+.book {
+    text-align: center;
+    position: relative;
+}
+
+.book img {
+    width: 150px; 
+    height: auto;
+    border-radius: 8px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s;
+}
+
+.book img:hover {
+    transform: scale(1.05);
+}
+
+.book p {
+    margin-top: 10px;
+    font-size: 0.8em;
+    color: #333;
+    font-weight: bold;
+}
+
+.discount {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: rgb(255, 80, 80);
+    color: white;
+    font-size: 0.9em;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
 }
