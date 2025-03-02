@@ -968,3 +968,114 @@ h2 {
 .admin-cancel-btn:hover {
     text-decoration: underline;
 }
+
+.admin-dashboard-container {
+    max-width: 80%;
+    margin: auto;
+    padding: 20px;
+}
+
+.admin-dashboard-title {
+    font-size: 2.5em;
+    color: #2f231e;
+    margin-bottom: 40px;
+}
+
+.admin-menu {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    margin-top:70px;
+    align-items: flex-start;
+}
+
+.admin-option {
+    width: 280px;
+    height: 280px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.admin-option:hover {
+    transform: scale(1.1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.admin-option img {
+    width: 140px;
+    height: 140px;
+}
+
+.admin-option p {
+    margin-top: 15px;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #2f231e;
+}
+
+.admin-option:nth-child(2) {
+    transform: translateY(-30px);
+}
+
+.admin-content {
+    margin-top: 40px;
+}
+
+.admin-section {
+    display: none;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: auto;
+    text-align: left;
+}
+
+.admin-section h2 {
+    color: #2f231e;
+    text-align: center;
+}
+
+.admin-section form {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-section input,
+.admin-section button {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1em;
+}
+
+.admin-section button {
+    background-color: #F4B5AE;
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.admin-section button:hover {
+    background-color: #D489A3;
+}
+
+.hidden {
+    display: none;
+}
+
+.active {
+    display: block;
+}
