@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit - موج</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=Bitter:ital,wght@0,100..900;1,100..900&family=Mate:ital@0;1&family=Poppins&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+  
+</head>
+<body>
+    <header>
+        <div class="header">
+            <div class="logo-section">
+                <div class="horizontal-line"></div>
+                <div class="logo">
+                    <a href="homepage.html">
+                        <img src="images/logo.png" alt="موج Logo" id="logo">
+                    </a>
+                </div>
+                <div class="horizontal-line"></div>
+            </div>
+            <nav id="nav">
+                <ul>
+                    <li><a class="link link-black login-btn" href="login.html">Log in</a></li>
+                    <li><a class="button primary small signup-btn" href="signup.html">Sign up</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>
+
+
+
+        <div class="admin-edit-container">
+            <h1 class="admin-edit-title">Edit Reservation</h1>
+    
+            <form id="admin-edit-form" class="admin-edit-form">
+                <label for="new-date" class="admin-edit-label">New Return Date:</label>
+                <input type="date" id="new-date" class="admin-edit-input" required>
+    
+                <p class="admin-price-info">Current Price: <span id="current-price">$10.50</span></p>
+                <p class="admin-new-price-info">New Price: <span id="new-price">$10.50</span></p>
+    
+                <button type="submit" class="admin-edit-btn">Save Changes</button>
+                <a href="orders.html" class="admin-cancel-btn">Cancel</a>
+            </form>
+        </div>
+
+
+
+    </main>
+
+    <footer>
+        <div class="footer-section footer-logo">
+            <img src="images/logo.png" alt="footer-logo" width="320">
+        </div>
+        <div class="footer-section social-media">
+            <h3>SOCIAL MEDIA</h3>
+            <ul class="social-icons">
+                <li><a href="#"><img src="images/twitter.png" alt="Twitter"></a></li>
+                <li><a href="#"><img src="images/facebook.png" alt="Facebook"></a></li>
+                <li><a href="#"><img src="images/insta.png" alt="Instagram"></a></li>
+                <li>@official_mawj</li>
+            </ul>
+        </div>
+        <div class="footer-section contact-us">
+            <h3>CONTACT US</h3>
+            <ul>
+                <li><a href="#"><img src="images/phone1.png" alt="Phone"> +123 165 788</a></li>
+                <li><a href="mailto:mawj@gmail.com"><img src="images/email1.png" alt="Email"> mawj@gmail.com</a></li>
+            </ul>
+        </div>
+    </footer>
+    <div class="bottom-bar">
+        <p>  Terms and Conditions
+privacy policy<br>&copy; 2024 mawj company . All rights reserved</p>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const newDateInput = document.getElementById("new-date");
+            const currentPriceSpan = document.getElementById("current-price");
+            const newPriceSpan = document.getElementById("new-price");
+    
+            let basePrice = 10.50;
+            let baseDays = 10;
+            let extraCharge = 1.00;
+    
+            newDateInput.addEventListener("change", function () {
+                let today = new Date();
+                let selectedDate = new Date(newDateInput.value);
+    
+                let diffTime = selectedDate.getTime() - today.getTime();
+                let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+                if (diffDays <= baseDays) {
+                    newPriceSpan.innerText = `$${basePrice.toFixed(2)}`;
+                } else {
+                    let extraDays = diffDays - baseDays;
+                    let newPrice = basePrice + (extraDays * extraCharge);
+                    newPriceSpan.innerText = `$${newPrice.toFixed(2)}`;
+                }
+            });
+    
+            document.getElementById("admin-edit-form").addEventListener("submit", function (event) {
+                event.preventDefault();
+                alert("Reservation updated successfully!");
+                window.location.href = "orders.html";
+            });
+        });
+    </script>
+    
+</body>
+</html>
