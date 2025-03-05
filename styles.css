@@ -20,6 +20,11 @@ body{
     margin-top: 0.50em;
 }
 
+.title-section{
+    max-width: 1200px;
+    margin: 2em auto;
+    padding: 0 1em;
+}
 .horizontal-line {
     flex-grow: 1;
     height: 0.03125em;
