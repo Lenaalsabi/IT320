@@ -430,7 +430,7 @@ footer  * {
 
     
     .add:hover {
-        background-color: rgb(58, 93, 142);
+        /*background-color: rgb(58, 93, 142);*/
         color: #ffffff;
 
         
@@ -439,6 +439,6 @@ footer  * {
     
     .borrow:hover {
         background-color: rgb(220, 236, 255);
-        color: #5389c8;
-        
+       /* color: #5389c8;
+        */
     }
