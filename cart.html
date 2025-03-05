@@ -62,7 +62,7 @@
                     <div class="item-details">
                         <h3>Simple Way Of Piece Life</h3>
                         <p>Armor Ramsy</p>
-                        <p class="price">$15.99</p>
+                        <p class="price">15.99 SAR</p>
                         <div class="quantity-controls">
                             <button class="quantity-btn" onclick="decrementQuantity(this)">-</button>
                             <input type="number" value="1" min="1" class="quantity-input" onchange="updateCartTotal()">
@@ -78,7 +78,7 @@
                     <div class="item-details">
                         <h3>Great Travel At Desert</h3>
                         <p>Sanclist Howdy</p>
-                        <p class="price">$12.99</p>
+                        <p class="price">12.99 SAR</p>
                         <div class="quantity-controls">
                             <button class="quantity-btn" onclick="decrementQuantity(this)">-</button>
                             <input type="number" value="1" min="1" class="quantity-input" onchange="updateCartTotal()">
@@ -97,11 +97,11 @@
                 </div>
                 <div class="summary-item">
                     <span>Subtotal</span>
-                    <span id="subtotal">$28.98</span>
+                    <span id="subtotal">28.98 SAR</span>
                 </div>
                 <div class="summary-item total">
                     <span>Total</span>
-                    <span id="total">$28.98</span>
+                    <span id="total">28.98 SAR</span>
                 </div>
                 <button class="button primary checkout-btn">Checkout</button>
             </div>
@@ -161,7 +161,7 @@ privacy policy<br>&copy; 2024 mawj company . All rights reserved</p>
         let subtotal = 0;
 
         document.querySelectorAll('.cart-item').forEach(item => {
-            const price = parseFloat(item.querySelector('.price').textContent.replace('$', ''));
+            const price = parseFloat(item.querySelector('.price').textContent.replace(' SAR', ''));
             const quantity = parseInt(item.querySelector('.quantity-input').value);
             itemCount += quantity;
             subtotal += price * quantity;
@@ -171,8 +171,8 @@ privacy policy<br>&copy; 2024 mawj company . All rights reserved</p>
         
         // Update display values
         document.getElementById('items-count').textContent = itemCount;
-        document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
-        document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+        document.getElementById('subtotal').textContent = `${subtotal.toFixed(2)} SAR`;
+        document.getElementById('total').textContent = `${total.toFixed(2)} SAR`;
     }
 
     // Initialize cart totals on page load
