@@ -235,6 +235,10 @@ body{
 
 
 }
+.book-left, .book-left2, .book-left3, 
+.book-left4, .book-left5, .book-left6 {
+    box-shadow: 0px 0px 8px rgba(152, 132, 20, 0.363);
+}
 
 #nav {
     background-color:#FFFCF5;
