@@ -60,6 +60,30 @@
             Books are doors to endless adventures, unlocking worlds of imagination,<br> wonder, and timeless knowledge.
         </div>
     </div>
+    <div class="user-guide-container">
+        <div class="icon-container" onclick="openPopup()">
+            <img src="images/gg.png" alt="User Guide">
+            <p>User Guide</p>
+        </div>
+    </div>
+
+    <div id="popup" class="popup-overlay">
+        <div class="popup-content">
+            <h2>User Guide</h2>
+            <pre><strong>How to borrow:</strong> 
+                1. Select the desired book.  
+                2. Click the "Borrow" button.  
+                3. Fill out the reservation form (start date, end date, delivery location).  
+                4. Submit the request and wait for confirmation.  
+                5. Receive the book at the specified location.  
+            </pre>
+            <pre><strong>How to return:</strong> 
+                1. Go to the "Orders" section.  
+                2. Select the book you want to return.  
+                3. Click the "Edit"button and follow the instructions for the return location or pickup service.</pre>
+            <button onclick="closePopup()">Close</button>
+        </div>
+    </div>
     <section class="offers-section">
         <h2>Offers</h2>
         <div class="books2-container">
@@ -95,6 +119,60 @@
             </div>
         </div>
     </section>
+    <div class="container" style="background-color: rgba(255, 255, 255, 0.685);">
+        <div class="tabs">
+            <button id="popular-tab">Popular Books</button>
+            <button id="most-tab">Most Borrowed</button>
+        </div>
+    
+        <!-- Popular Books Section -->
+        <div id="popular-section" >
+            
+                <div class="books-container">
+                    <div class="book">
+                        <img src="images/pop1.jpg" alt="bestselling  1">
+                        <p>L'Art des Sorciers</p>
+                    </div>
+                    <div class="book">
+                        <img src="images/pop2.jpg" alt="bestselling  2">
+                        <p>Living and Working</p>
+                    </div>
+                    <div class="book">
+                        <img src="images/pop3.jpg" alt=" bestselling 3">
+                        <p>Deer Run Home </p>
+                    </div>
+                    <div class="book">
+                        <img src="images/pop4.jpg" alt=" bestselling 4">
+                        <p>Elegy, Southwest</p>
+                        
+                    </div>
+                </div>
+          
+        </div>
+    
+        <!-- Most Borrowed Books Section -->
+        <div id="most-section" >
+            <div class="books-container">
+                <div class="book">
+                    <img src="images/most1.jpg" alt="bestselling  1">
+                    <p>Start with Why</p>
+                </div>
+                <div class="book">
+                    <img src="images/most2.jpg" alt="bestselling  2">
+                    <p>Raised By Ghosts</p>
+                </div>
+                <div class="book">
+                    <img src="images/most3.jpg" alt=" bestselling 3">
+                    <p>Beneath the Trees </p>
+                </div>
+                <div class="book">
+                    <img src="images/most4.jpg" alt=" bestselling 4">
+                    <p>The Adventures of Tom Sawyer  </p>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
     
     <section class="best-selling-section">
         <h2>Best Selling Books</h2>
@@ -146,6 +224,49 @@
       privacy policy<br>&copy; 2024 mawj company . All rights reserved</p>
               </div>
             </body>
+             
+    <script>
+const popularTab = document.getElementById("popular-tab");
+const mostTab = document.getElementById("most-tab");
+
+const popularSection = document.getElementById("popular-section");
+const mostSection = document.getElementById("most-section");
+
+popularTab.addEventListener("click", () => {
+    showSection(popularTab, popularSection);
+});
+
+mostTab.addEventListener("click", () => {
+    showSection(mostTab, mostSection);
+});
+
+function showSection(activeTab, activeSection) {
+    popularSection.style.display = "none";
+    mostSection.style.display = "none";
+
+    popularTab.classList.remove("active");
+    mostTab.classList.remove("active");
+
+    activeSection.style.display = "block";
+    activeTab.classList.add("active");
+}
+
+showSection(popularTab, popularSection);
+function openPopup() {
+    document.getElementById("popup").style.display = "flex";
+}
+
+function closePopup() {
+    document.getElementById("popup").style.display = "none";
+}
+
+window.onclick = function(event) {
+    let popup = document.getElementById("popup");
+    if (event.target === popup) {
+        popup.style.display = "none";
+    }
+}
+       </script>
               </html>
               
               
