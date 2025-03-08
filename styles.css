@@ -774,6 +774,18 @@ footer  * {
     font-size: 1em;
     background-color: #FFFCF5;  
 }
+
+    #edit-label1 {
+        font-size: 1.4em;
+        color: #F4B5AE;
+        font-weight: bold;
+        position: absolute;
+        right: 15px;
+        bottom: 10px;
+        cursor: pointer;
+        transition: color 0.3s ease-in-out;
+    }
+    
 .edit-label {
         font-size: 1.4em;
         color: #F4B5AE;
