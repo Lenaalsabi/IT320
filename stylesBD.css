@@ -209,7 +209,7 @@ body{
         width: 28px;
         height: 24px;
         border-radius: 50%;
-        background-color: #007bff;
+        background-color: #c69b50;
         color: #fff;
         display: flex;
         align-items: center;
@@ -219,7 +219,7 @@ body{
     }
 
     .step.active .circle {
-        background-color: #28a745;
+        background-color: #5281c4;
 
     }
 
@@ -252,7 +252,13 @@ body{
         padding: 10px;
         border: 1px solid #ccc;
         border-radius: 5px;
-        background-color: #e6e2da;
+        background-color: #fff8f0;
+    }
+
+    .step-indicator .step-active{
+        position: absolute;
+        right: 22px;
+        top:12px;
     }
 
     .button-container {
@@ -262,8 +268,8 @@ body{
     }
 
     button {
-        background-color: #007bff;
-        color: #fff;
+        background-color: #fbe7c6;
+        color: #342721;
         padding: 10px 12px;
         border: none;
         border-radius: 15px;
@@ -272,10 +278,11 @@ body{
         width: 130px;
         font-weight: bold;
       font-family: 'Bitter' ,sans-serif;
+
     }
 
     button:hover{
-        background-color: #57a0ef;
+        background-color: #F8D49D;
     }
 
     button:disabled {
@@ -283,25 +290,7 @@ body{
         cursor: not-allowed;
     }
 
-    .summary {
-        list-style: none;
-        padding: 0;
-    }
 
-    .summary li {
-        display: flex;
-        justify-content: space-between;
-        padding: 8px 0;
-        border-bottom: 1px solid #ddd;
-    }
-
-    .summary li:last-child {
-        border-bottom: none;
-    }
-
-    .text-right {
-        text-align: right;
-    }
 
     .success {
         text-align: center;
