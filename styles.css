@@ -489,7 +489,7 @@ footer  * {
         
         .page-title {
             text-align: center;
-            font-size: 2em;
+            font-size: 1.4em;
             font-weight: 500;
             color: #2f231e;
             margin: 1.5em 0;
@@ -528,7 +528,7 @@ footer  * {
             color: #F4B5AE;
         }
         .wishlist-btn.active {
-            color: #F4B5AE;   
+            color: #ffa197;   
         }
         .book-card img {
             width: 90%;
@@ -692,7 +692,7 @@ footer  * {
     margin-bottom: 3em;
 }
 .section-title {
-    font-size: 1.7em;
+    font-size: 1.2em;
     
    font-weight: normal;
     padding-bottom: 0.5em;
@@ -1004,11 +1004,12 @@ h2 {
     gap: 50px;
     margin-top:70px;
     align-items: flex-start;
+    padding-bottom: 66px;
 }
 
 .admin-option {
-    width: 280px;
-    height: 280px;
+    width: 190px;
+    height: 190px;
     background-color: white;
     border-radius: 50%;
     display: flex;
@@ -1026,15 +1027,15 @@ h2 {
 }
 
 .admin-option img {
-    width: 140px;
-    height: 140px;
+    width: 100px;
+    height: 100px;
 }
 
 .admin-option p {
     margin-top: 15px;
-    font-size: 1.5em;
+    font-size: 1em;
     font-weight: bold;
-    color: #2f231e;
+    color: #eeb2aa;
 }
 
 .admin-option:nth-child(2) {
@@ -1054,6 +1055,7 @@ h2 {
     max-width: 600px;
     margin: auto;
     text-align: left;
+    margin-bottom: 77px;
 }
 
 .admin-section h2 {
@@ -1337,20 +1339,19 @@ input:read-only + .edit-icon {
 /* Search */
 .search-section {
     position: absolute;
-    right: 2em;
-    top: 7%;
+    right: 4em;
+    top: 5%;
     transform: translateY(-50%);
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    background-color: #fff;
+    background-color: #ffffff;
     border-radius: 25px;
-    border: 2px solid #e0cfc2;
-    height: 40px;
-    width: 350px;
+    border: 0.99px solid #5a4d4454;
+    height: 38px;
+    width: 300px;
     max-width: 400px;
-    padding: 10px 20px;
-    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15);
+    padding: 9px 15px;
     transition: all 0.3s ease-in-out;
     overflow: visible;
     z-index: 999;
@@ -1369,7 +1370,7 @@ input:read-only + .edit-icon {
 .search-section input[type="text"] {
     border: none;
     outline: none;
-    font-size: 15px;
+    font-size: 13px;
     background-color: transparent;
     color: #5a4d44;
     width: 100%;
@@ -1379,10 +1380,20 @@ input:read-only + .edit-icon {
 }
 
 .search-section input[type="text"]::placeholder {
-    color: #a08d7e;
+    color: #a08d7ece;
     opacity: 1;
 }
 
 .search-section input[type="text"]:focus {
     border-bottom: 2px solid #d4b8a6;
+}
+.highlight2 {
+    color: #ecada8;
+   font-weight: bold;
+   margin-right: 8px;
+}
+.highlight3 {
+    color: #e1645b;
+   font-weight: bold;
+   margin-right: 8px;
 }

@@ -25,7 +25,7 @@
             </div>
             <nav id="nav">
                 <ul>
-                    <li><a class="link link-black login-btn" href="homepage.html">Log out</a></li>
+                    <li><a class="button primary small signup-btn" href="homepage.html">Log out</a></li>
                 
                 </ul>
             </nav>
@@ -37,7 +37,7 @@
         <div class="title-section">
             <div class="horizontal-line"></div>
             <div class="title">
-                <h1 class="page-title">admin Dashboard</h1>
+                <h1 class="page-title">admin<br> Dashboard</h1>
             </div>
             <div class="horizontal-line"></div>
         </div>
@@ -45,15 +45,15 @@
         
         <div class="admin-menu">
             <div class="admin-option" onclick="showSection('add-book')">
-                <img src="images/add.png" alt="Add Book">
+                <img src="images/addd.png" alt="Add Book">
                 <p>Add Book</p>
             </div>
             <div class="admin-option" onclick="showSection('edit-book')">
-                <img src="images/editing.png" alt="Edit Book">
+                <img src="images/editt.png" alt="Edit Book">
                 <p>Edit Book</p>
             </div>
             <div class="admin-option" onclick="showSection('delete-book')">
-                <img src="images/delet.png" alt="Delete Book">
+                <img src="images/del.png" alt="Delete Book">
                 <p>Delete Book</p>
             </div>
         </div>
@@ -67,7 +67,10 @@
                     <input type="text" placeholder="Version" required>
                     <textarea placeholder="Description" required></textarea>
                     <input type="number" placeholder="Price" required>
+                    <label for="cover-page">Add Cover Page:</label>
+                    <input type="file" id="cover-page" accept="image/*" required>
                     <button type="submit">Add Book</button>
+
                 </form>
             </section>
 
