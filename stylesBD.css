@@ -179,13 +179,14 @@
         width: 100%;
         height: 100vh;
         font-family: 'Bitter', sans-serif;
+        color: #342721;
 
     }
 
     .container {
         max-width: 1800px;
         margin: 0 auto;
-        padding: 120px;
+        padding: 80px;
         position: absolute;
         width: 900px;
         top: 200px;
@@ -207,6 +208,11 @@
         align-items: center;
     }
 
+    .step-indicator span{
+        font-size: 15px;
+        font-weight: bold;
+        color: #342721;
+    }
     .step .circle {
         width: 28px;
         height: 24px;
@@ -222,6 +228,7 @@
 
     .step.active .circle {
         background-color: #28a745;
+
     }
 
     .card {
@@ -259,18 +266,24 @@
     .button-container {
         display: flex;
         justify-content: space-between;
+        gap: 0.12em;
     }
 
     button {
         background-color: #007bff;
         color: #fff;
-        padding: 10px 20px;
+        padding: 10px 12px;
         border: none;
-        border-radius: 5px;
+        border-radius: 15px;
         cursor: pointer;
         margin: 0 auto;
-        width: 150px;
-        border-radius: 30px;
+        width: 130px;
+        font-weight: bold;
+      font-family: 'Bitter' ,sans-serif;
+    }
+
+    button:hover{
+        background-color: #57a0ef;
     }
 
     button:disabled {
