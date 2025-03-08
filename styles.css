@@ -1292,3 +1292,45 @@ input:read-only + .edit-icon {
 .popup-content button:hover {
     background-color: #8e766a;
 }
+/* Profile Dropdown */
+.profile-container2 {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-dropdown {
+    display: none;
+    position: absolute;
+    top: 2.1em; /* Positioning below the profile icon */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 0.5em;
+    width: 10em;
+    z-index: 1000;
+    text-align: center;
+}
+
+.profile-dropdown a {
+    display: block;
+    padding: 0.75em;
+    color: #2f231e;
+    text-decoration: none;
+    font-size: 0.9em;
+    font-weight: 400;
+    transition: background-color 0.3s ease, border-radius 0.3s ease;
+    margin: 0; /* Ensure no margin is applied */
+    transform: none; /* Remove any translation */
+    border-radius: 0.375em;
+}
+
+.profile-dropdown a:hover {
+    background-color: #FDE9C8;
+    border-radius: 0.5em;
+    color: #2f231e;
+}
+
+.profile-container2:hover .profile-dropdown {
+    display: block;
+}
