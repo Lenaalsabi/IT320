@@ -692,7 +692,7 @@ footer  * {
     margin-bottom: 3em;
 }
 .section-title {
-    font-size: 1.7em;
+    font-size: 1.2em;
     
    font-weight: normal;
     padding-bottom: 0.5em;
@@ -1386,4 +1386,9 @@ input:read-only + .edit-icon {
 
 .search-section input[type="text"]:focus {
     border-bottom: 2px solid #d4b8a6;
+}
+.highlight2 {
+    color: #ecada8;
+   font-weight: bold;
+   margin-right: 8px;
 }
