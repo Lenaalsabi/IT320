@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مَوج-booksDetails</title>
+    <title>Book Details - موج</title>
     <link rel="stylesheet" href="stylesBD.css">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -62,11 +62,11 @@
 <br>
          <div class="book_container">
 
-             <!-- Wislist button
-             <button class="heart-btn1" onclick="toggleHeart()">
-                 <img src="booksDetails/heart1.png" alt="heart" class="wish1" id="wish1">
-             </button>
--->
+
+
+             <!-- Wislist button-->
+             <button class="wishlist-btn" style="font-size: 70px; right: -90px; top:60px;" onclick="toggleWishlist(this)">♥</button>
+
 
 
              <!-- 1.1 Book Image -->
@@ -171,15 +171,10 @@
 
 
 //wishlist effect
-        function toggleHeart() {
-            let heartImg = document.getElementById("wish");
 
-            // Check the current image and toggle
-            if (heartImg.src.includes("booksDetails/heart1.png")) {
-                heartImg.src = "booksDetails/heart2.png"; // Change to filled heart
-            } else {
-                heartImg.src = "booksDetails/heart1.png"; // Change back to default
-            }
+        //wishlist effect
+        function toggleWishlist(button) {
+            button.classList.toggle("active");
         }
     </script>
 

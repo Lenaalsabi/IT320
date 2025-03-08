@@ -175,6 +175,156 @@
 
 
 
+    main {
+        width: 100%;
+        height: 100vh;
+        font-family: 'Bitter', sans-serif;
+        color: #342721;
+
+    }
+
+    .container {
+        max-width: 1800px;
+        margin: 0 auto;
+        padding: 80px;
+        position: absolute;
+        width: 900px;
+        top: 200px;
+        left: 200px;
+        color: #342720;
+        box-shadow: 1px 1px 15px 1px rgba(128, 128, 128, 0.4);
+        border-radius: 26px;
+    }
+
+    .step-indicator {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        gap: 27px;
+    }
+
+    .step {
+        display: flex;
+        align-items: center;
+    }
+
+    .step-indicator span{
+        font-size: 15px;
+        font-weight: bold;
+        color: #342721;
+    }
+    .step .circle {
+        width: 28px;
+        height: 24px;
+        border-radius: 50%;
+        background-color: #007bff;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        margin-right: 10px;
+    }
+
+    .step.active .circle {
+        background-color: #28a745;
+
+    }
+
+    .card {
+        border: 1px solid #ddd;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    .card h2 {
+        margin-top: 0;
+        font-size: 18px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+        font-family: 'Bitter', sans-serif;
+
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #e6e2da;
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: space-between;
+        gap: 0.12em;
+    }
+
+    button {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 12px;
+        border: none;
+        border-radius: 15px;
+        cursor: pointer;
+        margin: 0 auto;
+        width: 130px;
+        font-weight: bold;
+      font-family: 'Bitter' ,sans-serif;
+    }
+
+    button:hover{
+        background-color: #57a0ef;
+    }
+
+    button:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+    }
+
+    .summary {
+        list-style: none;
+        padding: 0;
+    }
+
+    .summary li {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .summary li:last-child {
+        border-bottom: none;
+    }
+
+    .text-right {
+        text-align: right;
+    }
+
+    .success {
+        text-align: center;
+        color: #28a745;
+    }
+
+    .success h2 {
+        margin-top: 0;
+    }
+
+
+
+
+
+
 
 
 

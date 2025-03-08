@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - موج</title>
+
+    <link rel="stylesheet" href="stylesBD.css">
+    <link rel="stylesheet" href="styles.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=Bitter:ital,wght@0,100..900;1,100..900&family=Mate:ital@0;1&family=Poppins&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+
+
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css" rel="stylesheet" />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js"></script>
+
+
+    <style>
+/*
+        #map {
+            height: 50vh; /* 70% of the viewport height
+            width: 80%;   /* 80% of the parent container
+            margin: auto; /* Center the map horizontally
+            border: 1px solid #ddd; /* Optional border for styling
+        }*/
+
+    </style>
+
+
+
+
+</head>
+<body>
+<header>
+
+
+    <div class="header">
+        <div class="logo-section">
+            <div class="horizontal-line"></div>
+            <div class="logo">
+                <a href="homebage2.html">
+                    <img src="images/logo.png" alt="موج Logo" id="logo">
+                </a>
+            </div>
+            <div class="horizontal-line"></div>
+        </div>
+
+        <div class="search-section">
+            <img src="images/search.png" alt="search" class="search-icon">
+            <input type="text" placeholder="Search">
+        </div>
+
+
+
+        <nav class="link-section">
+            <div class="icons">
+                <a href="wishlist.html">
+                    <img src="images/love.png" alt="Wishlist" id="wishlist-icon">
+                    <p>Wishlist</p>
+                </a>
+                <a href="cart.html">
+                    <img src="images/cart.png" alt="Cart" id="cart-icon">
+                    <p>Cart</p>
+                </a>
+                <div class="profile-container2">
+                    <a href="#" id="profile-icon">
+                        <img src="images/user.png" alt="Profile">
+                        <p>Profile</p>
+                    </a>
+                    <div class="profile-dropdown">
+                        <a href="profile.html">Update Profile</a>
+                        <a href="orders.html">My Orders</a>
+                    </div>
+                </div>
+                <a href="books.html">
+                    <img src="images/books.png" alt="Books" id="books-icon">
+                    <p>Books</p>
+                </a>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<main>
+<h2 style="margin-top: 30px; text-align: center">Check Out Your Order</h2>
+    <div class="container" style="height: 85vh;">
+        <!-- Step Indicator -->
+        <div class="step-indicator">
+            <div class="step active">
+                <div class="circle">1</div>
+                <span>Delivery Info</span>
+            </div>
+            <div class="step">
+                <div class="circle">2</div>
+                <span>Select map</span>
+            </div>
+            <div class="step">
+                <div class="circle">3</div>
+                <span>Payment</span>
+            </div>
+            <div class="step">
+                <div class="circle">4</div>
+                <span>Confirmation</span>
+            </div>
+        </div>
+
+
+        <div class="card" id="select-map" style=" width:100%;display: none;">
+            <h2>Select your location </h2><br>
+            <!--<div id="map"></div>-->
+            <div id="map" style="height: 30vh; width:100%;"></div>
+            <BR>
+
+
+            <div class="button-container">
+                <button onclick="goToSection('delivery-info')">Back</button>
+
+                <button onclick="goToSection('payment-section')">Next Step</button>
+            </div>
+        </div>
+
+        <div class="card" id="delivery-info" >
+            <h2>Deliver Info</h2><br>
+            <form>
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="text" id="email" placeholder="Enter your address">
+                </div>
+                <div class="form-group">
+                    <label for="tellNo">Phone number</label>
+                    <input type="text" id="tellNo" placeholder="+123 4567 7890">
+                </div>
+            </form>
+            <div class="button-container">
+                <!-- <button onclick="goToSection('cart-section')">Back</button>-->
+                <button onclick="goToSection('select-map')">Next Step</button>
+            </div>
+        </div>
+
+        <!-- Payment Section -->
+        <div class="card" id="payment-section" style=" display: none;">
+            <h2>Payment</h2>
+            <form>
+                <div class="form-group">
+                    <label for="card-number">Card Number</label>
+                    <input type="text" id="card-number" placeholder="Enter card number">
+                </div>
+                <div class="form-group">
+                    <label for="expiry">Expiry Date</label>
+                    <input type="text" id="expiry" placeholder="MM/YY">
+                </div>
+            </form>
+            <div class="button-container">
+                <button onclick="goToSection('select-map')">Back</button>
+                <button onclick="goToSection('confirmation-section')">Next Step</button>
+            </div>
+        </div>
+
+        <!-- Confirmation Section -->
+        <div class="card" id="confirmation-section" style="display: none;">
+            <h2>Confirmation</h2><br>
+            <p style="text-align: center;">Your order has been successfully placed!</p>
+            <div class="success"><br>
+                <h2>Order Confirmed!</h2>
+            </div>
+            <div class="button-container">
+                <button  style="width: 205px; height: 50px;" onclick="window.location.href='homebage2.html'">Back to Home Page</button><br>
+            </div>
+        </div>
+    </div>
+
+
+</main>
+
+
+
+<!--Footer-->
+<footer style="margin-top: 200px">
+    <div class="footer-section footer-logo">
+        <img src="images/logo.png" alt="footer-logo" width="320" >
+    </div>
+    <div class="footer-section social-media">
+        <h3>SOCIAL MEDIA</h3>
+        <ul class="social-icons">
+            <li><a href="#"><img src="images/twitter.png" alt="Twitter"></a></li>
+            <li><a href="#"><img src="images/facebook.png" alt="Facebook"></a></li>
+            <li><a href="#"><img src="images/insta.png" alt="Instagram"></a></li>
+            <li>@official_mawj</li>
+        </ul>
+    </div>
+    <div class="footer-section contact-us">
+        <h3>CONTACT US</h3>
+        <ul>
+            <li><a href="#"><img src="images/phone1.png" alt="Phone"> +123 165 788</a></li>
+            <li><a href="mailto:@mawj@gmail.com"><img src="images/email1.png" alt="Email"> mawj@gmail.com</a></li>
+        </ul>
+    </div>
+</footer>
+
+<div class="bottom-bar">
+    <p>  Terms and Conditions privacy policy<br>&copy; 2024 mawj company . All rights reserved</p>
+</div>
+
+
+
+
+
+
+
+<script>
+    function goToSection(sectionId) {
+        const sections = document.querySelectorAll('.card');
+        sections.forEach(section => section.style.display = 'none');
+        document.getElementById(sectionId).style.display = 'block';
+
+        const steps = document.querySelectorAll('.step');
+        steps.forEach((step, index) => {
+            if (index <= ['delivery-info', 'select-map', 'payment-section', 'confirmation-section'].indexOf(sectionId)) {
+                step.classList.add('active');
+            } else {
+                step.classList.remove('active');
+            }
+        });
+    }
+</script>
+
+
+<script>
+    // Set your Mapbox access token
+    mapboxgl.accessToken = 'pk.eyJ1IjoibHVjeTE5MiIsImEiOiJjbTgwOWNzMXowcm1oMmpzYTg4a2F2emNqIn0.f3QS2n20H8D3HpKnOfDdCg';
+
+
+
+    // Initialize the map
+    var map = new mapboxgl.Map({
+        container: 'map', // The ID of the HTML element
+        style: 'mapbox://styles/mapbox/streets-v11', // Map style
+        center:[46.738586, 24.774265], // Longitude, Latitude for center
+        zoom: 9 // Initial zoom level
+    });
+
+    // Add navigation controls (optional)
+    const nav = new mapboxgl.NavigationControl();
+    map.addControl(nav, 'top-right');
+    map.on('load', () => {
+        map.resize(); // Ensures the map adjusts to its container size
+    });
+
+    // Create a pink marker
+    var marker = new mapboxgl.Marker({
+        color: '#ff0008' ,//
+    })
+        .setLngLat([46.738586, 24.774265]) // Set marker coordinates
+        .addTo(map); // Add marker to the map
+
+</script>
+</body>
+</html>
