@@ -18,13 +18,13 @@
 
 
     <style>
-
+/*
         #map {
-            height: 80vh; /* 70% of the viewport height */
-            width: 80%;   /* 80% of the parent container */
-            margin: auto; /* Center the map horizontally */
-            border: 1px solid #ddd; /* Optional border for styling */
-        }
+            height: 50vh; /* 70% of the viewport height
+            width: 80%;   /* 80% of the parent container
+            margin: auto; /* Center the map horizontally
+            border: 1px solid #ddd; /* Optional border for styling
+        }*/
 
     </style>
 
@@ -84,8 +84,8 @@
 </header>
 
 <main>
-
-    <div class="container">
+<h2 style="margin-top: 30px; text-align: center">Check Out Your Order</h2>
+    <div class="container" style="height: 90vh;">
         <!-- Step Indicator -->
         <div class="step-indicator">
             <div class="step active">
@@ -106,14 +106,11 @@
             </div>
         </div>
 
-        <!-- Cart Section
-        delivery-section
-                          USED delivery-section-->
 
-        <div class="card" id="select-map" style="display: none;">
+        <div class="card" id="select-map" style=" width:100vh;display: none;">
             <h2>Select your location </h2><br>
             <!--<div id="map"></div>-->
-            <div id="map" style="height: 54vh; width: 70vh;"></div>
+            <div id="map" style="height: 30vh; width:100%;"></div>
             <BR>
 
 
@@ -124,9 +121,6 @@
             </div>
         </div>
 
-        <!-- Delivery Section
-                <div class="card" id="delivery-section" style="display: none;">
-                  USED CART SELECTION-->
         <div class="card" id="delivery-info" >
             <h2>Deliver Info</h2><br>
             <form>
@@ -150,7 +144,7 @@
         </div>
 
         <!-- Payment Section -->
-        <div class="card" id="payment-section" style="display: none;">
+        <div class="card" id="payment-section" style=" display: none;">
             <h2>Payment</h2>
             <form>
                 <div class="form-group">
