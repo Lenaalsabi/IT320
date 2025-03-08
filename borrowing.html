@@ -194,8 +194,10 @@ document.getElementById('book-title').value = "The Lantern of Lost Memories";
 document.getElementById('borrowing-form').addEventListener('submit', function(event) {
     event.preventDefault(); 
 
+    const bookTitle = document.getElementById('book-title').value; 
     const startDate = new Date(document.getElementById('start-date').value);
     const endDate = new Date(document.getElementById('end-date').value);
+    const deliveryLocation = document.getElementById('delivery-location').value; 
     const pricePerDay = 10; 
 
     if (endDate <= startDate) {
@@ -210,23 +212,25 @@ document.getElementById('borrowing-form').addEventListener('submit', function(ev
     document.querySelector('.booking-details').style.display = 'block';
 
     document.getElementById('booking-summary').innerHTML = `
-        You are booking "<strong>Sample Book Title</strong>" from 
-        <strong>${startDate.toDateString()}</strong> to 
-        <strong>${endDate.toDateString()}</strong>.<br>
+        <strong>Book Title:</strong> ${bookTitle} <br>
+        <strong>Start Date:</strong> ${startDate.toDateString()} <br>
+        <strong>End Date:</strong> ${endDate.toDateString()} <br>
+        <strong>Delivery Location:</strong> ${deliveryLocation} <br>
         <strong>Total Price:</strong> ${totalPrice} SAR.
     `;
 });
+
 document.getElementById('confirm-booking').addEventListener('click', function() {
     alert("✅ Your booking has been confirmed! Please proceed with payment.");
     
     document.querySelector('.booking-details').style.display = 'none';
 
-    window.location.href = "chekcout.html"; 
+    window.location.href = "checkout.html"; 
 });
-
 
     </script>
 </body>
 
 
 </html>
+
