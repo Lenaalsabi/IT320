@@ -175,17 +175,23 @@ body{
 
     }
 
-    .container {
+    .container1 {
         max-width: 1800px;
         margin: 0 auto;
         padding: 80px;
-        position: absolute;
         width: 900px;
-        top: 200px;
-        left: 200px;
         color: #342720;
         box-shadow: 1px 1px 15px 1px rgba(128, 128, 128, 0.4);
         border-radius: 26px;
+
+
+        text-align: center;
+        align-self: center;
+        align-content: center;
+        height: 100vh;
+        justify-content: center;
+        justify-self: center;
+
     }
 
     .step-indicator {
