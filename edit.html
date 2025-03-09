@@ -110,8 +110,8 @@ privacy policy<br>&copy; 2024 mawj company . All rights reserved</p>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const newDateInput = document.getElementById("new-date");
-            const currentPriceSpan = document.getElementById("current-price");
             const newPriceSpan = document.getElementById("new-price");
+            const form = document.getElementById("admin-edit-form");
     
             let basePrice = 10.50;
             let baseDays = 10;
@@ -125,18 +125,24 @@ privacy policy<br>&copy; 2024 mawj company . All rights reserved</p>
                 let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     
                 if (diffDays <= baseDays) {
-                    newPriceSpan.innerText = `$${basePrice.toFixed(2)}`;
+                    newPriceSpan.innerHTML = `<span><img src="images/pinkR.png" style="width:14px;height:14px;margin-right:0;"></span> ${basePrice.toFixed(2)}`;
                 } else {
                     let extraDays = diffDays - baseDays;
                     let newPrice = basePrice + (extraDays * extraCharge);
-                    newPriceSpan.innerText = `$${newPrice.toFixed(2)}`;
+                    newPriceSpan.innerHTML = `<span><img src="images/pinkR.png" style="width:14px;height:14px;margin-right:0;"></span> ${newPrice.toFixed(2)}`;
                 }
             });
     
-            document.getElementById("admin-edit-form").addEventListener("submit", function (event) {
+            form.addEventListener("submit", function (event) {
                 event.preventDefault();
-                alert("Reservation updated successfully!");
-                window.location.href = "orders.html";
+                let newPrice = newPriceSpan.innerText.trim();
+                
+                let confirmation = confirm(`The new price will be ${newPrice}. Are you sure you want to proceed?`);
+                
+                if (confirmation) {
+                    alert("Reservation updated successfully!");
+                    window.location.href = "orders.html";
+                }
             });
         });
     </script>
