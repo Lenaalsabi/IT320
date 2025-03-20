@@ -49,9 +49,7 @@
             <h2>Profile</h2>
             <div class="profile-card">
                 <img src="images/user.png" alt="User Profile Picture" class="profile-pic" id="profileImage">
-                <label class="upload-btn" for="file-input">Upload Image</label>
-                <input type="file" id="file-input" class="file-input" accept="image/*" onchange="previewImage(event)">
-    
+
                 <form action="#" method="post">
                     <!-- First Name -->
                     <div class="form-group">
@@ -98,18 +96,7 @@
         </footer>
     
         <script>
-            function previewImage(event) {
-                const input = event.target;
-                const image = document.getElementById('profileImage');
-    
-                if (input.files && input.files[0]) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        image.src = e.target.result;
-                    };
-                    reader.readAsDataURL(input.files[0]);
-                }
-            }
+
     
             function toggleEdit(fieldId) {
                 const inputField = document.getElementById(fieldId);
