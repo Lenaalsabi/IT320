@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,17 +9,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=Bitter:ital,wght@0,100..900;1,100..900&family=Mate:ital@0;1&family=Poppins&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-<style>
-
-.signup-container {
+    <style>
+        .signup-container {
             display: flex;
             justify-content: center;    
             align-items: center;
             height: 80vh;
-			margin-top: 170px;
-			margin-bottom: 170px;
+            margin-top: 170px;
+            margin-bottom: 170px;
         }
-
         
         .signup-box {
             background-color: #FFFCF5;
@@ -28,8 +27,7 @@
             text-align: center;
             width: 35em;
         }
-	
-        
+
         .signup-box h2 {
             font-family: 'Bitter', sans-serif;
             color: #2f231e;
@@ -59,8 +57,15 @@
             border-color: #F8D49D;
             outline: none;
         }
-		
-</style>
+
+        .error-message {
+            color: red;
+            background-color: #f8d7da;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+    </style>
 </head>
 
 <body>
@@ -82,30 +87,42 @@
         <div class="signup-container">
             <div class="signup-box">
                 <h2>Sign Up</h2>
-                <form action="homebage2.html" method="POST">
-                    <label for="name">First Name</label>
-                    <input type="text" id="name" name="name" placeholder="Enter your first name" required>
-					
-					<label for="name">Last Name</label>
-                    <input type="text" id="name" name="name" placeholder="Enter your last name" required>
-				
-					<label for="phone">Phone Number</label>
-					<input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
-		
 
+                <!-- Display Errors -->
+                <?php if (!empty($_SESSION['errors'])): ?>
+                    <div class="error-message">
+                        <?php 
+                            foreach ($_SESSION['errors'] as $error) {
+                                echo "<p>$error</p>";
+                            }
+                            unset($_SESSION['errors']); // Clear errors after displaying
+                        ?>
+                    </div>
+                <?php endif; ?>
+
+                <form action="auth/signup2.php" method="POST">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" name="firstName" placeholder="Enter your first name" value="<?= isset($_SESSION['old_firstName']) ? htmlspecialchars($_SESSION['old_firstName']) : '' ?>" required>
+                    
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" name="lastName" placeholder="Enter your last name" value="<?= isset($_SESSION['old_lastName']) ? htmlspecialchars($_SESSION['old_lastName']) : '' ?>" required>
+                
+                    <label for="phoneNo">Phone Number</label>
+                    <input type="tel" id="phoneNo" name="phoneNo" placeholder="Enter your phone number" value="<?= isset($_SESSION['old_phoneNo']) ? htmlspecialchars($_SESSION['old_phoneNo']) : '' ?>" required>
+                
                     <label for="email">Email</label>
-                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
-
+                    <input type="email" id="email" name="email" placeholder="Enter your email" value="<?= isset($_SESSION['old_email']) ? htmlspecialchars($_SESSION['old_email']) : '' ?>" required>
+                
                     <label for="password">Password</label>
                     <input type="password" id="password" name="password" placeholder="Enter your password" required>
-
+                
                     <label for="confirm-password">Confirm Password</label>
                     <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your password" required>
-
+                
                     <button type="submit" class="button primary">Sign Up</button>
                 </form>
 
-                <p class="signup-text">Already have an account? <a href="login.html">Log In</a></p>
+                <p class="signup-text">Already have an account? <a href="login.php">Log In</a></p>
             </div>
         </div>
     </main>

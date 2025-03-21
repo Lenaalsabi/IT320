@@ -1,3 +1,22 @@
+<?php
+session_start();
+include 'db_connect.php';
+
+if (!isset($_SESSION['customerID'])) {
+    header("Location: login.html");
+    exit();
+}
+
+$userID = $_SESSION['customerID'];
+$query = "SELECT firstName, lastName, email, phoneNo FROM Customer WHERE customerID = ?";
+
+$stmt = mysqli_prepare($connection, $query);
+mysqli_stmt_bind_param($stmt, "i", $userID);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+$userData = mysqli_fetch_assoc($result);
+mysqli_stmt_close($stmt);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +27,16 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=Bitter:ital,wght@0,100..900;1,100..900&family=Mate:ital@0;1&family=Poppins&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+   <style> 
+   .error-messages {
+            color: red;
+            background-color: #f8d7da;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
     <!DOCTYPE html>   
     <body>
         <header>
@@ -23,7 +52,7 @@
                 </div>
                 <nav id="nav">
                     <ul>
-                        <li><a class="button primary small signup-btn" href="homepage.html">Log out</a></li>
+                        <li><a class="button primary small signup-btn" href="auth/logout.php">Log out</a></li>
                     </ul>
                 </nav>
                 <nav class="link-section">
@@ -36,7 +65,7 @@
                                 <p>Profile</p>
                             </a>
                             <div class="profile-dropdown">
-                                <a href="profile.html">Update Profile</a>
+                                <a href="profile.php">Update Profile</a>
                                 <a href="orders.html">My Orders</a>
                             </div>
                         </div>
@@ -49,51 +78,53 @@
             <h2>Profile</h2>
             <div class="profile-card">
                 <img src="images/user.png" alt="User Profile Picture" class="profile-pic" id="profileImage">
+                <?php if (!empty($_SESSION['errors'])): ?>
+    <div class="error-messages">
+        <?php foreach ($_SESSION['errors'] as $error): ?>
+            <p class="error"><?= htmlspecialchars($error) ?></p>
+        <?php endforeach; ?>
+    </div>
+    <?php unset($_SESSION['errors']); // Clear errors after displaying ?>
+<?php endif; ?>
 
-                <form action="#" method="post">
-                    <!-- First Name -->
-                    <div class="form-group">
-                        <label for="first_name">First name:</label>
-                        <div class="input-wrapper">
-                            <input type="text" id="first_name" name="first_name" value="Mohammed" readonly>
-                            <span class="edit-icon" onclick="toggleEdit('first_name')">✎</span>
-                        </div>
-                    </div>
-    
-                    <!-- Last Name -->
-                    <div class="form-group">
-                        <label for="last_name">Last name:</label>
-                        <div class="input-wrapper">
-                            <input type="text" id="last_name" name="last_name" value=" Salman" readonly>
-                            <span class="edit-icon" onclick="toggleEdit('last_name')">✎</span>
-                        </div>
-                    </div>
-    
-                    <!-- Email -->
-                    <div class="form-group">
-                        <label for="email">Email:</label>
-                        <div class="input-wrapper">
-                            <input type="email" id="email" name="email" value="ksa@gmail.com" readonly>
-                            <span class="edit-icon" onclick="toggleEdit('email')">✎</span>
-                        </div>
-                    </div>
-    
-                    <!-- Phone number -->
-                    <div class="form-group">
-                        <label for="phone_number">Phone number:</label>
-                        <div class="input-wrapper">
-                            <input type="tel" id="phone_number" name="phone_number" value="123-456-7890" readonly>
-                            <span class="edit-icon" onclick="toggleEdit('phone_number')">✎</span>
-                        </div>
-                    </div>
-    
-                    <button type="submit" id="save-button" class="update-profile-btn" style="display:none;">Update profile</button>
-                </form>
+                <form action="update_profile.php" method="post">
+                <div class="form-group">
+                    <label for="first_name">First name:</label>
+                    <div class="input-wrapper">
+                    <input type="text" id="first_name" name="first_name" value="<?= htmlspecialchars($userData['firstName']) ?>" readonly>
+                    <span class="edit-icon" onclick="toggleEdit('first_name')">✎</span>
+                </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="last_name">Last name:</label>
+                    <div class="input-wrapper">
+                    <input type="text" id="last_name" name="last_name" value="<?= htmlspecialchars($userData['lastName']) ?>" readonly>
+                    <span class="edit-icon" onclick="toggleEdit('last_name')">✎</span>
+                </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <div class="input-wrapper">
+                    <input type="email" id="email" name="email" value="<?= htmlspecialchars($userData['email']) ?>" readonly>
+                    <span class="edit-icon" onclick="toggleEdit('email')">✎</span>
+                </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone_number">Phone number:</label>
+                    <div class="input-wrapper">
+                    <input type="tel" id="phone_number" name="phone_number" value="<?= htmlspecialchars($userData['phoneNo']) ?>" readonly>
+                    <span class="edit-icon" onclick="toggleEdit('phone_number')">✎</span>
+                </div>
+                </div>
+
+                <button type="submit" id="save-button" class="update-profile-btn" style="display:none;">Update Profile</button>
+            </form>
             </div>
         </section>
     
-        <footer>
-        </footer>
     
         <script>
 
@@ -115,6 +146,7 @@
                 }
             }
         </script>
+
     </body>
     <footer>
         <div class="footer-section footer-logo">

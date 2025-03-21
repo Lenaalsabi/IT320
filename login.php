@@ -8,7 +8,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=Bitter:ital,wght@0,100..900;1,100..900&family=Mate:ital@0;1&family=Poppins&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-    </head>
+    <style>
+          .error-message {
+            color: red;
+            background-color: #f8d7da;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+    </style></head>
 <body>
 
     <header>
@@ -28,16 +36,24 @@
     <div class="login-container">
         <div class="login-box">
             <h2>Login</h2>
-            <form action="homebage2.html" method="POST">
+            <?php 
+        session_start();
+        if (isset($_SESSION['error'])) {
+            echo "<p class='error-message'>" . $_SESSION['error'] . "</p>";
+            unset($_SESSION['error']); // Remove error after displaying it
+        }
+        ?>
+            <form action="auth/login2.php" method="POST">
                 <label for="Email">Email</label>
-                <input type="email" id="username" name="username" required>
-
+                <input type="email" id="username" name="email" required>
+            
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" required>
-
+            
                 <button type="submit" class="button primary">Login</button>
             </form>
-            <p class="signup-text">Don't have an account? <a href="signup.html">Sign up</a></p>
+            
+            <p class="signup-text">Don't have an account? <a href="signup.php">Sign up</a></p>
         </div>
     </div>
 
