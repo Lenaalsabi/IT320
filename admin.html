@@ -61,15 +61,17 @@
         <div class="admin-content">
             <section id="add-book" class="admin-section hidden">
                 <h2>Add a New Book</h2>
-                <form>
-                    <input type="text" placeholder="Book Title" required>
-                    <input type="number" placeholder="Quantity" required>
-                    <input type="text" placeholder="Version" required>
-                    <textarea placeholder="Description" required></textarea>
-                    <input type="number" placeholder="Price" required>
-                    <label for="cover-page">Add Cover Page:</label>
-                    <input type="file" id="cover-page" accept="image/*" required>
-                    <button type="submit">Add Book</button>
+                <form action="add_book.php" method="POST" enctype="multipart/form-data">
+     <input type="text" name="isbn" placeholder="ISBN" required>             
+    <input type="text" name="title" placeholder="Book Title" required>
+    <input type="number" name="stock_quantity" placeholder="Quantity" required>
+    <input type="text" name="author" placeholder="Author" required>
+    <input type="text" name="genre" placeholder="Genre" required>
+    <textarea name="description" placeholder="Description" required></textarea>
+    <input type="number" name="price" placeholder="Price" required>
+    <label for="cover-page">Add Cover Page:</label>
+    <input type="file" id="cover-page" name="cover" accept="image/*" required>
+    <button type="submit">Add Book</button>
 
                 </form>
             </section>
