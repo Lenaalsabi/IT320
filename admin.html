@@ -19,7 +19,7 @@
                 <div class="logo">
                     
                         <img src="images/logo.png" alt="موج Logo" id="logo">
-                    </a>
+                    
                 </div>
                 <div class="horizontal-line"></div>
             </div>
@@ -77,26 +77,28 @@
             </section>
 
             <section id="edit-book" class="admin-section hidden">
-                <h2>Edit Book</h2>
-                <form>
-                    <input type="text" placeholder="Book Title" required>
-                    <input type="number" placeholder="Quantity" required>
-                    <input type="text" placeholder="Version" required>
-                    <textarea placeholder="Description" required></textarea>
-                    <input type="number" placeholder="Price" required>
-                    <button type="submit">Save Changes</button>
-                </form>
-            </section>
+    <h2>Edit Book</h2>
 
-            <section id="delete-book" class="admin-section hidden">
-                <h2>Delete a Book</h2>
-                <form>
-                    <input type="text" placeholder="Book Title" required>
-                    <input type="text" placeholder="Version" required>
-                    <input type="number" placeholder="Quantity" required>
-                    <button type="submit">Delete Book</button>
-                </form>
-            </section>
+    <form action="edit_book.php" method="POST" enctype="multipart/form-data">
+        <input type="text" name="isbn" placeholder="Enter ISBN" required>
+        <input type="number" name="price" placeholder="New Price" required>
+        <input type="number" name="stock_quantity" placeholder="New Stock Quantity" required>
+        <textarea name="description" placeholder="New Description" required></textarea>
+        <label for="cover">Update Cover:</label>
+        <input type="file" name="cover" accept="image/*">
+        <button type="submit">Save Changes</button>
+    </form>
+</section>
+
+
+           <section id="delete-book" class="admin-section hidden">
+    <h2>Delete a Book</h2>
+    <form action="delete_book.php" method="POST">
+        <input type="text" name="isbn" placeholder="Enter ISBN to delete" required>
+        <button type="submit">Delete Book</button>
+    </form>
+</section>
+
         </div>
     </div>
 </main>

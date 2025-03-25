@@ -38,13 +38,14 @@ if (isset($_FILES['cover']) && $_FILES['cover']['error'] === UPLOAD_ERR_OK) {
     }
 }
 
+// 🟢 هنا التعديل الأهم: غيرنا ترتيب نوع المتغيرات
 $query = "INSERT INTO book (ISBN, title, Author, Genre, price, stock_quantity, description, cover)
           VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 $stmt = $connection->prepare($query);
-$stmt->bind_param("ssssdiis", $isbn, $title, $author, $genre, $price, $stock_quantity, $description, $cover_filename);
+$stmt->bind_param("ssssddss", $isbn, $title, $author, $genre, $price, $stock_quantity, $description, $cover_filename);
 
 if ($stmt->execute()) {
-    echo "<script>alert('Book added successfully!'); window.location.href='admin_dashboard.html';</script>";
+    echo "<script>alert('Book added successfully!'); window.location.href='admin.html';</script>";
 } else {
     echo "<script>alert('Failed to add book'); window.history.back();</script>";
 }

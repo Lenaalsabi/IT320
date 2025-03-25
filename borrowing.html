@@ -75,6 +75,29 @@ font-family: 'Bitter', sans-serif;
 .booking-details {
     margin-top: 60px;  
     margin-bottom: 60px;  
+  .suggestions-box {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-top: none;
+    z-index: 9999;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+}
+
+.suggestions-box div {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.suggestions-box div:hover {
+    background-color: #f2cc8f;
+}
+
 }</style>
 	</head>
 
@@ -92,11 +115,12 @@ font-family: 'Bitter', sans-serif;
                 <div class="horizontal-line"></div>
             </div>
         
-            <div class="search-section">
-                <img src="images/search.png" alt="search" class="search-icon">
-                <input type="text" placeholder="Search">
-            </div>
-            
+              <form class="search-section" id="searchForm" onsubmit="return false;">
+    <img src="images/search.png" alt="search" class="search-icon">
+    <input type="text" name="query" id="search-input" placeholder="Search for a book..." autocomplete="off" required>
+    <div id="suggestions" class="suggestions-box"></div>
+</form>
+
             
         
             <nav class="link-section">
@@ -226,6 +250,7 @@ document.getElementById('confirm-booking').addEventListener('click', function() 
 });
 
     </script>
+    
 </body>
 
 

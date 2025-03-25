@@ -62,6 +62,29 @@ $result = mysqli_query($connection, $query);
         .wishlist-btn.active {
             color: red;
         }
+         .suggestions-box {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-top: none;
+    z-index: 9999;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+}
+
+.suggestions-box div {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.suggestions-box div:hover {
+    background-color: #f2cc8f;
+}
+
     </style>
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -84,10 +107,11 @@ $result = mysqli_query($connection, $query);
                 <div class="horizontal-line"></div>
             </div>
         
-            <div class="search-section">
-                <img src="images/search.png" alt="search" class="search-icon">
-                <input type="text" placeholder="Search">
-            </div>
+              <form class="search-section" id="searchForm" onsubmit="return false;">
+    <img src="images/search.png" alt="search" class="search-icon">
+    <input type="text" name="query" id="search-input" placeholder="Search for a book..." autocomplete="off" required>
+    <div id="suggestions" class="suggestions-box"></div>
+</form>
             
             
         
@@ -177,6 +201,38 @@ $result = mysqli_query($connection, $query);
     function toggleWishlist(button) {
         button.classList.toggle("active");
     }
+</script>
+ <script>
+const searchInput = document.getElementById("search-input");
+const suggestionsBox = document.getElementById("suggestions");
+
+searchInput.addEventListener("input", function () {
+    const query = this.value.trim();
+    if (query.length < 2) {
+        suggestionsBox.innerHTML = "";
+        suggestionsBox.style.display = "none";
+        return;
+    }
+
+    fetch(`search_suggestions.php?query=${encodeURIComponent(query)}`)
+        .then(response => response.json())
+        .then(data => {
+            suggestionsBox.innerHTML = "";
+            if (data.length > 0) {
+                data.forEach(book => {
+                    const div = document.createElement("div");
+                    div.textContent = book.title;
+                    div.onclick = () => {
+                        window.location.href = `book_details.php?isbn=${book.ISBN}`;
+                    };
+                    suggestionsBox.appendChild(div);
+                });
+                suggestionsBox.style.display = "block";
+            } else {
+                suggestionsBox.style.display = "none";
+            }
+        });
+});
 </script>
 </body>
 </html>
