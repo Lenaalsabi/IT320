@@ -42,7 +42,7 @@
             <div class="logo-section">
                 <div class="horizontal-line"></div>
                 <div class="logo">
-                    <a href="homebage2.html">
+                    <a href="homebage2.php">
                         <img src="images/logo.png" alt="موج Logo" id="logo">
                     </a>
                 </div>
