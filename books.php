@@ -12,57 +12,39 @@ $result = mysqli_query($connection, $query);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Books - موج</title>
      <style>
-        .book-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 30px;
-            padding: 30px;
-        }
+    .book-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 70px;
+    padding: 70px;
+}
 
-        .book-card {
-            width: 280px;
-            background-color: #fff;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            text-align: center;
-            transition: 0.3s ease;
-            font-size: 16px; 
-            position: relative;
-        }
+.book-card {
+    flex: 0 1 calc(25% - 40px);
+    height: 470px;
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: 0.3s ease;
+    font-size: 16px; 
+    position: relative;
+    box-sizing: border-box;
 
-        .book-card img {
-            width: 100%;
-            height: 300px;
-            border-radius: 5px;
-        }
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
 
-        .book-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 15px rgba(0,0,0,0.2);
-        }
-
-        .price {
-            font-weight: bold;
-            margin: 10px 0;
-        }
-
-        .wishlist-btn {
-            background: none;
-            border: none;
-            font-size: 18px;
-            color: #999;
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            cursor: pointer;
-        }
-
-        .wishlist-btn.active {
-            color: red;
-        }
-         .suggestions-box {
+.book-card img {
+    width: 100%;
+    height: 300px;
+    border-radius: 5px;
+    object-fit: cover;
+}
+.suggestions-box {
     position: absolute;
     top: 100%;
     left: 0;
@@ -158,13 +140,17 @@ $result = mysqli_query($connection, $query);
         <div class="book-card">
             <button class="wishlist-btn" onclick="toggleWishlist(this)">♥</button>
             <img src="uploads/<?php echo $row['cover']; ?>" alt="Book Cover">
-            <h3><?php echo $row['title']; ?></h3>
-            <p><?php echo $row['Author']; ?></p>
-            <p class="price">
-                <span><img src="images/riyalyellow.png" style="width:14px;height:14px;"></span>
-                <?php echo $row['price']; ?>
-            </p>
-          <button class="button primary" onclick="window.location.href='book_details.php?isbn=<?php echo $row['ISBN']; ?>'">Buy Now</button>
+            <div style="flex-grow: 1;">
+    <h3 style="font-weight: 600; margin: 10px 0;"><?php echo $row['title']; ?></h3>
+    <p style="margin: 5px 0;"><?php echo $row['Author']; ?></p>
+    <p class="price">
+        <span><img src="images/riyalyellow.png" style="width:14px;height:14px;"></span>
+        <?php echo $row['price']; ?>
+    </p>
+</div>
+
+<button class="button primary" onclick="window.location.href='book_details.php?isbn=<?php echo $row['ISBN']; ?>'">Buy Now</button>
+
 
         </div>
     <?php } ?>

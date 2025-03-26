@@ -24,10 +24,15 @@ $book = $result->fetch_assoc();
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Book Details - موج</title>
-    <link rel="stylesheet" href="stylesBD.css">
-    <link rel="stylesheet" href="styles.css">
+     <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Details - موج</title>
+  <link rel="stylesheet" href="stylesBD.css">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=Bitter:ital,wght@0,100..900;1,100..900&family=Mate:ital@0;1&family=Poppins&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+
 </head>
 
 <body>
@@ -36,7 +41,7 @@ $book = $result->fetch_assoc();
         <div class="logo-section">
             <div class="horizontal-line"></div>
             <div class="logo">
-                <a href="homebage2.html">
+                <a href="homebage2.php">
                     <img src="images/logo.png" alt=" موج Logo" id="logo">
                 </a>
             </div>
@@ -86,11 +91,10 @@ $book = $result->fetch_assoc();
         <br>
         <p><span><img src="images/riyal-removebg-preview.png" style="height: 17px"></span><strong> <?php echo $book['price']; ?></strong></p>
         <br>
-        <p style="line-height: 25px;">
-            <?php echo substr($book['description'], 0, 100); ?>...
-            <a href="#" id="read-more" onclick="toggleText(event)">Read More</a>
-            <span id="more-text" style="display: none;"><?php echo substr($book['description'], 100); ?></span>
-        </p>
+       <p style="line-height: 25px;">
+    <?php echo $book['description']; ?>
+</p>
+
         <br>
         <button class="add" onclick="window.location.href='cart.html'">ADD TO CART ＋</button>
         <button class="borrow" onclick="window.location.href='borrowing.html'">BORROW IT </button>
