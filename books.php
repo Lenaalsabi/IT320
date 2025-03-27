@@ -99,7 +99,7 @@ $result = mysqli_query($connection, $query);
         
             <nav class="link-section">
                 <div class="icons">
-                    <a href="wishlist.html">
+                    <a href="wishlist.php">
                         <img src="images/love.png" alt="Wishlist" id="wishlist-icon">
                         <p>Wishlist</p>
                     </a>
@@ -117,7 +117,7 @@ $result = mysqli_query($connection, $query);
                             <a href="orders.html">My Orders</a>
                         </div>
                     </div>
-                    <a href="books.html">
+                    <a href="books.php">
                         <img src="images/books.png" alt="Books" id="books-icon">
                         <p>Books</p>
                     </a>
@@ -138,8 +138,8 @@ $result = mysqli_query($connection, $query);
 <div class="book-container">
     <?php while ($row = mysqli_fetch_assoc($result)) { ?>
         <div class="book-card">
-            <button class="wishlist-btn" onclick="toggleWishlist(this)">♥</button>
-            <img src="uploads/<?php echo $row['cover']; ?>" alt="Book Cover">
+        <button class="wishlist-btn" onclick="addToWishlist('<?php echo $row['ISBN']; ?>', this)">♥</button>
+        <img src="uploads/<?php echo $row['cover']; ?>" alt="Book Cover">
             <div style="flex-grow: 1;">
     <h3 style="font-weight: 600; margin: 10px 0;"><?php echo $row['title']; ?></h3>
     <p style="margin: 5px 0;"><?php echo $row['Author']; ?></p>
@@ -220,5 +220,27 @@ searchInput.addEventListener("input", function () {
         });
 });
 </script>
+<script>
+function addToWishlist(ISBN, button) {
+    fetch('add_to_wishlist.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: `ISBN=${ISBN}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "success") {
+            button.classList.add("active");
+            alert("Added to the wishlist");
+        } else {
+            alert(data.message);
+        }
+    })
+    .catch(error => console.error("Error:", error));
+}
+</script>
+
 </body>
 </html>

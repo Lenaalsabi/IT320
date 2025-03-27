@@ -57,7 +57,7 @@ mysqli_stmt_close($stmt);
                 </nav>
                 <nav class="link-section">
                     <div class="icons">
-                        <a href="wishlist.html"><img src="images/love.png" alt="Wishlist"><p>Wishlist</p></a>
+                        <a href="wishlist.php"><img src="images/love.png" alt="Wishlist"><p>Wishlist</p></a>
                         <a href="cart.html"><img src="images/cart.png" alt="Cart"><p>Cart</p></a>
                         <div class="profile-container2">
                             <a href="#" id="profile-icon">
@@ -69,7 +69,7 @@ mysqli_stmt_close($stmt);
                                 <a href="orders.html">My Orders</a>
                             </div>
                         </div>
-                        <a href="books.html"><img src="images/books.png" alt="Books"><p>Books</p></a>
+                        <a href="books.php"><img src="images/books.png" alt="Books"><p>Books</p></a>
                     </div>
                 </nav>
             </div>

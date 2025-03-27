@@ -50,7 +50,7 @@ $book = $result->fetch_assoc();
 
         <nav class="link-section">
             <div class="icons">
-                <a href="wishlist.html">
+                <a href="wishlist.php">
                     <img src="images/love.png" alt="Wishlist" id="wishlist-icon">
                     <p>Wishlist</p>
                 </a>
@@ -79,7 +79,10 @@ $book = $result->fetch_assoc();
 
 <br>
 <div class="book_container">
-    <button class="wishlist-btn" style="background-color: transparent; font-size: 37px; right: -30px; top:203px;" onclick="toggleWishlist(this)">♥</button>
+<button id="wishlist-btn" class="wishlist-btn" 
+        style="background-color: transparent; font-size: 37px; right: -30px; top:203px;" 
+        onclick="addToWishlist('<?php echo $book['ISBN']; ?>')">♥</button>
+
 
     <div class="book_img">
         <img src="uploads/<?php echo $book['cover']; ?>" alt="book image">
@@ -137,7 +140,23 @@ $book = $result->fetch_assoc();
 </div>
 
 
-   
+<script>
+function addToWishlist(ISBN) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "add_to_wishlist.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            var response = JSON.parse(xhr.responseText);
+            alert(response.message); 
+        }
+    };
+
+    xhr.send("ISBN=" + ISBN);
+}
+</script>
+
 
 </body>
 </html>

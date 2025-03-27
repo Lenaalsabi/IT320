@@ -1,3 +1,23 @@
+<?php
+session_start();
+include 'db_connect.php';
+
+if (!isset($_SESSION['customerID'])) {
+    header("Location: login.php");
+    exit;
+}
+
+$customerID = $_SESSION['customerID'];
+
+$query = "SELECT book.* FROM wishlist 
+          JOIN book ON wishlist.ISBN = book.ISBN 
+          WHERE wishlist.customerID = ?";
+$stmt = $connection->prepare($query);
+$stmt->bind_param("i", $customerID);
+$stmt->execute();
+$result = $stmt->get_result();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -133,7 +153,8 @@ padding-left:135px ;
 </style>
 </head>
 <body>
-   <header>
+
+<header>
         
         <div class="header">
             <div class="logo-section">
@@ -184,58 +205,39 @@ padding-left:135px ;
         </div>
         
     </header>
-    
 
-    <main>
-        <div class="title-section">
-            <div class="horizontal-line"></div>
-            <div class="title">
-                <h1 class="page-title">My Wishlist</h1>
-            </div>
-            <div class="horizontal-line"></div>
+<main>
+    <div class="title-section">
+        <div class="horizontal-line"></div>
+        <div class="title">
+            <h1 class="page-title">My Wishlist</h1>
         </div>
-        <div class="wishlist-container">
-            <ul class="wishlist">
+        <div class="horizontal-line"></div>
+    </div>
+
+    <div class="wishlist-container">
+        <ul class="wishlist">
+            <?php while ($row = $result->fetch_assoc()) { ?>
                 <li class="wishlist-item">
-                    <img src="images/book1.jpg" alt="What to Look For in Winter">
+                    <img src="uploads/<?php echo $row['cover']; ?>" alt="<?php echo $row['title']; ?>">
                     <div class="book-info">
-                        <h3>What to Look For in Winter</h3>
-                        <p class="author">E.L. Grant Watson</p> 
-                        <p class="price"><span><img src="images/riyalyellow.png" style="width:13px;height:13px;"></span>  93.75</p>
+                        <h3><?php echo $row['title']; ?></h3>
+                        <p class="author"><?php echo $row['Author']; ?></p>
+                        <p class="price">
+                            <span><img src="images/riyalyellow.png" style="width:13px;height:13px;"></span>
+                            <?php echo $row['price']; ?>
+                        </p>
                         <div class="buttons">
-                            <span><button class="cart-btn">Add to Cart</button></span>
-							<span><button class="remove-btn">Remove</button></span>
+                            <button class="cart-btn">Add to Cart</button>
+                            <button class="remove-btn" onclick="removeFromWishlist('<?php echo $row['ISBN']; ?>', this)">Remove</button>
                         </div>
                     </div>
                 </li>
-                <li class="wishlist-item">
-                    <img src="images/book2.jpg" alt="The Complete Brambly Hedge">
-                    <div class="book-info">
-                        <h3>The Complete Brambly Hedge</h3>
-                        <p class="author">Jill Barklem</p> 
-                        <p class="price"><span><img src="images/riyalyellow.png" style="width:13px;height:13px;"></span>  93.75</p>
-                        <div class="buttons">
-                            <span><button class="cart-btn">Add to Cart</button></span>
-                            <span><button class="remove-btn">Remove</button></span>
-                        </div>
-                    </div>
-                </li>
-                <li class="wishlist-item">
-                    <img src="images/book3.jpg" alt="The Lantern of Lost Memories">
-                    <div class="book-info">
-                        <h3>The Lantern of Lost Memories</h3>
-                        <p class="author">Sanaka Hiiragi</p> 
-                        <p class="price"><span><img src="images/riyalyellow.png" style="width:13px;height:13px;"></span>  93.75</p>
-                        <div class="buttons">
-                            <span><button class="cart-btn">Add to Cart</button></span>
-                            <span><button class="remove-btn">Remove</button></span>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </main>
-    <footer>
+            <?php } ?>
+        </ul>
+    </div>
+</main>
+<footer>
         <div class="footer-section footer-logo">
             <img src="images/logo.png" alt="footer-logo" width="320">
         </div>
@@ -260,36 +262,28 @@ padding-left:135px ;
     <div class="bottom-bar">
         <p>  Terms and Conditions<br>privacy policy<br>&copy; 2024 mawj company . All rights reserved</p>
     </div>
-   <script>
-document.addEventListener("DOMContentLoaded", function() {
-    const cart = [];
-
-    const addToCartButtons = document.querySelectorAll('.cart-btn');
-    addToCartButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const bookItem = button.closest('.wishlist-item');
-            const bookTitle = bookItem.querySelector('h3').innerText;
-            const bookPrice = bookItem.querySelector('.price').innerText;
-
-            cart.push({ title: bookTitle, price: bookPrice });
-
-            localStorage.setItem('cart', JSON.stringify(cart));
-
-            window.location.href = 'cart.html';
-        });
-    });
-
-    const removeButtons = document.querySelectorAll('.remove-btn');
-    removeButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const item = button.closest('.wishlist-item');
-            item.remove(); 
-        });
-    });
-});
-
-    </script>
-      <script>
+<script>
+function removeFromWishlist(ISBN, button) {
+    fetch('remove_from_wishlist.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: `ISBN=${ISBN}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "success") {
+            button.closest(".wishlist-item").remove();
+            alert("The book has been removed from the wishlist  ");
+        } else {
+            alert(data.message);
+        }
+    })
+    .catch(error => console.error("Error:", error));
+}
+</script>
+<script>
 const searchInput = document.getElementById("search-input");
 const suggestionsBox = document.getElementById("suggestions");
 
@@ -323,3 +317,11 @@ searchInput.addEventListener("input", function () {
 </script>
 </body>
 </html>
+
+</body>
+</html>
+
+<?php
+$stmt->close();
+$connection->close();
+?>
