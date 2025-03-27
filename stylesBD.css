@@ -2,59 +2,58 @@
 
 body{
     background-color:#FFFCF5;
-
 }
 
 
 
-    /*Books Details wo*/
+/*Books Details wo*/
 
-    .book_container {
-        border: rgb(189, 189, 189) 1px;
-        width:100%;
-        display: flex;
-        height: 150vh;
-        color: #342720;
-        margin: 33px;
-    }
+.book_container {
+    border: rgb(189, 189, 189) 1px;
+    width:100%;
+    display: flex;
+    height: 150vh;
+    color: #342720;
+    margin: 33px;
+}
 
-    .book_img img {
-        width: 270px;
-        border-radius: 5px;
-        border: none;
-        margin: 53px;
+.book_img img {
+    width: 270px;
+    border-radius: 5px;
+    border: none;
+    margin: 53px;
 
-    }
+}
 
-    .book_info1 {
-        text-align: left;
-        margin-top: 33px;
-        padding: 55px;
-        margin-bottom: 45px;
-    }
-
-
-    .book_info1 p {
-        color: #393332;
-        line-height: 24px;
-        font-size: 16px;
-    }
+.book_info1 {
+    text-align: left;
+    margin-top: 33px;
+    padding: 55px;
+    margin-bottom: 45px;
+}
 
 
-    .book_info2 {
-        display: block;
-        margin-top: 550px;
-        margin-left: 20px;
-        position: absolute;
-        text-align: left;
-        line-height: 30px;
-        padding: 70px;
-        border: 1px inset rgba(151, 131, 20, 0.5);
-        width: 90%;
-    }
+.book_info1 p {
+    color: #393332;
+    line-height: 24px;
+    font-size: 16px;
+}
 
 
-  .book_info2 h3{
+.book_info2 {
+    display: block;
+    margin-top: 550px;
+    margin-left: 20px;
+    position: absolute;
+    text-align: left;
+    line-height: 30px;
+    padding: 70px;
+    border: 1px inset rgba(151, 131, 20, 0.5);
+    width: 90%;
+}
+
+
+.book_info2 h3{
     display: inline;
     text-align: left;
     align-items: flex-start;
@@ -65,87 +64,85 @@ body{
 
 
 }
-    .book_info1 h4 {
-        color: #988413;
-        text-indent: 12px;
-        line-height: 32px;
-    }
+.book_info1 h4 {
+    color: #988413;
+    text-indent: 12px;
+    line-height: 32px;
+}
 
-   .book_container .title1 {
-       font-size: 42px;
-       text-align: left;
+.book_container .title1 {
+    font-size: 42px;
+    text-align: left;
+}
 
+.book_container a {
+    color: #988413;
+}
 
-    }
+.book_container hr{
+    width: 180%;
+    position: absolute;
+    top: 100px;
+}
 
-   .book_container a {
-        color: #988413;
-    }
-
-    .book_container hr{
-        width: 180%;
-        position: absolute;
-        top: 100px;
-    }
-
-    .book_container input{
-        text-align: center;
-        border-radius: 81px;
-        width: 45px;
-        height: 50px;
-        background-color: #ede3bc;
-        color: #342720;
-        border:none;
-    }
+.book_container input{
+    text-align: center;
+    border-radius: 81px;
+    width: 45px;
+    height: 50px;
+    background-color: #ede3bc;
+    color: #342720;
+    border:none;
+}
 
 
-    .book_container button {
-        border: none;
-        width: 270px;
-        height: 45px;
-        padding: 7px;
-        margin: 15px;
-        font-size: 18px;
-        /*position: absolute;
-        top: 540px;*/
-        border-radius: 35px;
-        font-weight: bold;
-        display:inline-block;
+.book_container button {
+    border: none;
+    width: 270px;
+    height: 45px;
+    padding: 7px;
+    margin: 15px;
+    font-size: 18px;
+    /*position: absolute;
+    top: 540px;*/
+    border-radius: 35px;
+    font-weight: bold;
+    display:inline-block;
 
-    }
+}
 
 
-    .book_container .add {
+.book_container .add {
     background-color: rgb(152, 132, 19);
     color: #fff;
     left: 480px;
 }
 
-    .book_container .borrow {
-        background-color: rgb(253, 250, 243);
-        border:2px solid rgb(150, 130, 19);
-        color: rgb(140, 121, 18);;
-        left: 790px;
-    }
+.book_container .borrow {
+    background-color: rgb(253, 250, 243);
+    border:2px solid rgb(150, 130, 19);
+    color: rgb(140, 121, 18);;
+    left: 790px;
+}
 
 
-    .book_container .add:hover {
-       background-color: rgb(221, 212, 159);
-        color: #857d52;
+.book_container .add:hover {
+    background-color: rgb(221, 212, 159);
+    color: #857d52;
 
-    }
+}
 
 
-    .book_container .borrow:hover {
-        background-color: rgb(221, 212, 159);
-        color: #857d52;
-        border:none;
-    }
+.book_container .borrow:hover {
+    background-color: rgb(221, 212, 159);
+    color: #857d52;
+    border:none;
+}
 
 
 
 
-    /*
+/*
 
 
 
@@ -153,7 +150,7 @@ body{
 
 
 
-    */
+*/
 
 
 
@@ -164,163 +161,195 @@ body{
 
 
 
+/* <<= CHECKOUT CSS =>> */
 
 
+main {
+    width: 100%;
+    height: 100vh;
+    font-family: 'Bitter', sans-serif;
+    color: #342721;
 
-    main {
-        width: 100%;
-        height: 100vh;
-        font-family: 'Bitter', sans-serif;
-        color: #342721;
+}
 
-    }
+.container1 {
+    max-width: 1800px;
+    margin: 0 auto;
+    padding: 80px;
+    width: 900px;
+    color: #342720;
+    box-shadow: 1px 1px 15px 1px rgba(128, 128, 128, 0.4);
+    border-radius: 26px;
 
-    .container1 {
-        max-width: 1800px;
-        margin: 0 auto;
-        padding: 80px;
-        width: 900px;
-        color: #342720;
-        box-shadow: 1px 1px 15px 1px rgba(128, 128, 128, 0.4);
-        border-radius: 26px;
 
+    text-align: center;
+    align-self: center;
+    align-content: center;
+    height: 100vh;
+    justify-content: center;
+    justify-self: center;
 
-        text-align: center;
-        align-self: center;
-        align-content: center;
-        height: 100vh;
-        justify-content: center;
-        justify-self: center;
 
-    }
+}
 
-    .step-indicator {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 20px;
-        gap: 27px;
-    }
+.step-indicator {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
 
-    .step {
-        display: flex;
-        align-items: center;
-    }
+    display: flex;
+    justify-content: space-evenly; /* Distributes the steps evenly */
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
 
-    .step-indicator span{
-        font-size: 15px;
-        font-weight: bold;
-        color: #342721;
-    }
-    .step .circle {
-        width: 28px;
-        height: 24px;
-        border-radius: 50%;
-        background-color: #c69b50;
-        color: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 14px;
-        margin-right: 10px;
-    }
+.step {
+    display: flex;
+    align-items: center;
+    flex: 1;
 
-    .step.active .circle {
-        background-color: #5281c4;
+    display: flex;
+    flex-direction: column; /* Align text below the circle */
+    align-items: center;
+    flex: 1; /* Makes each step evenly spaced */
+}
 
-    }
-
-    .card {
-        border: 1px solid #ddd;
-        padding: 20px;
-        border-radius: 8px;
-        margin-bottom: 20px;
-    }
-
-    .card h2 {
-        margin-top: 0;
-        font-size: 18px;
-    }
-
-    .form-group {
-        margin-bottom: 15px;
-        font-family: 'Bitter', sans-serif;
-
-    }
-
-    .form-group label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
-    }
-
-    .form-group input {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        background-color: #fff8f0;
-    }
-
-    .step-indicator .step-active{
-        position: absolute;
-        right: 22px;
-        top:12px;
-    }
-
-    .button-container {
-        display: flex;
-        justify-content: space-between;
-        gap: 0.12em;
-    }
-
-    button {
-        background-color: #fbe7c6;
-        color: #342721;
-        padding: 10px 12px;
-        border: none;
-        border-radius: 15px;
-        cursor: pointer;
-        margin: 0 auto;
-        width: 130px;
-        font-weight: bold;
-      font-family: 'Bitter' ,sans-serif;
-
-    }
-
-    button:hover{
-        background-color: #F8D49D;
-    }
-
-    button:disabled {
-        background-color: #ccc;
-        cursor: not-allowed;
-    }
-
-
-
-    .success {
-        text-align: center;
-        color: #28a745;
-    }
-
-    .success h2 {
-        margin-top: 0;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.step-indicator span{
+    font-size: 15px;
+    font-weight: bold;
+    color: #342721;
+    background-color: transparent;
+    margin-bottom: 59px;
+    /*  position: relative;
+      left: -62px;
+     */
+    font-size: 15px;
+    font-weight: bold;
+    color: #342721;
+    background-color: transparent;
+    margin-top: 10px; /* Add spacing instead of positioning */
+}
+
+
+.step .circle {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: #c69b50;
+    border: 3px solid #e0e0e0;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    margin-right: 10px;
+
+
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: #c69b50;
+    border: 3px solid #e0e0e0;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    margin-bottom: 5px; /* Adjust spacing between circle and text */
+
+}
+
+.step.active .circle {
+    background-color: #5281c4;
+    cursor: pointer;
+
+}
+
+.step.active span {
+    color: #4a3e3b;
+    /* position: relative;
+     left: 9px;
+     background-color: transparent;*/
+}
+
+.card {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.card h2 {
+    margin-top: 0;
+    font-size: 18px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    font-family: 'Bitter', sans-serif;
+
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff8f0;
+}
+
+.step-indicator .step-active{
+    position: absolute;
+    right: 22px;
+    top:12px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.12em;
+}
+
+button {
+    background-color: #fbe7c6;
+    color: #342721;
+    padding: 10px 12px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    margin: 0 auto;
+    width: 130px;
+    font-weight: bold;
+    font-family: 'Bitter' ,sans-serif;
+
+}
+
+button:hover{
+    background-color: #F8D49D;
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+
+
+.success {
+    text-align: center;
+    color: #28a745;
+}
+
+.success h2 {
+    margin-top: 0;
+}
 
 
 

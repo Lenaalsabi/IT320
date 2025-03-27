@@ -12,53 +12,143 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=Bitter:ital,wght@0,100..900;1,100..900&family=Mate:ital@0;1&family=Poppins&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
 
-
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css" rel="stylesheet" />
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js"></script>
 
-
     <style>
-       .suggestions-box {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: #fff;
-    border: 1px solid #ccc;
-    border-top: none;
-    z-index: 9999;
-    max-height: 200px;
-    overflow-y: auto;
-    display: none;
-}
+        /* Suggestions box */
+        .suggestions-box {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-top: none;
+            z-index: 9999;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+        }
 
-.suggestions-box div {
-    padding: 10px;
-    cursor: pointer;
-}
+        .suggestions-box div {
+            padding: 10px;
+            cursor: pointer;
+        }
 
-.suggestions-box div:hover {
-    background-color: #f2cc8f;
-}
+        .suggestions-box div:hover {
+            background-color: #f2cc8f;
+        }
 
-/*
+        /*PB*/
+
+        #progress-bar {
+            width: 15%; /* Start at 0 */
+            height: 6px;
+            border: 1px solid #2a4368;
+            background-color: #5281c4;
+            border-radius: 10px;
+            transition: width 0.5s ease-in-out;
+            position: absolute;
+            top: 50%; /* Adjust to fit within your step indicator */
+            left: 0;
+        }
+
+        #progress-track {
+            width: 100%; /* Full width */
+            border: 1px solid #c1c1c1;
+            height: 6px;
+            background-color: #e0e0e0; /* Default gray background */
+            border-radius: 10px;
+            position: absolute;
+            top: 50%; /* Adjust if necessary */
+            left: 0;
+        }
+
+
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            position: relative; /* Required for the progress bar to be positioned correctly */
+            margin-bottom: 20px;
+        }
+
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            flex: 1; /* This makes all steps evenly spaced */
+        }
+
+        .step .circle {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background-color: #c69b50;
+            border: 3px solid #e0e0e0;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+        }
+
+        .step.active .circle {
+            background-color: #5281c4;
+        }
+
+        .step span {
+            font-size: 15px;
+            font-weight: bold;
+            color: #342721;
+            margin-top: 10px;
+            position: absolute;
+            white-space: nowrap;
+            top: -32px;
+        }
+
+
+
+        /* General Styling for Map Section */
         #map {
-            height: 50vh; /* 70% of the viewport height
-            width: 80%;   /* 80% of the parent container
-            margin: auto; /* Center the map horizontally
-            border: 1px solid #ddd; /* Optional border for styling
-        }*/
+            height: 45vh;
+            width: 100%;
+            align-self: center;
+            align-content: center;
+            align-items: center;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .button-container button {
+            padding: 10px 20px;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 200px;
+            text-align: center;
+        }
+
+        .bottom-bar {
+            text-align: center;
+            margin-top: 20px;
+        }
+
 
     </style>
-
-
-
-
 </head>
 <body>
 <header>
-
-
     <div class="header">
         <div class="logo-section">
             <div class="horizontal-line"></div>
@@ -70,14 +160,11 @@
             <div class="horizontal-line"></div>
         </div>
 
-            <form class="search-section" id="searchForm" onsubmit="return false;">
-    <img src="images/search.png" alt="search" class="search-icon">
-    <input type="text" name="query" id="search-input" placeholder="Search for a book..." autocomplete="off" required>
-    <div id="suggestions" class="suggestions-box"></div>
-</form>
-
-
-
+        <form class="search-section" id="searchForm" onsubmit="return false;">
+            <img src="images/search.png" alt="search" class="search-icon">
+            <input type="text" name="query" id="search-input" placeholder="Search for a book..." autocomplete="off" required>
+            <div id="suggestions" class="suggestions-box"></div>
+        </form>
 
         <nav class="link-section">
             <div class="icons">
@@ -109,13 +196,15 @@
 </header>
 
 <main>
-<h2 style="margin-top: 30px; text-align: center">Check Out Your Order</h2>
+    <h2 style="margin-top: 30px; text-align: center">Check Out Your Order</h2>
     <div class="container1">
         <!-- Step Indicator -->
         <div class="step-indicator">
+            <div id="progress-track"></div>
+            <div id="progress-bar" class="progress-bar"></div>
             <div class="step active">
                 <div class="circle">1</div>
-                <span>Delivery Info</span>
+                <span>Payment</span>
             </div>
             <div class="step">
                 <div class="circle">2</div>
@@ -123,53 +212,22 @@
             </div>
             <div class="step">
                 <div class="circle">3</div>
-                <span>Payment</span>
-            </div>
-            <div class="step">
-                <div class="circle">4</div>
                 <span>Confirmation</span>
             </div>
         </div>
 
-
-        <div class="card" id="select-map" style=" width:100%;display: none;">
-            <h2>Select your location </h2><br>
-            <!--<div id="map"></div>-->
-            <div id="map" style="height: 30vh; width:100%;"></div>
-            <BR>
-
-
+        <!-- CARDS -->
+        <div class="card" id="select-map" style="display: none;">
+            <h2>Select your location</h2><br>
+            <div id="map"></div>
             <div class="button-container">
-                <button onclick="goToSection('delivery-info')">Back</button>
-
-                <button onclick="goToSection('payment-section')">Next Step</button>
-            </div>
-        </div>
-
-        <div class="card" id="delivery-info" >
-            <h2>Deliver Info</h2><br>
-            <form>
-                <div class="form-group">
-                    <label for="name">Full Name</label>
-                    <input type="text" id="name" placeholder="Enter your full name">
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="text" id="email" placeholder="Enter your address">
-                </div>
-                <div class="form-group">
-                    <label for="tellNo">Phone number</label>
-                    <input type="text" id="tellNo" placeholder="+123 4567 7890">
-                </div>
-            </form>
-            <div class="button-container">
-                <!-- <button onclick="goToSection('cart-section')">Back</button>-->
-                <button onclick="goToSection('select-map')">Next Step</button>
+                <button onclick="goToSection('payment-section')">Back</button>
+                <button onclick="goToSection('confirmation-section')">Next Step</button>
             </div>
         </div>
 
         <!-- Payment Section -->
-        <div class="card" id="payment-section" style=" display: none;">
+        <div class="card" id="payment-section">
             <h2>Payment</h2>
             <form>
                 <div class="form-group">
@@ -177,13 +235,20 @@
                     <input type="text" id="card-number" placeholder="Enter card number">
                 </div>
                 <div class="form-group">
+                    <label for="card-number">Name on card</label>
+                    <input type="text" id="card-name" placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label for="card-number">CVV</label>
+                    <input type="text" id="cvv" placeholder="123">
+                </div>
+                <div class="form-group">
                     <label for="expiry">Expiry Date</label>
                     <input type="text" id="expiry" placeholder="MM/YY">
                 </div>
             </form>
             <div class="button-container">
-                <button onclick="goToSection('select-map')">Back</button>
-                <button onclick="goToSection('confirmation-section')">Next Step</button>
+                <button onclick="goToSection('select-map')">Next Step</button>
             </div>
         </div>
 
@@ -191,133 +256,146 @@
         <div class="card" id="confirmation-section" style="display: none;">
             <h2>Confirmation</h2><br>
             <p style="text-align: center;">Your order has been successfully placed!</p>
-            <div class="success"><br>
+            <div class="success">
+                <img src="booksDetails/output-onlinegiftools.gif" alt="Checked" style="width:180px;height:180px;">
                 <h2>Order Confirmed!</h2>
             </div>
             <div class="button-container">
-                <button  style="width: 205px; height: 50px;" onclick="window.location.href='homebage2.html'">Back to Home Page</button><br>
+                <button style="width: 205px; height: 50px;" onclick="window.location.href='homebage2.html'">Back to Home Page</button><br>
             </div>
         </div>
     </div>
-
-
 </main>
 
-
-
-<!--Footer-->
-<footer style="margin-top: 200px">
+<!-- Footer -->
+<footer>
     <div class="footer-section footer-logo">
-        <img src="images/logo.png" alt="footer-logo" width="320" >
+        <img src="images/logo.png" alt="footer-logo" width="320">
     </div>
     <div class="footer-section social-media">
         <h3>SOCIAL MEDIA</h3>
         <ul class="social-icons">
             <li><a href="#"><img src="images/twitter.png" alt="Twitter"></a></li>
             <li><a href="#"><img src="images/facebook.png" alt="Facebook"></a></li>
-            <li><a href="#"><img src="images/insta.png" alt="Instagram"></a></li>
-            <li>@official_mawj</li>
+            <li><a href="#"><img src="images/instagram.png" alt="Instagram"></a></li>
         </ul>
     </div>
-    <div class="footer-section contact-us">
-        <h3>CONTACT US</h3>
-        <ul>
-            <li><a href="#"><img src="images/phone1.png" alt="Phone"> +123 165 788</a></li>
-            <li><a href="mailto:@mawj@gmail.com"><img src="images/email1.png" alt="Email"> mawj@gmail.com</a></li>
+    <div class="footer-section">
+        <ul class="terms-conditions">
+            <li><a href="terms-conditions.html">Terms & Conditions</a></li>
+            <li><a href="privacy-policy.html">Privacy Policy</a></li>
         </ul>
     </div>
 </footer>
 
-<div class="bottom-bar">
-    <p>  Terms and Conditions privacy policy<br>&copy; 2024 mawj company . All rights reserved</p>
-</div>
-
-
-
-
-
-
-
-<script>
-    function goToSection(sectionId) {
-        const sections = document.querySelectorAll('.card');
-        sections.forEach(section => section.style.display = 'none');
-        document.getElementById(sectionId).style.display = 'block';
-        document.getElementById(sectionId).style.display = 'block';
-
-
-        const steps = document.querySelectorAll('.step');
-        steps.forEach((step, index) => {
-            if (index <= ['delivery-info', 'select-map', 'payment-section', 'confirmation-section'].indexOf(sectionId)) {
-                step.classList.add('active');
-            } else {
-                step.classList.remove('active');
-            }
-        });
-    }
-</script>
-
-
-<script>
-    // Set your Mapbox access token
-    mapboxgl.accessToken = 'pk.eyJ1IjoibHVjeTE5MiIsImEiOiJjbTgwOWNzMXowcm1oMmpzYTg4a2F2emNqIn0.f3QS2n20H8D3HpKnOfDdCg';
-
-
-
-    // Initialize the map
-    var map = new mapboxgl.Map({
-        container: 'map', // The ID of the HTML element
-        style: 'mapbox://styles/mapbox/streets-v11', // Map style
-        center:[46.738586, 24.774265], // Longitude, Latitude for center
-        zoom: 9 // Initial zoom level
-    });
-
-    // Add navigation controls (optional)
-    const nav = new mapboxgl.NavigationControl();
-    map.addControl(nav, 'top-right');
-    map.on('load', () => {
-        map.resize(); // Ensures the map adjusts to its container size
-    });
-
-    // Create a pink marker
-    var marker = new mapboxgl.Marker({
-        color: '#ff0008' ,//
-    })
-        .setLngLat([46.738586, 24.774265]) // Set marker coordinates
-        .addTo(map); // Add marker to the map
-
-</script>
- <script>
-const searchInput = document.getElementById("search-input");
-const suggestionsBox = document.getElementById("suggestions");
-
-searchInput.addEventListener("input", function () {
-    const query = this.value.trim();
-    if (query.length < 2) {
-        suggestionsBox.innerHTML = "";
-        suggestionsBox.style.display = "none";
-        return;
-    }
-
-    fetch(`search_suggestions.php?query=${encodeURIComponent(query)}`)
-        .then(response => response.json())
-        .then(data => {
-            suggestionsBox.innerHTML = "";
-            if (data.length > 0) {
-                data.forEach(book => {
-                    const div = document.createElement("div");
-                    div.textContent = book.title;
-                    div.onclick = () => {
-                        window.location.href = `book_details.php?isbn=${book.ISBN}`;
-                    };
-                    suggestionsBox.appendChild(div);
-                });
-                suggestionsBox.style.display = "block";
-            } else {
-                suggestionsBox.style.display = "none";
-            }
-        });
+<script>  // Initialize Mapbox
+mapboxgl.accessToken = 'pk.eyJ1IjoibHVjeTE5MiIsImEiOiJjbTgwOWNzMXowcm1oMmpzYTg4a2F2emNqIn0.f3QS2n20H8D3HpKnOfDdCg';
+; // Replace with your Mapbox token
+const map = new mapboxgl.Map({
+    container: "map",
+    style: "mapbox://styles/mapbox/streets-v11",
+    center: [46.63697443188178,24.723534089769547],//24.723534089769547, 46.63697443188178
+    zoom: 11,
 });
+
+map.addControl(new mapboxgl.GeolocateControl({
+    positionOptions:
+        {
+            enableHighAccuracy:true
+        },
+    trackUserLocation:true
+
+}));
+
+const nav = new mapboxgl.NavigationControl();
+map.addControl(nav, 'top-right');
+map.on('load', () => {
+    map.resize(); // Ensures the map adjusts to its container size
+});
+
+
+let marker = new mapboxgl.Marker({ draggable: true })
+    .setLngLat([46.63697443188178,24.723534089769547])
+    .addTo(map);
+
+marker.on("dragend", function () {
+    const lngLat = marker.getLngLat();
+    console.log("Selected Location: ", lngLat);
+});
+
+
+
+function goToSection(section) {
+    document.querySelectorAll('.card').forEach(function(card) {
+        card.style.display = 'none';
+    });
+    document.getElementById(section).style.display = 'block';
+    updateProgress(section);
+}
+
+function updateProgress(section) {
+    let activeStep = 0;
+
+    if (section === 'payment-section') {
+        activeStep = 1;
+    } else if (section === 'select-map') {
+        activeStep = 2;
+    } else if (section === 'confirmation-section') {
+        activeStep = 3;
+    }
+
+    const steps = document.querySelectorAll('.step');
+    steps.forEach((step, index) => {
+        step.classList.remove('active');
+        if (index < activeStep) {
+            step.classList.add('active');
+        }
+    });
+
+    updateProgressBar(activeStep);
+}
+
+function updateProgressBar(activeStep) {
+    let percent = [0, 50, 100]; // Custom progress values
+    const progressBar = document.getElementById('progress-bar');
+
+    let progressPercentage = percent[activeStep - 1]; // Adjust index since activeStep starts from 1
+    progressBar.style.width = progressPercentage + "%";
+}
+</script>
+
+
+<script>
+    const searchInput = document.getElementById("search-input");
+    const suggestionsBox = document.getElementById("suggestions");
+
+    searchInput.addEventListener("input", function () {
+        const query = this.value.trim();
+        if (query.length < 2) {
+            suggestionsBox.innerHTML = "";
+            suggestionsBox.style.display = "none";
+            return;
+        }
+
+        fetch(`search_suggestions.php?query=${encodeURIComponent(query)}`)
+            .then(response => response.json())
+            .then(data => {
+                suggestionsBox.innerHTML = "";
+                if (data.length > 0) {
+                    data.forEach(book => {
+                        const div = document.createElement("div");
+                        div.textContent = book.title;
+                        div.onclick = () => {
+                            window.location.href = `book_details.php?isbn=${book.ISBN}`;
+                        };
+                        suggestionsBox.appendChild(div);
+                    });
+                    suggestionsBox.style.display = "block";
+                } else {
+                    suggestionsBox.style.display = "none";
+                }
+            });
+    });
 </script>
 </body>
 </html>
