@@ -4,7 +4,7 @@ include 'db_connect.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!isset($_SESSION['customerID'])) {
-        header("Location: login.html");
+        header("Location: homepage.html");
         exit();
     }
 

@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['customerID'] = $customerID;
             $_SESSION['firstName'] = $firstName;
             $_SESSION['email'] = $email;
-            header("Location: ../homebage2.html");
+            header("Location: ../homebage2.php");
             exit();
         }
     }

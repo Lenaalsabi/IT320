@@ -72,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
         mysqli_stmt_close($stmt); // ✅ Close before redirect
         mysqli_close($connection); // ✅ Close DB connection
-        header("Location: ../homebage2.html");
+        header("Location: ../homebage2.php");
         exit();
     }
   else {
