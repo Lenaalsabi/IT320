@@ -1,3 +1,19 @@
+<?php
+session_start();
+include 'db_connect.php'; // Include the database connection
+
+if (!isset($_SESSION['customerID'])) {
+    header("Location: homepage.html"); // Redirect to homepage if not logged in
+    exit();
+}
+
+$customerID = $_SESSION['customerID']; 
+$query = "SELECT orderID, totalPrice, address, status FROM orders WHERE customerID = ? ORDER BY created_at DESC";
+$stmt = $connection->prepare($query);  // This will now work because $connection is defined
+$stmt->bind_param("i", $customerID);
+$stmt->execute();
+$result = $stmt->get_result();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,6 +45,17 @@
 
 .suggestions-box div:hover {
     background-color: #f2cc8f;
+}
+.cancel-order-btn {
+    background-color:rgb(232, 160, 152); /* Red background */
+    color: white; /* White text */
+    font-size: 17px; /* Font size */
+    font-weight: bold; /* Make the text bold */
+    padding: 10px 10px; /* Add padding for better spacing */
+    border: none; /* Remove default border */
+    border-radius: 9px; /* Rounded corners */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    transition: background-color 0.3s, transform 0.2s; /* Smooth hover effect */
 }
 </style>
 </head>
@@ -94,10 +121,26 @@
             </div>
             <div class="horizontal-line"></div>
         </div>
-
+<!-- rana-->
         <section class="order-section">
             <h2 class="section-title"><span class="highlight2"> Current</span>orders</h2>
-            <div class="order-card">
+            <?php while ($order = $result->fetch_assoc()): ?>
+                <div class="order-card">
+                    <div class="order-details">
+                        <p class="order-id">Order ID: <?php echo $order['orderID']; ?></p>
+                        <p class="price"><span><img src="images/riyal-removebg-preview.png" style="width:14px;height:14px;"></span> <?php echo $order['totalPrice']; ?></p>
+                        <p class="delivery-address">Delivery Address: <?php echo $order['address']; ?></p>
+                        <p class="order-status">Status: <span class="highlight3"><?php echo $order['status']; ?></span></p>
+
+                        <?php if ($order['status'] == 'Pending'): ?>
+                            <button class="cancel-order-btn" onclick="cancelOrder(<?php echo $order['orderID']; ?>)">cancel reservation </button>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            <?php endwhile; ?>
+                    </div>
+               
+            <!--<div class="order-card">
                 <div class="book-images">
                     <img class="book-image" src="images/book1.jpg" alt="Book Cover">
                     <img class="book-image" src="images/book2.jpg" alt="Book Cover">
@@ -124,7 +167,7 @@
                 <span class="edit-label" id="edit-label1"><a href="edit.html">Edit</a></span>
 
 
-            </div>
+            </div>-->
         </section>
         <section class="order-section">
             <h2 class="section-title"><span class="highlight2"> Past</span> orders</h2>
@@ -180,6 +223,31 @@
         <p>  Terms and Conditions
 privacy policy<br>&copy; 2024 mawj company . All rights reserved</p>
     </div>
+    <script>
+   function cancelOrder(orderID) {
+    if (confirm("Are you sure you want to cancel this reservation?")) {
+        fetch('cancel_order.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `orderID=${orderID}`
+        })
+        .then(response => response.text())
+        .then(data => {
+            console.log(data); 
+            if (data === "success") {
+                alert("Reservation cancelled successfully");
+                location.reload();
+            } else {
+                alert(data); 
+            }
+        })
+        .catch(error => {
+            alert("Connection error: " + error);
+        });
+    }
+}
+
+</script>
     <script>
 const searchInput = document.getElementById("search-input");
 const suggestionsBox = document.getElementById("suggestions");

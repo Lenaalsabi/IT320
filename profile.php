@@ -66,7 +66,7 @@ mysqli_stmt_close($stmt);
                             </a>
                             <div class="profile-dropdown">
                                 <a href="profile.php">Update Profile</a>
-                                <a href="orders.html">My Orders</a>
+                                <a href="orders.php">My Orders</a>
                             </div>
                         </div>
                         <a href="books.php"><img src="images/books.png" alt="Books"><p>Books</p></a>
