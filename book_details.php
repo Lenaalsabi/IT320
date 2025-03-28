@@ -142,6 +142,7 @@ $book = $result->fetch_assoc();
 
 <script>
 function addToWishlist(ISBN) {
+    var button = document.getElementById('wishlist-btn');
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "add_to_wishlist.php", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -149,6 +150,9 @@ function addToWishlist(ISBN) {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
             var response = JSON.parse(xhr.responseText);
+
+                // إضافة أو إزالة الفئة 'active' عند النقر
+                button.classList.toggle('active');
             alert(response.message); 
         }
     };
