@@ -1,7 +1,7 @@
 <?php
-
 include 'db_connect.php';
 include 'auth.php';
+
 
 ?>
 
@@ -18,11 +18,9 @@ include 'auth.php';
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=Bitter:ital,wght@0,100..900;1,100..900&family=Mate:ital@0;1&family=Poppins&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=Bitter:ital,wght@0,100..900;1,100..900&family=Mate:ital@0;1&family=Poppins&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
 
-    <link href="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css" rel="stylesheet"/>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css" rel="stylesheet" />
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js"></script>
 
     <style>
@@ -123,7 +121,9 @@ include 'auth.php';
         }
 
 
-        /*  Style for Map Section */
+
+
+        /* General Styling for Map Section */
         #map {
             height: 45vh;
             width: 100%;
@@ -154,6 +154,7 @@ include 'auth.php';
         }
 
         #submit0 {
+
             background-color: #fbe7c6;
             color: #342721;
             padding: 10px 12px;
@@ -163,7 +164,7 @@ include 'auth.php';
             margin: 0 auto;
             width: 130px;
             font-weight: bold;
-            font-family: 'Bitter', sans-serif;
+            font-family: 'Bitter' ,sans-serif;
         }
 
 
@@ -184,8 +185,7 @@ include 'auth.php';
 
         <form class="search-section" id="searchForm" onsubmit="return false;">
             <img src="images/search.png" alt="search" class="search-icon">
-            <input type="text" name="query" id="search-input" placeholder="Search for a book..." autocomplete="off"
-                   required>
+            <input type="text" name="query" id="search-input" placeholder="Search for a book..." autocomplete="off" required>
             <div id="suggestions" class="suggestions-box"></div>
         </form>
 
@@ -258,6 +258,8 @@ include 'auth.php';
             <!-- Payment Section -->
             <div class="card" id="payment-section">
                 <h2>Payment</h2>
+                <!--  <input type="hidden" name="total" value="<?php echo htmlspecialchars($_GET['total']); ?>">-->
+
                 <div class="form-group">
                     <label for="card-number">Card Number</label>
                     <input name="card-number" type="text" id="card-number" required placeholder="Enter card number">
@@ -295,8 +297,7 @@ include 'auth.php';
                     <h2>Order Confirmed!</h2>
                 </div>
                 <div class="button-container">
-                    <input id="submit0" style="width: 205px; height: 50px;" type="submit" value="Back to Home Page"
-                           onclick="window.location.href='homebage2.php'"><br>
+                    <input id="submit0" style="width: 205px; height: 50px;" type="submit" value="Back to Home Page" onclick="window.location.href='homebage2.php'"><br>
                 </div>
             </div>
         </form>
@@ -326,22 +327,23 @@ include 'auth.php';
 </footer>
 
 <script>
+
     // Initialize Mapbox
     mapboxgl.accessToken = 'pk.eyJ1IjoibHVjeTE5MiIsImEiOiJjbTgwOWNzMXowcm1oMmpzYTg4a2F2emNqIn0.f3QS2n20H8D3HpKnOfDdCg';
-    // Replace with your Mapbox token
+
     const map = new mapboxgl.Map({
         container: "map",
         style: "mapbox://styles/mapbox/streets-v11",
-        center: [46.63697443188178, 24.723534089769547],//24.723534089769547, 46.63697443188178
+        center: [46.63697443188178,24.723534089769547],//24.723534089769547, 46.63697443188178
         zoom: 11,
     });
 
     map.addControl(new mapboxgl.GeolocateControl({
         positionOptions:
             {
-                enableHighAccuracy: true
+                enableHighAccuracy:true
             },
-        trackUserLocation: true
+        trackUserLocation:true
 
     }));
 
@@ -351,7 +353,7 @@ include 'auth.php';
         map.resize(); // Ensures the map adjusts to its container size
     });
 
-    let marker = new mapboxgl.Marker({draggable: true})
+    let marker = new mapboxgl.Marker({ draggable: true })
         .setLngLat([46.63697443188178, 24.723534089769547])
         .addTo(map);
 
@@ -359,7 +361,6 @@ include 'auth.php';
         const lngLat = marker.getLngLat();
         console.log("Selected Location: ", lngLat);
 
-        // Ensure the function is called correctly
         updateLocation(lngLat.lng, lngLat.lat);
     });
 
@@ -370,19 +371,14 @@ include 'auth.php';
 
 
     function goToSection(section) {
-        document.querySelectorAll('.card').forEach(function (card) {
+        document.querySelectorAll('.card').forEach(function(card) {
             card.style.display = 'none';
         });
         document.getElementById(section).style.display = 'block';
         updateProgress(section);
     }
 
-    /*
-    function payment() {
-        document.getElementById('pay2').style.display = 'block';;
-        document.getElementById('pay1').style.display = 'none';;
-        document.getElementById('pay3').style.display = 'block';;
-        }*/
+
 
     function updateProgress(section) {
         let activeStep = 0;
@@ -414,6 +410,8 @@ include 'auth.php';
         progressBar.style.width = progressPercentage + "%";
     }
 </script>
+
+
 
 
 <script>

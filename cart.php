@@ -43,6 +43,8 @@ if ($resultCheckCart->num_rows > 0) {
     $cartItems = [];
     $totalPrice = 0;
 
+    $_SESSION['total_price'] = $totalPrice; // Store in session
+
     $sqlCartItems = "SELECT cart_items.ISBN, Book.Title, Book.Author, Book.Price, cart_items.quantity, Book.cover 
                      FROM cart_items 
                      JOIN Book ON cart_items.ISBN = Book.ISBN
@@ -58,6 +60,12 @@ if ($resultCheckCart->num_rows > 0) {
             $totalPrice += $row['Price'] * $row['quantity'];
         }
     }
+    $totalPrice = 0;
+    foreach ($cartItems as $item) {
+        $totalPrice += $item['Price'] * $item['quantity'];
+    }
+    $_SESSION['total_price'] = $totalPrice; // Store in session
+
     $stmtCartItems->close();
 } else {
     $cartItems = []; // Empty cart if no cart found
@@ -79,8 +87,7 @@ $stmtCheckCart->close();
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=Bitter:ital,wght@0,100..900;1,100..900&family=Mate:ital@0;1&family=Poppins&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-    <style>
-        .suggestions-box {
+    <style>.suggestions-box {
             position: absolute;
             top: 100%;
             left: 0;

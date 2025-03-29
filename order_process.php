@@ -1,11 +1,15 @@
-<?php
+<!--<?php
+var_dump($_SESSION);
 // Include database connection
 include('db_connect.php');
 include('auth.php');
 
 
+
 $userID = $_SESSION['customerID'];
-$totalAmount = $_SESSION['total'];
+//$totalAmount = $_SESSION['total_price'];
+$totalPrice = $_SESSION['total_price']; // Retrieve from session
+
 $latitude = $_POST['latitude'];
 $longitude = $_POST['longitude'];
 
@@ -15,14 +19,14 @@ $address = $latitude . ", " . $longitude;
 $sql_order = "INSERT INTO orders (customerID, totalPrice,address) 
               VALUES (?, ?, ?)";
 $stmt = $connection->prepare($sql_order);
-$stmt->bind_param("ids", $userID, $totalAmount,$address );
+$stmt->bind_param("ids", $userID, $totalPrice,$address );
 $stmt->execute();
 $orderID = $stmt->insert_id; // Get the last inserted order ID
 $stmt->close();
 
 
 // Payment details from form
-$amount = $_SESSION['total'];  // The total from session
+$amount =$_SESSION['total_price']; // The total from session
 $card_number = $_POST['card-number']; //
 $expiry = $_POST['expiry']; // Expiry date (YY-MM-DD)
 $cvv = $_POST['cvv']; // CVV
@@ -48,5 +52,10 @@ $stmt->close();
 
 header("Location: homebage2.php"); // Redirect to the confirmation page
 exit();
+
+
+// Clear the total price from the session after processing (optional)
+unset($_SESSION['total_price']);
+
 
 ?>
