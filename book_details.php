@@ -24,14 +24,14 @@ $book = $result->fetch_assoc();
 <!DOCTYPE html>
 <html lang="en">
 <head>
-     <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Book Details - موج</title>
-  <link rel="stylesheet" href="stylesBD.css">
-  <link rel="stylesheet" href="styles.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=Bitter:ital,wght@0,100..900;1,100..900&family=Mate:ital@0;1&family=Poppins&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Details - موج</title>
+    <link rel="stylesheet" href="stylesBD.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=Bitter:ital,wght@0,100..900;1,100..900&family=Mate:ital@0;1&family=Poppins&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
 
 </head>
 
@@ -50,7 +50,7 @@ $book = $result->fetch_assoc();
 
         <nav class="link-section">
             <div class="icons">
-                <a href="wishlist.php">
+                <a href="wishlist.html">
                     <img src="images/love.png" alt="Wishlist" id="wishlist-icon">
                     <p>Wishlist</p>
                 </a>
@@ -79,10 +79,7 @@ $book = $result->fetch_assoc();
 
 <br>
 <div class="book_container">
-<button id="wishlist-btn" class="wishlist-btn" 
-        style="background-color: transparent; font-size: 37px; right: -30px; top:203px;" 
-        onclick="addToWishlist('<?php echo $book['ISBN']; ?>')">♥</button>
-
+    <button class="wishlist-btn" style="background-color: transparent; font-size: 37px; right: -30px; top:203px;" onclick="toggleWishlist(this)">♥</button>
 
     <div class="book_img">
         <img src="uploads/<?php echo $book['cover']; ?>" alt="book image">
@@ -94,12 +91,14 @@ $book = $result->fetch_assoc();
         <br>
         <p><span><img src="images/riyal-removebg-preview.png" style="height: 17px"></span><strong> <?php echo $book['price']; ?></strong></p>
         <br>
-       <p style="line-height: 25px;">
-    <?php echo $book['description']; ?>
-</p>
+        <p style="line-height: 25px;">
+            <?php echo $book['description']; ?>
+        </p>
 
         <br>
-        <button class="add" onclick="window.location.href='cart.html'">ADD TO CART ＋</button>
+        <button class="add"  data-isbn="<?php echo $book['ISBN']; ?>">ADD TO CART ＋</button>
+
+        <!--   <button class="add" onclick="window.location.href='cart.php'">ADD TO CART ＋</button>-->
         <button class="borrow" onclick="window.location.href='borrowing.html'">BORROW IT </button>
     </div>
 
@@ -109,7 +108,7 @@ $book = $result->fetch_assoc();
         <h3>ISBN: <?php echo $book['ISBN']; ?></h3><br>
         <h3>Author: <?php echo $book['Author']; ?></h3><br>
         <h3>Genre: <?php echo $book['Genre']; ?></h3><br>
-       
+
     </div>
 </div>
 
@@ -141,24 +140,42 @@ $book = $result->fetch_assoc();
 
 
 <script>
-function addToWishlist(ISBN) {
-    var button = document.getElementById('wishlist-btn');
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "add_to_wishlist.php", true);
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-            var response = JSON.parse(xhr.responseText);
+    document.addEventListener('DOMContentLoaded', function() {
+        const addToCartButtons = document.querySelectorAll('.add'); // Use a more specific name
 
-                // إضافة أو إزالة الفئة 'active' عند النقر
-                button.classList.toggle('active');
-            alert(response.message); 
-        }
-    };
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent default link behavior
 
-    xhr.send("ISBN=" + ISBN);
-}
+                const isbn = this.dataset.isbn;
+                const quantity = 1;
+
+                console.log('Button clicked', isbn, quantity);
+
+                if (isbn) { // Check if ISBN is available
+                    fetch('add_cart.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `isbn=${isbn}&quantity=${quantity}`
+                    })
+                        .then(response => response.text())
+                        .then(data => {
+                            console.log(data); // Handle response (e.g., show a message)
+                            // Optionally, update the cart count or provide visual feedback
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                } else {
+                    console.error('ISBN not found on button');
+                }
+            });
+        });
+    });
+
 </script>
 
 
