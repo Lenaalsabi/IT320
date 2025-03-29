@@ -1,9 +1,9 @@
 <?php
-
 include 'db_connect.php';
 include 'auth.php';
 
 $userId = $_SESSION['customerID'];
+
 
 // Check if user has a cart
 $sqlCheckCart = "SELECT cartID FROM Cart WHERE customerID = ?";
@@ -30,6 +30,7 @@ if ($resultCheckCart->num_rows === 0) {
     }
     $stmtCreateCart->close();
 
+
     // Re-run the query to get the newly created cartID
     $stmtCheckCart->execute();
     $resultCheckCart = $stmtCheckCart->get_result();
@@ -54,16 +55,19 @@ if ($resultCheckCart->num_rows > 0) {
     $stmtCartItems->execute();
     $resultCartItems = $stmtCartItems->get_result();
 
+
     if ($resultCartItems->num_rows > 0) {
         while ($row = $resultCartItems->fetch_assoc()) {
             $cartItems[] = $row;
             $totalPrice += $row['Price'] * $row['quantity'];
         }
     }
-    $totalPrice = 0;
-    foreach ($cartItems as $item) {
-        $totalPrice += $item['Price'] * $item['quantity'];
-    }
+
+    /*
+   $totalPrice = 0;
+   foreach ($cartItems as $item) {
+       $totalPrice += $item['Price'] * $item['quantity'];
+   }*/
     $_SESSION['total_price'] = $totalPrice; // Store in session
 
     $stmtCartItems->close();
@@ -73,6 +77,9 @@ if ($resultCheckCart->num_rows > 0) {
 }
 
 $stmtCheckCart->close();
+
+
+
 
 ?>
 
@@ -136,11 +143,11 @@ $stmtCheckCart->close();
 
         <nav class="link-section">
             <div class="icons">
-                <a href="wishlist.html">
+                <a href="wishlist.php">
                     <img src="images/love.png" alt="Wishlist" id="wishlist-icon">
                     <p>Wishlist</p>
                 </a>
-                <a href="cart.html">
+                <a href="cart.php">
                     <img src="images/cart.png" alt="Cart" id="cart-icon">
                     <p>Cart</p>
                 </a>
@@ -179,7 +186,8 @@ $stmtCheckCart->close();
                 <p>Your cart is empty.</p>
             <?php else: ?>
                 <?php foreach ($cartItems as $item): ?>
-                    <div class="cart-item"><!--src="uploads/-->
+                    <div class="cart-item">
+                        <!--src="uploads/-->
                         <img src="uploads/<?php echo htmlspecialchars($item['cover']); ?>" alt="<?php echo htmlspecialchars($item['Title']); ?>">
                         <div class="item-details">
                             <h3><?php echo htmlspecialchars($item['Title']); ?></h3>
@@ -191,7 +199,7 @@ $stmtCheckCart->close();
                                 <button class="quantity-btn" onclick="incrementQuantity(this)">+</button>
                             </div>
                         </div>
-                        <button class="remove-btn" onclick="removeItem(this, '<?php echo $item['ISBN']; ?>')">Remove</button>
+                        <button class="remove-btn"  onclick="removeItem(this, '<?php echo $item['ISBN']; ?>')">Remove</button>
                     </div>
                 <?php endforeach; ?>
             <?php endif; ?>
@@ -253,6 +261,29 @@ $stmtCheckCart->close();
     </div>
 </main>
 <script>
+
+    function removeItem(button, isbn) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "removeCart.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onload = function() {
+
+            button.closest('.cart-item').remove();
+            updateCartTotal();//
+            console.log("Response Success");
+            console.log("Removing item:", button.closest('.cart-item'));
+            button.closest('.cart-item').remove();
+            console.log("Item removed.");
+            updateCartTotal();
+        };
+        xhr.send("cartId=" + <?php echo $_SESSION['customerID']; ?> + "&isbn=" + isbn);
+        location.reload();
+
+    }
+
+
+
+
     function updateCartTotal() {
         let itemCount = 0;
         let subtotal = 0;
@@ -283,10 +314,12 @@ $stmtCheckCart->close();
         }
     }
 
-    function removeItem(button) {
-        button.closest('.cart-item').remove();
-        updateCartTotal();
-    }
+    /*
+        function removeItem(button) {
+            button.closest('.cart-item').remove();
+            updateCartTotal();
+        }
+    */
 
     document.addEventListener('DOMContentLoaded', updateCartTotal);
 </script>

@@ -42,7 +42,9 @@ if ($resultGetCart->num_rows > 0) {
         $stmtInsert->close();
     }
 
+
     echo "Item added to cart";
+
 } else {
     echo "Cart not found";
 }

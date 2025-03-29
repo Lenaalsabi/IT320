@@ -50,11 +50,11 @@ $book = $result->fetch_assoc();
 
         <nav class="link-section">
             <div class="icons">
-                <a href="wishlist.html">
+                <a href="wishlist.php">
                     <img src="images/love.png" alt="Wishlist" id="wishlist-icon">
                     <p>Wishlist</p>
                 </a>
-                <a href="cart.html">
+                <a href="cart.php">
                     <img src="images/cart.png" alt="Cart" id="cart-icon">
                     <p>Cart</p>
                 </a>
@@ -65,7 +65,7 @@ $book = $result->fetch_assoc();
                     </a>
                     <div class="profile-dropdown">
                         <a href="profile.php">Update Profile</a>
-                        <a href="orders.html">My Orders</a>
+                        <a href="orders.php">My Orders</a>
                     </div>
                 </div>
                 <a href="books.php">
@@ -96,9 +96,7 @@ $book = $result->fetch_assoc();
         </p>
 
         <br>
-        <button class="add"  data-isbn="<?php echo $book['ISBN']; ?>">ADD TO CART ＋</button>
-
-        <!--   <button class="add" onclick="window.location.href='cart.php'">ADD TO CART ＋</button>-->
+        <button class="add" onclick="window.location.href='cart.php'"  data-isbn="<?php echo $book['ISBN']; ?>">ADD TO CART ＋</button>
         <button class="borrow" onclick="window.location.href='borrowing.html'">BORROW IT </button>
     </div>
 
@@ -161,6 +159,7 @@ $book = $result->fetch_assoc();
                         },
                         body: `isbn=${isbn}&quantity=${quantity}`
                     })
+
                         .then(response => response.text())
                         .then(data => {
                             console.log(data); // Handle response (e.g., show a message)
@@ -175,6 +174,7 @@ $book = $result->fetch_assoc();
             });
         });
     });
+
 
 </script>
 
