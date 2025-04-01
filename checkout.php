@@ -1,10 +1,8 @@
 <?php
-include 'db_connect.php';
 include 'auth.php';
-
+include 'db_connect.php';
 
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -258,6 +256,7 @@ include 'auth.php';
             <!-- Payment Section -->
             <div class="card" id="payment-section">
                 <h2>Payment</h2>
+
                 <!--  <input type="hidden" name="total" value="<?php echo htmlspecialchars($_GET['total']); ?>">-->
 
                 <div class="form-group">
@@ -297,7 +296,7 @@ include 'auth.php';
                     <h2>Order Confirmed!</h2>
                 </div>
                 <div class="button-container">
-                    <input id="submit0" style="width: 205px; height: 50px;" type="submit" value="Back to Home Page" onclick="window.location.href='homebage2.php'"><br>
+                    <input id="submit0" name="pays" style="width: 205px; height: 50px;" type="submit" value="Back to Home Page" onclick="window.location.href='homebage2.php'"><br>
                 </div>
             </div>
         </form>

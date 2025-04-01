@@ -1,6 +1,6 @@
 <?php
-include 'db_connect.php';
 include 'auth.php';
+include 'db_connect.php';
 
 $userId = $_SESSION['customerID'];
 
@@ -117,6 +117,7 @@ $stmtCheckCart->close();
             background-color: #f2cc8f;
         }
     </style>
+
 </head>
 <body>
 <header>
@@ -180,6 +181,7 @@ $stmtCheckCart->close();
         <div class="horizontal-line"></div>
     </div>
     <div class="cart-content cart-container">
+
         <div class="cart-items">
 
             <?php if (empty($cartItems)): ?>
@@ -238,27 +240,55 @@ $stmtCheckCart->close();
         </div>
 
         <div class="cart-summary">
-            <h2>Order Summary</h2>
-            <div class="summary-item">
-                <span>Items</span>
-                <span id="items-count"><?php echo count($cartItems); ?></span>
-                <!--  <span id="items-count">2</span>-->
-            </div>
-            <div class="summary-item">
-                <span>Subtotal</span>
-                <span id="subtotal"><span><img src="images/riyal-removebg-preview.png" style="width:14px;height:14px;"></span> <?php echo number_format($totalPrice, 2); ?></span>
+            <form action="order_items.php" method="POST">
 
-                <!--   <span id="subtotal"><span><img src="images/riyal-removebg-preview.png" style="width:14px;height:14px;"></span> 90.00</span>-->
-            </div>
-            <div class="summary-item total">
-                <span>Total</span>
-                <span id="total"><span><img src="images/riyal-removebg-preview.png" style="width:14px;height:14px;"></span> <?php echo number_format($totalPrice, 2); ?></span>
+                <h2>Order Summary</h2>
+                <div class="summary-item">
+                    <span>Items</span>
+                    <span id="items-count"><?php echo count($cartItems); ?></span>
+                    <!--  <span id="items-count">2</span>-->
+                </div>
+                <div class="summary-item">
+                    <span>Subtotal</span>
+                    <span id="subtotal"><span><img src="images/riyal-removebg-preview.png" style="width:14px;height:14px;"></span> <?php echo number_format($totalPrice, 2); ?></span>
+                    <!--   <span id="subtotal"><span><img src="images/riyal-removebg-preview.png" style="width:14px;height:14px;"></span> 90.00</span>-->
+                </div>
+                <div class="summary-item total">
+                    <span>Total</span>
+                    <span id="total"><span><img src="images/riyal-removebg-preview.png" style="width:14px;height:14px;"></span> <?php echo number_format($totalPrice, 2); ?></span>
+                    <!-- <span id="total"><span><img src="images/riyal-removebg-preview.png" style="width:14px;height:14px;"></span> 90.00</span>-->
+                </div>
 
-                <!-- <span id="total"><span><img src="images/riyal-removebg-preview.png" style="width:14px;height:14px;"></span> 90.00</span>-->
-            </div>
-            <button class="button primary checkout-btn" onclick="window.location.href='checkout.php'">Checkout</button>
+                <button class="button primary checkout-btn" onclick="windows.location.href='checkout.php'" name="checkout">Checkout</button>
+                <!--     <button class="button primary checkout-btn" onclick="window.location.href='checkout.php'">Checkout</button>-->
+            </form>
         </div>
     </div>
+
+
+    <footer>
+        <div class="footer-section footer-logo">
+            <img src="images/logo.png" alt="footer-logo" width="320" >
+        </div>
+        <div class="footer-section social-media">
+            <h3>SOCIAL MEDIA</h3>
+            <ul class="social-icons">
+                <li><a href="#"><img src="images/twitter.png" alt="Twitter"></a></li>
+                <li><a href="#"><img src="images/facebook.png" alt="Facebook"></a></li>
+                <li><a href="#"><img src="images/insta.png" alt="Instagram"></a></li>
+                <li>@official_mawj</li>
+            </ul>
+        </div>
+        <div class="footer-section contact-us">
+            <h3>CONTACT US</h3>
+            <ul>
+                <li><a href="#"><img src="images/phone1.png" alt="Phone"> +123 165 788</a></li>
+                <li><a href="mailto:@mawj@gmail.com"><img src="images/email1.png" alt="Email"> mawj@gmail.com</a></li>
+            </ul>
+
+        </div>
+
+    </footer>
 </main>
 <script>
 
