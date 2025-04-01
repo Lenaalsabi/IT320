@@ -1,6 +1,7 @@
 <?php
 include 'auth.php';
 include 'db_connect.php';
+$currentDate = date('Y-m-d'); // Get current date in YYYY-MM-DD format
 
 ?>
 
@@ -273,7 +274,7 @@ include 'db_connect.php';
                 </div>
                 <div class="form-group">
                     <label for="expiry">Expiry Date</label>
-                    <input name="expiry" type="text" id="expiry" required placeholder="YYYY-MM-DD">
+                    <input name="expiry" type="date" id="expiry" min="<?php echo $currentDate; ?>" required>
                 </div>
 
 
@@ -326,6 +327,7 @@ include 'db_connect.php';
 </footer>
 
 <script>
+
 
     // Initialize Mapbox
     mapboxgl.accessToken = 'pk.eyJ1IjoibHVjeTE5MiIsImEiOiJjbTgwOWNzMXowcm1oMmpzYTg4a2F2emNqIn0.f3QS2n20H8D3HpKnOfDdCg';

@@ -21,6 +21,7 @@ if (isset($_POST['cartId']) && isset($_POST['isbn'])) {
 
     $stmt->close();
     $connection->close();
+    header("Location:cart.php");
 } else {
     echo "invalid request";
 }

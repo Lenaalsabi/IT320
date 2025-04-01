@@ -81,6 +81,42 @@ $stmtCheckCart->close();
 
 
 
+
+
+//
+//
+// **CRITICAL: Process Quantity Updates BEFORE HTML Output**
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'update_quantity') {
+    $isbn = $_POST['isbn'];
+    $quantity = $_POST['quantity'];
+
+    // Validate quantity
+    if (!is_numeric($quantity) || $quantity < 1) {
+        $quantity = 1;
+    }
+
+    // Increment/decrement
+    if (isset($_POST['increment'])) {
+        $quantity = $quantity + 1; // correct way to increment
+    } elseif (isset($_POST['decrement'])) {
+        $quantity = $quantity - 1; // correct way to decrement
+        if ($quantity < 1) {
+            $quantity = 1;
+        }
+    }
+
+    // Update database
+    $sqlUpdateQuantity = "UPDATE cart_items SET quantity = ? WHERE cartID = ? AND ISBN = ?";
+    $stmtUpdateQuantity = $connection->prepare($sqlUpdateQuantity);
+    $stmtUpdateQuantity->bind_param("iis", $quantity, $cartId, $isbn);
+    $stmtUpdateQuantity->execute();
+    $stmtUpdateQuantity->close();
+
+    // Redirect (VERY IMPORTANT)
+    header("Location: cart.php");
+    exit;  // Stop further execution!
+}
+
 ?>
 
 
@@ -195,11 +231,16 @@ $stmtCheckCart->close();
                             <h3><?php echo htmlspecialchars($item['Title']); ?></h3>
                             <p><?php echo htmlspecialchars($item['Author']); ?></p>
                             <p class="price"><span><img src="images/riyal-removebg-preview.png" style="width:14px;height:14px;margin-right:0;"></span> <?php echo number_format($item['Price'], 2); ?></p>
-                            <div class="quantity-controls">
-                                <button class="quantity-btn" onclick="decrementQuantity(this)">-</button>
-                                <input type="number" value="<?php echo $item['quantity']; ?>" min="1" class="quantity-input" onchange="updateCartTotal()">
-                                <button class="quantity-btn" onclick="incrementQuantity(this)">+</button>
-                            </div>
+                            <form action="cart.php" method="POST">
+
+                                <input type="hidden" name="action" value="update_quantity">
+                                <input type="hidden" name="isbn" value="<?php echo htmlspecialchars($item['ISBN']); ?>">
+
+                                <div class="quantity-controls">
+                                    <button type="submit" class="quantity-btn" name="decrement" value="1"  >-</button>
+                                    <input type="number"   name="quantity" value="<?php echo $item['quantity']; ?>" min="1" class="quantity-input" onchange="this.form.submit()" onchange="updateCartTotal()">
+                                    <button type="submit" class="quantity-btn" name="increment" value="1" >+</button>
+                                </div></form>
                         </div>
                         <button class="remove-btn"  onclick="removeItem(this, '<?php echo $item['ISBN']; ?>')">Remove</button>
                     </div>
@@ -264,8 +305,6 @@ $stmtCheckCart->close();
             </form>
         </div>
     </div>
-
-
     <footer>
         <div class="footer-section footer-logo">
             <img src="images/logo.png" alt="footer-logo" width="320" >
