@@ -676,20 +676,29 @@ function openEditForm(orderID, orderType, orderStatus, startDate, endDate, addre
     if (addressField) addressField.value = address;
 
 
-    if (startDateField) startDateField.disabled = true;
+    //if (startDateField) startDateField.disabled = true;
 
     // التحكم في الحقول حسب نوع الطلب وحالته
     endDateField.disabled = false;
     addressField.disabled = false;
 
     if (orderType === 'Borrow' && orderStatus === 'Delivered') {
-        addressField.disabled = true;  // تعطيل الحقل address في حال كانت الحالة Delivered
+        addressField.disabled = true;  
+        startDateField.disabled = true;
+        
+    }    else if (orderType === 'Purchase' && orderStatus === 'Delivered'){
+        addressField.disabled = true; 
+         endDateField.disabled = true;  // تعطيل حقل endDate في حال كانت نوع الطلب Purchase
+        startDateField.disabled = true;
+ 
     } else if (orderType === 'Purchase') {
         endDateField.disabled = true;  // تعطيل حقل endDate في حال كانت نوع الطلب Purchase
+        startDateField.disabled = true;
+ 
+ 
+    } else if (orderType === 'Borrow' && orderStatus === 'Pending' || orderStatus === 'Shipped'){
+            startDateField.disabled = false;
     }
-    
-    if (orderType === 'Purchase' && orderStatus === 'Delivered') {
-        addressField.disabled = true;}
         
     // إظهار الفورم في نفس مكانه السابق
     if (modal) modal.style.display = 'block';
@@ -707,6 +716,7 @@ window.onclick = function(event) {
         modal.style.display = "none";
     }
 };
+    
       
 </script>
 
