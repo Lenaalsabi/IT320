@@ -96,7 +96,9 @@ $book = $result->fetch_assoc();
         </p>
 
         <br>
-        <button class="add" onclick="window.location.href='cart.php'"  data-isbn="<?php echo $book['ISBN']; ?>">ADD TO CART ＋</button>
+        <button class="add"   data-isbn="<?php echo $book['ISBN']; ?>">ADD TO CART ＋</button>
+
+        <!--<button class="add" onclick="window.location.href='cart.php'"  data-isbn="<?php echo $book['ISBN']; ?>">ADD TO CART ＋</button>-->
         <button class="borrow" onclick="window.location.href='borrowing.html'">BORROW IT </button>
     </div>
 
@@ -140,7 +142,7 @@ $book = $result->fetch_assoc();
 <script>
 
     document.addEventListener('DOMContentLoaded', function() {
-        const addToCartButtons = document.querySelectorAll('.add'); // Use a more specific name
+        const addToCartButtons = document.querySelectorAll('.add');
 
         addToCartButtons.forEach(button => {
             button.addEventListener('click', function(event) {
@@ -163,7 +165,8 @@ $book = $result->fetch_assoc();
                         .then(response => response.text())
                         .then(data => {
                             console.log(data); // Handle response (e.g., show a message)
-                            // Optionally, update the cart count or provide visual feedback
+                            alert("item is added to the cart!");
+
                         })
                         .catch(error => {
                             console.error('Error:', error);

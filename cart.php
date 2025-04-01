@@ -22,7 +22,7 @@ if ($resultCheckCart->num_rows === 0) {
     if ($stmtCreateCart->affected_rows > 0) {
         // Cart created successfully
         $cartId = $connection->insert_id; // Get the newly created cartID
-        echo "Cart created for user.";
+        // echo "Cart created for user.";
     } else {
         // Cart creation failed
         echo "Error creating cart.";
