@@ -4,7 +4,7 @@ error_reporting(E_ALL);
 
 include'auth.php';
 include 'db_connect.php'; // Include the database connection
-include'update_orders.php'; //status updating
+include'update_orders.php'; //status updating every 3 days
 
 if (!isset($_SESSION['customerID'])) {
     header("Location: homepage.html"); // Redirect to homepage if not logged in
@@ -85,7 +85,8 @@ $result_past = $stmt_past->get_result();
     color: white; /* White text */
     font-size: 17px; /* Font size */
     font-weight: bold; /* Make the text bold */
-    width: 180px; /* تحديد عرض ثابت */
+    width: 30%;
+    max-width: 180px; /* تحديد عرض ثابت */
     height: 35px; /* تحديد ارتفاع ثابت */
     border: none; /* Remove default border */
     border-radius: 5px; /* Rounded corners */
@@ -116,7 +117,8 @@ $result_past = $stmt_past->get_result();
     color: white; /* White text */
     font-size: 17px; /* Font size */
     font-weight: bold; /* Make the text bold */
-    width: 180px; /* تحديد عرض ثابت */
+    width: 30%;
+    max-width: 180px; /* تحديد عرض ثابت */
     height: 35px; /* تحديد ارتفاع ثابت */
     border: none; /* Remove default border */
     border-radius: 5px; /* Rounded corners */
@@ -144,7 +146,8 @@ $result_past = $stmt_past->get_result();
     color: white; /* White text */
     font-size: 17px; /* Font size */
     font-weight: bold; /* Make the text bold */
-    width: 180px; /* تحديد عرض ثابت */
+    width: 30%;
+    max-width: 180px; /* تحديد عرض ثابت */
     height: 35px; /* تحديد ارتفاع ثابت */
     border: none; /* Remove default border */
     border-radius: 5px; /* Rounded corners */
@@ -170,12 +173,13 @@ $result_past = $stmt_past->get_result();
         
     
  .edit-order-btn {
-   background-color: rgb(232, 160, 152); /* Red background */
+    background-color: rgb(232, 160, 152); /* Red background */
     color: white; /* White text */
     font-size: 17px; /* Font size */
     font-weight: bold; /* Make the text bold */
-    width: 180px; /* تحديد عرض ثابت */
-    height: 35px; /* تحديد ارتفاع ثابت */
+    width: 30%; /* Set width as a percentage of the parent container */
+    max-width: 180px; /* Limit the width to 180px */
+    height: 35px; /* Fixed height */
     border: none; /* Remove default border */
     border-radius: 5px; /* Rounded corners */
     cursor: pointer; /* Change cursor to pointer on hover */
@@ -183,19 +187,21 @@ $result_past = $stmt_past->get_result();
     display: flex;
     align-items: center;
     justify-content: center;
-     position: absolute;
-    right: 20px; /* تحريك الزر إلى أقصى اليمين */
+    position: absolute;
+    right: 20px; /* Move button to the far right */
     top: 80px;
-        }
-        
-            .edit-order-btn:hover {
-            background-color: #F8D49D;
-            color: white;
-        }
-        .edit-order-container{
-             display: flex;
-    justify-content: flex-end;  
-        }
+}
+
+.edit-order-btn:hover {
+    background-color: #F8D49D;
+    color: white;
+}
+
+.edit-order-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
 
             .suggestions-box {
     position: absolute;
@@ -445,7 +451,7 @@ $result_past = $stmt_past->get_result();
                 </p>
                 <p class="order-date">Order Date: <?php echo $order['created_at']; ?></p>
 
-                 <?php if ($order['orderStatus'] !== 'Cancelled') { ?>
+<?php if ($order['orderStatus'] !== 'Cancelled' && !($order['orderType'] === 'Purchase' && $order['orderStatus'] === 'Delivered')) { ?>
             <div class="edit-order-btn-container">             
     <button class="edit-order-btn" onclick="openEditForm('<?php echo $order['orderID']; ?>',
                    '<?php echo $order['orderType']; ?>',
@@ -663,64 +669,59 @@ fetchOrders();
 function openEditForm(orderID, orderType, orderStatus, startDate, endDate, address) {
     var modal = document.getElementById('editFormContainer');
 
-    // تأكد من وجود العناصر في الـ DOM
     var orderIDField = document.getElementById('orderID');
     var startDateField = document.getElementById('startDate');
     var endDateField = document.getElementById('endDate');
     var addressField = document.getElementById('address');
 
-    // تحديث القيم في الحقول
     if (orderIDField) orderIDField.value = orderID;
     if (startDateField) startDateField.value = startDate;
     if (endDateField) endDateField.value = endDate;
     if (addressField) addressField.value = address;
 
-
-    //if (startDateField) startDateField.disabled = true;
-
-    // التحكم في الحقول حسب نوع الطلب وحالته
+    // الافتراضي: تمكين جميع الحقول
+    startDateField.disabled = false;
     endDateField.disabled = false;
     addressField.disabled = false;
 
     if (orderType === 'Borrow' && orderStatus === 'Delivered') {
-        addressField.disabled = true;  
+        addressField.disabled = true;
         startDateField.disabled = true;
-        
-    }    else if (orderType === 'Purchase' && orderStatus === 'Delivered'){
-        addressField.disabled = true; 
-         endDateField.disabled = true;  // تعطيل حقل endDate في حال كانت نوع الطلب Purchase
+    } 
+    else if (orderType === 'Purchase' && orderStatus === 'Delivered') {
+        addressField.disabled = true;
+        endDateField.disabled = true;
         startDateField.disabled = true;
- 
-    } else if (orderType === 'Purchase') {
-        endDateField.disabled = true;  // تعطيل حقل endDate في حال كانت نوع الطلب Purchase
+    } 
+    else if (orderType === 'Purchase') {
+        endDateField.disabled = true;  
         startDateField.disabled = true;
- 
- 
-    } else if (orderType === 'Borrow' && orderStatus === 'Pending' || orderStatus === 'Shipped'){
-            startDateField.disabled = false;
+
+        // ✅ السماح بتعديل العنوان فقط في حالة Pending أو Shipped
+        if (orderStatus === 'Pending' || orderStatus === 'Shipped') {
+            addressField.disabled = false;  
+        }
+    } 
+    else if (orderType === 'Borrow' && (orderStatus === 'Pending' || orderStatus === 'Shipped')) {
+        startDateField.disabled = false;
     }
-        
-    // إظهار الفورم في نفس مكانه السابق
+    
+    
+
     if (modal) modal.style.display = 'block';
 }
 
+// دالة لإغلاق الفورم
 function closeEditForm() {
     var modal = document.getElementById('editFormContainer');
-    if (modal) modal.style.display = 'none';
-}
-
-// إغلاق الفورم عند النقر خارج الفورم
-window.onclick = function(event) {
-    var modal = document.getElementById('editFormContainer');
-    if (modal && event.target === modal) {
-        modal.style.display = "none";
+    if (modal) {
+        modal.style.display = 'none';  // إخفاء النموذج
     }
-};
+}
     
-      
 </script>
-
 
 
 </body>
 </html>
+ 
