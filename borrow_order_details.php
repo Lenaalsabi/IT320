@@ -1,41 +1,93 @@
 <?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-// تأكد من الاتصال بقاعدة البيانات
-require 'db_connect.php'; 
+require 'db_connect.php';
 
-// الحصول على معرف الطلب من الرابط
 $orderID = isset($_GET['orderID']) ? intval($_GET['orderID']) : 0;
+$order = null;
 
 if ($orderID > 0) {
-    // جلب تفاصيل الطلب
-    $sql_order = "SELECT orderID, created_at, address, status, totalPrice 
-                  FROM orders WHERE orderID = ?";
+    // 🔹 جلب بيانات الطلب
+    $sql_order = "SELECT orderID, created_at, address, status, totalPrice FROM orders WHERE orderID = ?";
     $stmt_order = $connection->prepare($sql_order);
     $stmt_order->bind_param('i', $orderID);
     $stmt_order->execute();
     $result_order = $stmt_order->get_result();
-    $order = $result_order->fetch_assoc();
 
-    // جلب العناصر المتعلقة بالطلب
-    $sql_items = "SELECT b.cover, b.title, o.ISBN, o.type, o.quantity, o.startDate, o.endDate, o.totalPrice, o.status 
-                  FROM order_items o
-                  JOIN book b ON o.ISBN = b.ISBN
-                  WHERE o.orderID = ?";
-    $stmt_items = $connection->prepare($sql_items);
-    $stmt_items->bind_param('i', $orderID);
-    $stmt_items->execute();
-    $result_items = $stmt_items->get_result();
-    
+    if ($result_order->num_rows > 0) {
+        $order = $result_order->fetch_assoc();
+
+        // 🔹 تحديث الحالة إلى 'borrowed' عند تسليم الطلب
+        if ($order['status'] === 'Delivered') {
+            $sql_update = "UPDATE order_items SET status = 'Borrowed' WHERE orderID = ? AND (status IS NULL OR status = '')";
+            $stmt_update = $connection->prepare($sql_update);
+            $stmt_update->bind_param('i', $orderID);
+            $stmt_update->execute();
+        }
+
+        // 🔹 تحديث الحالة إلى 'overdue' إذا تجاوز تاريخ الانتهاء
+        $sql_overdue = "UPDATE order_items SET status = 'Overdue' WHERE orderID = ? AND status = 'Borrowed' AND endDate < CURDATE()";
+        $stmt_overdue = $connection->prepare($sql_overdue);
+        $stmt_overdue->bind_param('i', $orderID);
+        $stmt_overdue->execute();
+
+        // 🔹 جلب بيانات الكتب في الطلب
+        $sql_items = "SELECT b.cover, b.title, o.ISBN, o.type, o.quantity, o.startDate, o.endDate, o.totalPrice, o.status 
+                      FROM order_items o
+                      JOIN book b ON o.ISBN = b.ISBN
+                      WHERE o.orderID = ?";
+        $stmt_items = $connection->prepare($sql_items);
+        $stmt_items->bind_param('i', $orderID);
+        $stmt_items->execute();
+        $result_items = $stmt_items->get_result();
+
+        // 🔹 التحقق من كل عنصر وتحديث حالته
+        $currentDate = date('Y-m-d');
+
+        while ($item = $result_items->fetch_assoc()) {
+            $itemStatus = $item['status'];
+            $endDate = $item['endDate'];
+
+            if ($order['status'] == 'Delivered') {
+                if ($itemStatus != 'Returned') { // لا تعدل المرتجعة
+                    if ($currentDate > $endDate) {
+                        $newStatus = 'Overdue';
+                    } elseif ($currentDate <= $endDate && $itemStatus == 'Overdue') {
+                        $newStatus = 'Borrowed'; // إرجاع الحالة إلى Borrowed إذا تم تعديل endDate
+                    } else {
+                        $newStatus = $itemStatus; // لا تغيير
+                    }
+
+                    // تحديث الحالة في قاعدة البيانات إذا تغيرت
+                    if ($newStatus != $itemStatus) {
+                        $updateSql = "UPDATE order_items SET status = ? WHERE orderID = ? AND ISBN = ?";
+                        $updateStmt = $connection->prepare($updateSql);
+                        if ($updateStmt) {
+                            $updateStmt->bind_param('sis', $newStatus, $orderID, $item['ISBN']);
+                            $updateStmt->execute();
+                        }
+                    }
+                }
+            }
+        }
+
+        // 🔄 إعادة تنفيذ الاستعلام بعد التحديث
+        $stmt_items->execute();
+        $result_items = $stmt_items->get_result();
+    } else {
+        echo "No order found with this ID.";
+    }
+} else {
+    echo "Invalid order ID.";
 }
 ?>
 
+
+
 <!DOCTYPE html>
-<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Orders Details - موج</title>
+<html lang="en">
+ <title>Orders Details - موج</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -115,7 +167,7 @@ if ($orderID > 0) {
 </style>
 </head>
 <body>
-    <header>
+ <header>
         <div class="header">
             <div class="logo-section">
                 <div class="horizontal-line"></div>
@@ -162,25 +214,16 @@ if ($orderID > 0) {
         </div>
     </header>
 
- <main>
-    <div class="orders-details-container">
-        <div class="title-section">
-            <div class="horizontal-line"></div>
-            <div class="title">
-                <h1 class="page-title">Order Details</h1>
-            </div>
-            <div class="horizontal-line"></div>
-        </div>
-
-        
-        
+    <main>
+        <div class="orders-details-container">
+            <h1 class="page-title">Order Details</h1>
             <?php if ($order): ?>
                 <div class="order-info">
                     <p><strong>Order ID:</strong> <?php echo $order['orderID']; ?></p>
                     <p><strong>Order Date:</strong> <?php echo $order['created_at']; ?></p>
                     <p><strong>Delivery Address:</strong> <?php echo $order['address']; ?></p>
                     <p><strong>Status:</strong> <?php echo $order['status']; ?></p>
-                    <p><strong>Total Price:</strong> <?php echo number_format($order['totalPrice'], 2); ?> <span><img src="images/riyal-removebg-preview.png" style="width:14px;height:14px;"></span></p>
+                    <p><strong>Total Price:</strong> <?php echo number_format($order['totalPrice'], 2); ?></p>
                 </div>
 
                 <h3 class="order-items-title">Order Items</h3>
@@ -191,7 +234,7 @@ if ($orderID > 0) {
                             <th>Title</th>
                             <th>ISBN</th>
                             <th>Quantity</th>
-                            <th>Order Type</th>                            
+                            <th>Order Type</th>
                             <th>Item Price</th>
                             <th>Start Date</th>
                             <th>End Date</th>
@@ -201,15 +244,19 @@ if ($orderID > 0) {
                     <tbody>
                         <?php while ($item = $result_items->fetch_assoc()): ?>
                             <tr>
-                                <td><img src="images/<?php echo $item['cover']; ?>" alt="Book Cover" class="book-cover"></td>
+                                <td><img src="images/<?php echo $item['cover']; ?>" alt="Book Cover"></td>
                                 <td><?php echo $item['title']; ?></td>
                                 <td><?php echo $item['ISBN']; ?></td>
                                 <td><?php echo $item['quantity']; ?></td>
                                 <td><?php echo $item['type']; ?></td>
-                                <td><?php echo number_format($item['totalPrice'], 2); ?> <span><img src="images/riyal-removebg-preview.png" style="width:14px;height:14px;"></span></td>
+                                <td><?php echo number_format($item['totalPrice'], 2); ?></td>
                                 <td><?php echo $item['startDate']; ?></td>
                                 <td><?php echo $item['endDate']; ?></td>
-                                <td><?php echo $item['status']; ?></td>
+                                <td>
+                                    <?php if ($order['status'] === 'Delivered'): ?>
+                                        <?php echo $item['status']; ?>
+                                    <?php endif; ?>
+                                </td>
                             </tr>
                         <?php endwhile; ?>
                     </tbody>
@@ -218,9 +265,9 @@ if ($orderID > 0) {
                 <p>No order found with this ID.</p>
             <?php endif; ?>
         </div>
-</main>
+    </main>
 
-         <footer>
+       <footer>
         <div class="footer-section footer-logo">
             <img src="images/logo.png" alt="footer-logo" width="320">
         </div>
