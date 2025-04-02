@@ -4,7 +4,7 @@ error_reporting(E_ALL);
 
 include'auth.php';
 include 'db_connect.php'; // Include the database connection
-include'update_orders.php'; //status updating every 3 days
+include'update_orders.php'; //status updating
 
 if (!isset($_SESSION['customerID'])) {
     header("Location: homepage.html"); // Redirect to homepage if not logged in
@@ -374,6 +374,7 @@ $result_past = $stmt_past->get_result();
                 </p>
                 <p class="order-date">Order Date: <?php echo $order['created_at']; ?></p>
 
+<?php  if ($order['orderType'] !== 'Purchase') {  ?>  
                 <div class="edit-order-btn-container">                                            
 <button class="edit-order-btn" onclick="openEditForm('<?php echo $order['orderID']; ?>',
                                '<?php echo $order['orderType']; ?>',
@@ -402,7 +403,7 @@ $result_past = $stmt_past->get_result();
         <button type="button" onclick="closeEditForm()">Cancel</button>
     </form>
 </div>
-                
+  <?php } ?>                
                 <!-- Button to show order details -->
                 <div class="order-details-btn-container">
                 <?php
@@ -420,7 +421,7 @@ $result_past = $stmt_past->get_result();
                                 <!-- Button to cancel the order if status is 'Pending' -->
                 <?php if ($order['orderStatus'] == 'Pending'): ?>
                     <div class="cancel-order-container">
-                        <button class="cancel-order-btn" onclick="cancelOrder(<?php echo $order['orderID']; ?>)">Cancel Reservation</button>
+                        <button class="cancel-order-btn" onclick="cancelOrder(<?php echo $order['orderID']; ?>)">Cancel</button>
                     </div>
                 <?php endif; ?>
              
@@ -451,7 +452,9 @@ $result_past = $stmt_past->get_result();
                 </p>
                 <p class="order-date">Order Date: <?php echo $order['created_at']; ?></p>
 
-<?php    if ($order['orderStatus'] !== 'Cancelled' && !($order['orderStatus'] === 'Delivered' && $order['orderType'] === 'Borrow' && $order['itemStatus'] === 'Returned')) { ?>
+<?php  
+if ($order['orderType'] !== 'Purchase' && $order['orderStatus'] !== 'Cancelled' && !($order['orderStatus'] === 'Delivered' && $order['orderType'] === 'Borrow' && $order['itemStatus'] === 'Returned')) { 
+?>  
             <div class="edit-order-btn-container">             
     <button class="edit-order-btn" onclick="openEditForm('<?php echo $order['orderID']; ?>',
                    '<?php echo $order['orderType']; ?>',
@@ -487,7 +490,7 @@ $result_past = $stmt_past->get_result();
                 <?php if ($order['orderType'] == 'Borrow' && $order['itemStatus'] != 'Returned' && $order['orderStatus'] == 'Delivered'): ?>
                     <div class="return-button-container">
                         <form method="post" action="return_item.php?orderID=<?php echo $order['orderID']; ?>">
-                            <button type="submit" class="return-button">Return Item</button>
+                            <button type="submit" class="return-button">Return</button>
                         </form>
                     </div>
                 <?php endif; ?>
@@ -684,29 +687,15 @@ function openEditForm(orderID, orderType, orderStatus, startDate, endDate, addre
     endDateField.disabled = false;
     addressField.disabled = false;
 
+    // إذا كان الطلب استعارة (Borrow) وتم تسليمه، امنع تعديل العنوان وتاريخ البداية
     if (orderType === 'Borrow' && orderStatus === 'Delivered') {
         addressField.disabled = true;
         startDateField.disabled = true;
     } 
-    else if (orderType === 'Purchase' && orderStatus === 'Delivered') {
-        addressField.disabled = true;
-        endDateField.disabled = true;
-        startDateField.disabled = true;
-    } 
-    else if (orderType === 'Purchase') {
-        endDateField.disabled = true;  
-        startDateField.disabled = true;
-
-        // ✅ السماح بتعديل العنوان فقط في حالة Pending أو Shipped
-        if (orderStatus === 'Pending' || orderStatus === 'Shipped') {
-            addressField.disabled = false;  
-        }
-    } 
+    // إذا كان الطلب استعارة (Borrow) وفي حالة Pending أو Shipped، اسمح بتعديل تاريخ البداية
     else if (orderType === 'Borrow' && (orderStatus === 'Pending' || orderStatus === 'Shipped')) {
         startDateField.disabled = false;
     }
-    
-    
 
     if (modal) modal.style.display = 'block';
 }
@@ -718,7 +707,7 @@ function closeEditForm() {
         modal.style.display = 'none';  // إخفاء النموذج
     }
 }
-    
+
 </script>
 
 
