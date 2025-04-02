@@ -451,7 +451,7 @@ $result_past = $stmt_past->get_result();
                 </p>
                 <p class="order-date">Order Date: <?php echo $order['created_at']; ?></p>
 
-<?php if ($order['orderStatus'] !== 'Cancelled' && !($order['orderType'] === 'Purchase' && $order['orderStatus'] === 'Delivered')) { ?>
+<?php    if ($order['orderStatus'] !== 'Cancelled' && !($order['orderStatus'] === 'Delivered' && $order['orderType'] === 'Borrow' && $order['itemStatus'] === 'Returned')) { ?>
             <div class="edit-order-btn-container">             
     <button class="edit-order-btn" onclick="openEditForm('<?php echo $order['orderID']; ?>',
                    '<?php echo $order['orderType']; ?>',
