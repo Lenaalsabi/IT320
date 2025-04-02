@@ -7,13 +7,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $endDate = $_POST['endDate'];
     $address = $_POST['address'];
 
-    // تحديث الطلب في order_items
-    $sql_update_items = "UPDATE order_items SET startDate = ?, endDate = ? WHERE orderID = ? AND type = 'Borrow'";
+    // التحقق من القيم الفارغة للحفاظ على القيم الأصلية
+    $sql_update_items = "UPDATE order_items 
+                         SET startDate = COALESCE(NULLIF(?, ''), startDate), 
+                             endDate = COALESCE(NULLIF(?, ''), endDate) 
+                         WHERE orderID = ? AND type = 'Borrow'";
+
     $stmt_update_items = $connection->prepare($sql_update_items);
     $stmt_update_items->bind_param("ssi", $startDate, $endDate, $orderID);
-    
-    // تحديث العنوان في orders
-    $sql_update_orders = "UPDATE orders SET address = ? WHERE orderID = ?";
+
+    // تحديث العنوان فقط إذا كان هناك تغيير
+    $sql_update_orders = "UPDATE orders 
+                          SET address = COALESCE(NULLIF(?, ''), address) 
+                          WHERE orderID = ?";
+
     $stmt_update_orders = $connection->prepare($sql_update_orders);
     $stmt_update_orders->bind_param("si", $address, $orderID);
 
@@ -22,5 +29,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         echo "<script>alert('Error updating reservation.'); window.history.back();</script>";
     }
-}
+} 
 ?>
