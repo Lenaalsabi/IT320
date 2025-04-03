@@ -79,7 +79,8 @@ $book = $result->fetch_assoc();
 
 <br>
 <div class="book_container">
-    <button class="wishlist-btn" style="background-color: transparent; font-size: 37px; right: -30px; top:203px;" onclick="toggleWishlist(this)">♥</button>
+<button class="wishlist-btn" style="background-color: transparent; font-size: 37px; right: -30px; top:203px;" 
+    onclick="addToWishlist('<?php echo $book['ISBN']; ?>', this)">♥</button>
 
     <div class="book_img">
         <img src="uploads/<?php echo $book['cover']; ?>" alt="book image">
@@ -181,6 +182,27 @@ $book = $result->fetch_assoc();
 
 </script>
 
+<script>
+function addToWishlist(ISBN, button) {
+    fetch('add_to_wishlist.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: `ISBN=${ISBN}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "success") {
+            button.classList.add("active");
+            alert("Added to the wishlist");
+        } else {
+            alert(data.message);
+        }
+    })
+    .catch(error => console.error("Error:", error));
+}
+</script>
 
 </body>
 </html>

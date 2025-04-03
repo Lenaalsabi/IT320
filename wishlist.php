@@ -228,7 +228,8 @@ padding-left:135px ;
                             <?php echo $row['price']; ?>
                         </p>
                         <div class="buttons">
-                            <button class="cart-btn">Add to Cart</button>
+                        <button class="cart-btn" onclick="addToCart('<?php echo $row['ISBN']; ?>')">Add to Cart</button>
+
                             <button class="remove-btn" onclick="removeFromWishlist('<?php echo $row['ISBN']; ?>', this)">Remove</button>
                         </div>
                     </div>
@@ -314,6 +315,24 @@ searchInput.addEventListener("input", function () {
             }
         });
 });
+function addToCart(isbn) {
+    fetch('add_cart.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `isbn=${isbn}&quantity=1`
+    })
+    .then(response => response.text())
+    .then(data => {
+        console.log(data);
+        alert("Item added to cart!");
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
 </script>
 </body>
 </html>
