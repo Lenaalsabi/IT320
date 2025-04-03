@@ -190,7 +190,7 @@ $currentDate = date('Y-m-d'); // Get current date in YYYY-MM-DD format
 
         <nav class="link-section">
             <div class="icons">
-                <a href="wishlist.html">
+                <a href="wishlist.php">
                     <img src="images/love.png" alt="Wishlist" id="wishlist-icon">
                     <p>Wishlist</p>
                 </a>
@@ -204,7 +204,7 @@ $currentDate = date('Y-m-d'); // Get current date in YYYY-MM-DD format
                         <p>Profile</p>
                     </a>
                     <div class="profile-dropdown">
-                        <a href="profile.php">Profile</a>
+                        <a href="profile.php">Update Profile</a>
                         <a href="orders.php">My Orders</a>
                     </div>
                 </div>
@@ -246,11 +246,11 @@ $currentDate = date('Y-m-d'); // Get current date in YYYY-MM-DD format
                 <div id="map"></div>
 
                 <!-- Hidden Inputs for Map Location -->
-                <input type="hidden" id="latitude" name="latitude" required>
-                <input type="hidden" id="longitude" name="longitude" required>
+                <input type="hidden" id="latitude" name="latitude" class="map" required>
+                <input type="hidden" id="longitude" name="longitude" class="map" required>
                 <div class="button-container">
                     <button type="button" onclick="goToSection('payment-section')">Back</button>
-                    <button type="button" onclick="goToSection('confirmation-section')">Next Step</button>
+                    <button type="button" id="nextBtn" onclick="validateMap()">Next Step</button><!-- onclick="goToSection('confirmation-section')"-->
                 </div>
             </div>
 
@@ -262,29 +262,26 @@ $currentDate = date('Y-m-d'); // Get current date in YYYY-MM-DD format
 
                 <div class="form-group">
                     <label for="card-number">Card Number</label>
-                    <input name="card-number" type="text" id="card-number" required placeholder="Enter card number">
+                    <input name="card-number" type="text" id="card-number" placeholder="Enter card number" class="input" >
                 </div>
                 <div class="form-group">
                     <label for="card-name">Name on card</label>
-                    <input name="card-name" type="text" id="card-name" required placeholder="John Doe">
+                    <input name="card-name" type="text" id="card-name" placeholder="John Doe" class="input">
                 </div>
                 <div class="form-group">
                     <label for="cvv">CVV</label>
-                    <input name="cvv" type="text" id="cvv" required placeholder="123">
+                    <input name="cvv" type="text" id="cvv" placeholder="123" class="input">
                 </div>
                 <div class="form-group">
                     <label for="expiry">Expiry Date</label>
-                    <input name="expiry" type="date" id="expiry" min="<?php echo $currentDate; ?>" required>
+                    <input name="expiry" type="date" id="expiry" min="<?php echo $currentDate; ?>" class="input">
                 </div>
 
 
-                <!--
-                <button id="pay1" style="display:none;" onclick="payment()" type="submit">Submit payment</button>
-                <button id="pay3"><img src="booksDetails/credit-card.gif" alt="Checked" style="border-radius:10px ; width:40px;"></button>
-                -->
-
                 <div class="button-container">
-                    <button type="button" id="pay2" onclick="goToSection('select-map')">Next Step</button>
+                    <button type="button" id="pay2" >Next Step</button>
+
+                    <!--<button type="button" id="pay2" onclick="goToSection('select-map')">Next Step</button>-->
                 </div>
             </div>
 
@@ -325,6 +322,39 @@ $currentDate = date('Y-m-d'); // Get current date in YYYY-MM-DD format
         </ul>
     </div>
 </footer>
+<script>
+    document.getElementById('pay2').addEventListener('click', function() {
+        const requiredFields = document.querySelectorAll('.input');
+        let isValid = true;
+
+        requiredFields.forEach(field => {
+            if (!field.value.trim()) {
+                isValid = false;
+                field.style.borderColor = 'red'; // Highlight empty fields
+            } else {
+                field.style.borderColor = ''; // Reset border color
+            }
+        });
+
+        if (!isValid) {
+            alert('Please fill in all required fields.');
+            return; // Stop the function, do not call goToSection
+        }
+
+        goToSection('select-map');
+    });
+</script>
+<script>function validateMap() {
+        const latitudeField = document.getElementById('latitude');
+
+        if (!latitudeField.value.trim()) {
+            alert('Please select a location on the map.');
+            return;
+        }
+
+        goToSection('confirmation-section');
+    }
+</script>
 
 <script>
 

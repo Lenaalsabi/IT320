@@ -5,7 +5,6 @@ include 'db_connect.php';
 $userId = $_SESSION['customerID'];
 
 
-// Check if user has a cart
 $sqlCheckCart = "SELECT cartID FROM Cart WHERE customerID = ?";
 $stmtCheckCart = $connection->prepare($sqlCheckCart);
 $stmtCheckCart->bind_param("i", $userId);
@@ -13,25 +12,25 @@ $stmtCheckCart->execute();
 $resultCheckCart = $stmtCheckCart->get_result();
 
 if ($resultCheckCart->num_rows === 0) {
-    // User doesn't have a cart, create one
     $sqlCreateCart = "INSERT INTO Cart (customerID) VALUES (?)";
     $stmtCreateCart = $connection->prepare($sqlCreateCart);
     $stmtCreateCart->bind_param("i", $userId);
     $stmtCreateCart->execute();
 
     if ($stmtCreateCart->affected_rows > 0) {
-        // Cart created successfully
+        // Cart created
         $cartId = $connection->insert_id; // Get the newly created cartID
+        header("Location: cart.php");
         // echo "Cart created for user.";
     } else {
-        // Cart creation failed
+        // Cart  failed
         echo "Error creating cart.";
         exit; // Stop execution
     }
     $stmtCreateCart->close();
 
 
-    // Re-run the query to get the newly created cartID
+    //
     $stmtCheckCart->execute();
     $resultCheckCart = $stmtCheckCart->get_result();
 }
@@ -85,7 +84,7 @@ $stmtCheckCart->close();
 
 //
 //
-// **CRITICAL: Process Quantity Updates BEFORE HTML Output**
+//
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'update_quantity') {
     $isbn = $_POST['isbn'];
     $quantity = $_POST['quantity'];
@@ -112,9 +111,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $stmtUpdateQuantity->execute();
     $stmtUpdateQuantity->close();
 
-    // Redirect (VERY IMPORTANT)
+    // Redirect
     header("Location: cart.php");
-    exit;  // Stop further execution!
+    exit;
 }
 
 ?>
@@ -194,7 +193,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                         <p>Profile</p>
                     </a>
                     <div class="profile-dropdown">
-                        <a href="profile.php">Profile</a>
+                        <a href="profile.php">Update Profile</a>
                         <a href="orders.php">My Orders</a>
                     </div>
                 </div>
