@@ -103,7 +103,7 @@ $result = mysqli_query($connection, $query);
                         <img src="images/love.png" alt="Wishlist" id="wishlist-icon">
                         <p>Wishlist</p>
                     </a>
-                    <a href="cart.html">
+                    <a href="cart.php">
                         <img src="images/cart.png" alt="Cart" id="cart-icon">
                         <p>Cart</p>
                     </a>

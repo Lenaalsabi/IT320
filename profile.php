@@ -44,7 +44,7 @@ mysqli_stmt_close($stmt);
                 <div class="logo-section">
                     <div class="horizontal-line"></div>
                     <div class="logo">
-                        <a href="homebage2.html">
+                        <a href="homebage2.php">
                             <img src="images/logo.png" alt=" موج Logo" id="logo">
                         </a>
                     </div>
@@ -58,7 +58,7 @@ mysqli_stmt_close($stmt);
                 <nav class="link-section">
                     <div class="icons">
                         <a href="wishlist.php"><img src="images/love.png" alt="Wishlist"><p>Wishlist</p></a>
-                        <a href="cart.html"><img src="images/cart.png" alt="Cart"><p>Cart</p></a>
+                        <a href="cart.php"><img src="images/cart.png" alt="Cart"><p>Cart</p></a>
                         <div class="profile-container2">
                             <a href="#" id="profile-icon">
                                 <img src="images/user.png" alt="Profile">

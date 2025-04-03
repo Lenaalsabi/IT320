@@ -195,7 +195,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                     </a>
                     <div class="profile-dropdown">
                         <a href="profile.php">Update Profile</a>
-                        <a href="orders.html">My Orders</a>
+                        <a href="orders.php">My Orders</a>
                     </div>
                 </div>
                 <a href="books.php">

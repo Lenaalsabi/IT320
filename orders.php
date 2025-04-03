@@ -320,7 +320,7 @@ $result_past = $stmt_past->get_result();
                         <img src="images/love.png" alt="Wishlist" id="wishlist-icon">
                         <p>Wishlist</p>
                     </a>
-                    <a href="cart.html">
+                    <a href="cart.php">
                         <img src="images/cart.png" alt="Cart" id="cart-icon">
                         <p>Cart</p>
                     </a>
@@ -331,7 +331,7 @@ $result_past = $stmt_past->get_result();
                         </a>
                         <div class="profile-dropdown">
                             <a href="profile.php">Update Profile</a>
-                            <a href="orders.html">My Orders</a>
+                            <a href="orders.php">My Orders</a>
                         </div>
                     </div>
                     <a href="books.php">
