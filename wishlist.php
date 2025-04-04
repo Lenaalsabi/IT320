@@ -193,7 +193,7 @@ padding-left:135px ;
         
             <nav class="link-section">
                 <div class="icons">
-                    <a href="wishlist.html">
+                    <a href="wishlist.php">
                         <img src="images/love.png" alt="Wishlist" id="wishlist-icon">
                         <p>Wishlist</p>
                     </a>
