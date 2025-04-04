@@ -18,7 +18,14 @@ $resultGetCart = $stmtGetCart->get_result();
 if ($resultGetCart->num_rows > 0) {
     $rowCart = $resultGetCart->fetch_assoc();
     $cartId = $rowCart['cartID'];
-
+} else {
+    $sqlCreateCart = "INSERT INTO Cart (customerID) VALUES (?)";
+    $stmtCreateCart = $connection->prepare($sqlCreateCart);
+    $stmtCreateCart->bind_param("i", $userId);
+    $stmtCreateCart->execute();
+    $cartId = $stmtCreateCart->insert_id;
+    $stmtCreateCart->close();
+}
     // Check if the item already exists in the cart
     $sqlCheck = "SELECT * FROM cart_items WHERE cartID = ? AND ISBN = ?";
     $stmtCheck = $connection->prepare($sqlCheck);
@@ -45,9 +52,7 @@ if ($resultGetCart->num_rows > 0) {
 
     echo "Item added to cart";
 
-} else {
-    echo "Cart not found";
-}
+
 
 $stmtGetCart->close();
 $connection->close();
