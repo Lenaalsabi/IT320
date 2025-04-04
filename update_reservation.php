@@ -1,5 +1,6 @@
 <?php
 require 'db_connect.php';
+include 'auth.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $orderID = intval($_POST['orderID']);

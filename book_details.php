@@ -1,6 +1,6 @@
 <?php
 include 'db_connect.php';
-
+include 'auth.php';
 if (!isset($_GET['isbn'])) {
     echo "<h2>Book not found.</h2>";
     exit();

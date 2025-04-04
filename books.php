@@ -1,6 +1,8 @@
 
 <?php
 include 'db_connect.php';
+include 'auth.php';
+
 $query = "SELECT * FROM book";
 $result = mysqli_query($connection, $query);
 ?>

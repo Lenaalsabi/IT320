@@ -2,6 +2,7 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 require 'db_connect.php';
+include 'auth.php';
 
 $orderID = isset($_GET['orderID']) ? intval($_GET['orderID']) : 0;
 $order = null;

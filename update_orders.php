@@ -5,7 +5,10 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 include('db_connect.php');
-
+if (!isset($_SESSION['customerID'])) {
+    header("Location: homepage.html"); 
+    exit();
+}
 class UpdateOrder {
     private $connection;
 

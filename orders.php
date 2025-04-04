@@ -550,7 +550,7 @@ if ($order['orderType'] !== 'Purchase' && $order['orderStatus'] !== 'Cancelled' 
     </footer>
         <script>
    function cancelOrder(orderID) {
-    if (confirm("Are you sure you want to cancel this reservation?")) {
+    if (confirm("Are you sure you want to cancel?")) {
         fetch('cancel_order.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -560,17 +560,19 @@ if ($order['orderType'] !== 'Purchase' && $order['orderStatus'] !== 'Cancelled' 
         .then(data => {
             console.log(data); 
             if (data === "success") {
-                alert("Reservation cancelled successfully");
-                location.reload();
+                alert("Cancelled successfully"); // Waits for user to click OK
+                location.reload(); // Then refreshes the page
             } else {
-                alert(data); 
+                alert("Failed to cancel the order.");
             }
         })
         .catch(error => {
-            alert("Connection error: " + error);
+            console.error('Error:', error);
+            alert("An error occurred. Please try again.");
         });
     }
 }
+
 
 </script>
 <script>

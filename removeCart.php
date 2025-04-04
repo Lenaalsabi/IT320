@@ -3,7 +3,7 @@
 
 
 include 'db_connect.php'; // Make sure this is the correct path
-
+include 'auth.php';
 if (isset($_POST['cartId']) && isset($_POST['isbn'])) {
     $cartId = $_POST['cartId'];
     $isbn = $_POST['isbn'];

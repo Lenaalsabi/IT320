@@ -70,5 +70,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // ✅ Redirect back to profile page
     header("Location: profile.php");
     exit();
+} else {
+    // Redirect GET access (unauthorized) to homepage or error page
+    header("Location: homepage.html");
+    exit();
 }
 ?>

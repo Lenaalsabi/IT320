@@ -3,6 +3,7 @@ include 'db_connect.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     echo "<script>alert('Invalid request method'); window.history.back();</script>";
+    header("Location: homepage.html"); 
     exit();
 }
 

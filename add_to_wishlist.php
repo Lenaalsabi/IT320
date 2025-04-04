@@ -5,6 +5,7 @@ include 'db_connect.php';
 
 if (!isset($_SESSION['customerID'])) {
     echo json_encode(["status" => "error", "message" => "User not logged in"]);
+    header("Location: homepage.html"); 
     exit;
 }
 

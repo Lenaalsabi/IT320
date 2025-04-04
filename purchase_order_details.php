@@ -3,7 +3,7 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 // تأكد من الاتصال بقاعدة البيانات
 require 'db_connect.php'; 
-
+include 'auth.php';
 // الحصول على معرف الطلب من الرابط
 $orderID = isset($_GET['orderID']) ? intval($_GET['orderID']) : 0;
 
