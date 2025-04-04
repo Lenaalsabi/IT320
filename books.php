@@ -21,21 +21,16 @@ $result = mysqli_query($connection, $query);
 }
 
 .book-card {
-    flex: 0 1 calc(25% - 40px);
-    height: 470px;
-    background-color: #fff;
-    padding: 25px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    text-align: center;
-    transition: 0.3s ease;
-    font-size: 16px; 
-    position: relative;
-    box-sizing: border-box;
-
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    align-items: center; /* Center all content horizontally */
+    text-align: center;
+}
+
+.book-card .button {
+    margin-top: auto; /* Pushes the button to the bottom */
+    align-self: center; /* Ensures it's centered */
 }
 
 .book-card img {
