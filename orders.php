@@ -489,7 +489,7 @@ if ($order['orderType'] !== 'Purchase' && $order['orderStatus'] !== 'Cancelled' 
                 <!-- Show return button if the order type is 'Borrow' and item is not returned -->
                 <?php if ($order['orderType'] == 'Borrow' && $order['itemStatus'] != 'Returned' && $order['orderStatus'] == 'Delivered'): ?>
                     <div class="return-button-container">
-                        <form method="post" action="return_item.php?orderID=<?php echo $order['orderID']; ?>">
+                        <form method="post" action="return_item.php?orderID=<?php echo $order['orderID']; ?>" onsubmit="return confirmReturn();">
                             <button type="submit" class="return-button">Return</button>
                         </form>
                     </div>
@@ -712,6 +712,11 @@ function closeEditForm() {
 
 </script>
 
+<script>
+function confirmReturn() {
+    return confirm("Has the item been returned?");
+}
+</script>
 
 </body>
 </html>

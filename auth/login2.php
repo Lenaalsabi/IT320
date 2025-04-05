@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (password_verify($password, $hashedPassword)) {
             $_SESSION['adminID'] = $adminID;
             $_SESSION['email'] = $email;
-            header("Location: ../admin.html"); 
+            header("Location: ../admin.php"); 
             exit();
         }
     }

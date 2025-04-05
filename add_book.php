@@ -46,7 +46,7 @@ $stmt = $connection->prepare($query);
 $stmt->bind_param("ssssddss", $isbn, $title, $author, $genre, $price, $stock_quantity, $description, $cover_filename);
 
 if ($stmt->execute()) {
-    echo "<script>alert('Book added successfully!'); window.location.href='admin.html';</script>";
+    echo "<script>alert('Book added successfully!'); window.location.href='admin.php';</script>";
 } else {
     echo "<script>alert('Failed to add book'); window.history.back();</script>";
 }

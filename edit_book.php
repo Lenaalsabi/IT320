@@ -47,7 +47,7 @@ if ($cover_filename) {
 }
 
 if ($stmt->execute()) {
-    echo "<script>alert('Book updated successfully!'); window.location.href='admin.html';</script>";
+    echo "<script>alert('Book updated successfully!'); window.location.href='admin.php';</script>";
 } else {
     echo "<script>alert('Failed to update book.'); window.history.back();</script>";
 }

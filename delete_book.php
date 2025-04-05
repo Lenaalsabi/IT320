@@ -19,7 +19,7 @@ $stmt = $connection->prepare($query);
 $stmt->bind_param("s", $isbn);
 
 if ($stmt->execute()) {
-    echo "<script>alert('Book deleted successfully!'); window.location.href='admin.html';</script>";
+    echo "<script>alert('Book deleted successfully!'); window.location.href='admin.php';</script>";
 } else {
     echo "<script>alert('Failed to delete book.'); window.history.back();</script>";
 }
