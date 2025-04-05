@@ -20,7 +20,11 @@ if (isset($_POST['checkout'])) {
             $_SESSION['order_data'][] = [
                 'ISBN' => $row['ISBN'],
                 'quantity' => $row['quantity'],
-                'price' => $row['price']
+                'price' => $row['price'],
+                'startDate' => null,
+                'endDate' => null,
+                'type' => 'purchase',
+                'status'=>null
             ];
             $cartIDToDelete = $row['cartID']; // Capture cartID, assume all cart items have same cartID for the user.
         }
@@ -42,4 +46,43 @@ if (isset($_POST['checkout'])) {
         echo "Your cart is empty.";
     }
 }
+if (isset($_POST['booking'])) {
+    echo '<p> working </p>';
+    // Borrowing Logic
+    $isbn = $_POST['ISBN'];
+    $startDate = $_POST['start-date'];
+    $endDate = $_POST['end-date'];
+    $title = $_POST['book-title'];
+
+    // 1. Calculate Total Price (Server-Side!)
+    $startDateTime = new DateTime($startDate);
+    $endDateTime = new DateTime($endDate);
+    $interval = $startDateTime->diff($endDateTime);
+    $daysDifference = $interval->days;
+    $pricePerDay = 2;
+    $totalPrice = $daysDifference * $pricePerDay;
+
+    // 2. Store borrowing order data in session
+    $_SESSION['order_data'][] = [
+        'ISBN' => $isbn,
+        'quantity' => 1,
+        'price' => $totalPrice,
+        'startDate' => $startDate,
+        'endDate' => $endDate,
+        'type' => 'borrow',
+        'status'=>'Borrowed'
+
+    ];
+
+    $_SESSION['total_price'] = $totalPrice;// Debugging: Check the session
+    echo "<pre>";
+    print_r($_SESSION['order_data']);
+    echo "</pre>";
+
+    echo "Session ID (order_items.php): " . session_id() . "<br>";
+
+    header("Location: checkout.php");
+    exit();
+}
+
 ?>
