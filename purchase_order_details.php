@@ -177,7 +177,7 @@ if ($orderID > 0) {
                     <p><strong>Order Date:</strong> <?php echo $order['created_at']; ?></p>
                     <p><strong>Delivery Address:</strong> <?php echo $order['address']; ?></p>
                     <p><strong>Status:</strong> <?php echo $order['status']; ?></p>
-                    <p><strong>Total Price:</strong> <?php echo number_format($order['totalPrice'], 2); ?> <span><img src="images/riyal-removebg-preview.png" style="width:14px;height:14px;"></span></p>
+                    <p><strong>Total Price:</strong> <span><img src="images/riyal-removebg-preview.png" style="width:14px;height:14px;"></span> <?php echo number_format($order['totalPrice'], 2); ?></p>
                 </div>
 
                 <h3 class="order-items-title">Order Items</h3>
@@ -201,7 +201,7 @@ if ($orderID > 0) {
                                 <td><?php echo $item['ISBN']; ?></td>
                                 <td><?php echo $item['quantity']; ?></td>
                                 <td><?php echo $item['type']; ?></td>                                
-                                <td><?php echo number_format($item['totalPrice'], 2); ?> <span><img src="images/riyal-removebg-preview.png" style="width:14px;height:14px;"></span></td>
+                                <td><span style="margin:3px;"><img src="images/riyal-removebg-preview.png" style="width:14px;height:14px;"></span><?php echo number_format($item['totalPrice'], 2); ?></td>
                                
                             </tr>
                         <?php endwhile; ?>
