@@ -180,12 +180,42 @@ if (isset($_POST['checkout'])) {
 }
 
 if (isset($_POST['booking'])) {
-    echo '<p> working </p>';
-    // Borrowing Logic
+    $customerID = $_SESSION['customerID'];
     $isbn = $_POST['ISBN'];
     $startDate = $_POST['start-date'];
     $endDate = $_POST['end-date'];
-    $title = $_POST['book-title'];
+
+    // 1. Check if dates are valid (future & end > start)
+    $today = date('Y-m-d');
+    if ($startDate < $today || $endDate <= $startDate) {
+        echo "<script>alert('Please choose valid future dates where the end date is after the start date.'); window.history.back();</script>";
+        exit();
+    }
+
+    // 2. Conflict check (with JOIN and status != 'Cancelled')
+    $sql_check_conflict = "
+        SELECT * 
+        FROM order_items oi
+        JOIN orders o ON oi.orderID = o.orderID
+        WHERE oi.ISBN = ?
+          AND oi.type = 'Borrow'
+          AND o.status != 'Cancelled'
+          AND (
+                (oi.startDate BETWEEN ? AND ?) OR 
+                (oi.endDate BETWEEN ? AND ?) OR 
+                (? BETWEEN oi.startDate AND oi.endDate) OR 
+                (? BETWEEN oi.startDate AND oi.endDate)
+          )";
+    
+    $stmt_check_conflict = $connection->prepare($sql_check_conflict);
+    $stmt_check_conflict->bind_param("sssssss", $isbn, $startDate, $endDate, $startDate, $endDate, $startDate, $endDate);
+    $stmt_check_conflict->execute();
+    $conflict_result = $stmt_check_conflict->get_result();
+
+    if ($conflict_result->num_rows > 0) {
+        echo "<script>alert('The selected dates conflict with an existing reservation. Please choose different dates.'); window.history.back();</script>";
+        exit();
+    }
 
     // 1. Calculate Total Price (Server-Side!)
     $startDateTime = new DateTime($startDate);
