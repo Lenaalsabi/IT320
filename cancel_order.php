@@ -35,16 +35,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["orderID"])) {
         
         if ($status == 'Pending') {
             $updateQuery = "UPDATE orders SET status = 'Cancelled' WHERE orderID = ?";
-            $stmt = $connection->prepare($updateQuery);
-            if (!$stmt) {
+            $stmtUpdate = $connection->prepare($updateQuery);
+            if (!$stmtUpdate) {
                 die("Update query preparation failed: " . $connection->error);
             }
 
-            $stmt->bind_param("i", $orderID);
-            if ($stmt->execute()) {
+            $stmtUpdate->bind_param("i", $orderID);
+            if ($stmtUpdate->execute()) {
+                
+                // ✅ نرجّع الكمية للمخزون
+                $selectItemsQuery = "SELECT ISBN, quantity FROM order_items WHERE orderID = ?";
+                $stmtItems = $connection->prepare($selectItemsQuery);
+                $stmtItems->bind_param("i", $orderID);
+                $stmtItems->execute();
+                $result = $stmtItems->get_result();
+
+                while ($row = $result->fetch_assoc()) {
+                    $isbn = $row['ISBN'];
+                    $quantity = $row['quantity'];
+
+                    $updateStockQuery = "UPDATE book SET stock_quantity = stock_quantity + ? WHERE ISBN = ?";
+                    $stmtUpdateStock = $connection->prepare($updateStockQuery);
+                    $stmtUpdateStock->bind_param("is", $quantity, $isbn);
+                    $stmtUpdateStock->execute();
+                }
+
                 echo "success";
             } else {
-                die("Error updating order status: " . $stmt->error);
+                die("Error updating order status: " . $stmtUpdate->error);
             }
         } else {
             echo "Order not in 'Pending' status"; 
