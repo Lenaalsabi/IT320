@@ -223,7 +223,8 @@ if (isset($_POST['pays'])) {
             $stmtOrderItem->bind_param("isssssds", $orderID, $item['ISBN'], $type, $item['quantity'], $startDate, $endDate, $item['price'], $status);
             $stmtOrderItem->execute();
             $stmtOrderItem->close();
-            insertOrderItemAndUpdateStock($connection, $orderID, $item);
+            if($type=='Purchase')
+                insertOrderItemAndUpdateStock($connection, $orderID, $item);
 
         }
 
