@@ -23,21 +23,23 @@ function insertOrderItemAndUpdateStock($connection, $orderID, $item) {
     if ($stmtOrderItem->execute()) {
         $stmtOrderItem->close();
 
-        // Update book stock
-        $sqlBookUpdate = "UPDATE book SET stock_quantity = stock_quantity - ? WHERE ISBN = ?";
-        $stmtBookUpdate = $connection->prepare($sqlBookUpdate);
+        if($type=='Purchase'){
+            // Update book stock
 
-        if (!$stmtBookUpdate) {
-            die("Error preparing book update query: " . $connection->error);
-        }
+            $sqlBookUpdate = "UPDATE book SET stock_quantity = stock_quantity - ? WHERE ISBN = ?";
+            $stmtBookUpdate = $connection->prepare($sqlBookUpdate);
 
-        $stmtBookUpdate->bind_param("is", $item['quantity'], $item['ISBN']);
+            if (!$stmtBookUpdate) {
+                die("Error preparing book update query: " . $connection->error);
+            }
 
-        if (!$stmtBookUpdate->execute()) {
-            echo "Error updating book stock: " . $stmtBookUpdate->error;
-        }
+            $stmtBookUpdate->bind_param("is", $item['quantity'], $item['ISBN']);
 
-        $stmtBookUpdate->close();
+            if (!$stmtBookUpdate->execute()) {
+                echo "Error updating book stock: " . $stmtBookUpdate->error;
+            }
+
+            $stmtBookUpdate->close();}
     } else {
         echo "Error inserting order item: " . $stmtOrderItem->error;
     }
@@ -93,24 +95,32 @@ if (isset($_POST['pays'])) {
         $paymentID = $stmt->insert_id; // Get the last inserted payment ID
         $stmt->close();
 
-        /*Optionally, update the order status to 'completed' (if payment successful)
-        $sql_update_order = "UPDATE orders SET status = 'Shipped' WHERE orderID = ?";
-        $stmt = $connection->prepare($sql_update_order);
-        $stmt->bind_param("i", $orderID);
-        $stmt->execute();
-        $stmt->close();
-        /*
-        header("Location: homebage2.php"); // Redirect to the confirmation page
-        exit();
-        */
 
 // Clear the total price from the session after processing (optional)
 //unset($_SESSION['total_price']);
 
 
+        /* 3. Insert Order Items
+      foreach ($orderData as $item) {
+            $sqlOrderItem = "INSERT INTO order_items (orderID, ISBN, type, quantity, startDate, endDate, totalPrice, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            $stmtOrderItem = $connection->prepare($sqlOrderItem);
+            if (!$stmtOrderItem) {
+                die("Error preparing query: " . $connection->error);
+            }
+            $type = $item['type'];
+            $startDate = $item['startDate'];
+            $endDate = $item['endDate'];
+            $status=$item['status'];
+            $stmtOrderItem->bind_param("isssssds", $orderID, $item['ISBN'], $type, $item['quantity'], $startDate, $endDate, $item['price'],$status);
+            $stmtOrderItem->execute();
+            $stmtOrderItem->close();
+          //  if($type=='Purchase')
+             insertOrderItemAndUpdateStock($connection, $orderID, $item);
+
+       // }*/
+
         // 2. Insert into 'order_items' and update book stock
         foreach ($orderData as $item) {
-            if($item['type']=='Purchase')
             insertOrderItemAndUpdateStock($connection, $orderID, $item);
         }
 
