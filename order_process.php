@@ -108,23 +108,10 @@ if (isset($_POST['pays'])) {
 //unset($_SESSION['total_price']);
 
 
-        // 3. Insert Order Items
+        // 2. Insert into 'order_items' and update book stock
         foreach ($orderData as $item) {
-            $sqlOrderItem = "INSERT INTO order_items (orderID, ISBN, type, quantity, startDate, endDate, totalPrice, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-            $stmtOrderItem = $connection->prepare($sqlOrderItem);
-            if (!$stmtOrderItem) {
-                die("Error preparing query: " . $connection->error);
-            }
-            $type = $item['type'];
-            $startDate = $item['startDate'];
-            $endDate = $item['endDate'];
-            $status=$item['status'];
-            $stmtOrderItem->bind_param("isssssds", $orderID, $item['ISBN'], $type, $item['quantity'], $startDate, $endDate, $item['price'],$status);
-            $stmtOrderItem->execute();
-            $stmtOrderItem->close();
-            if($type=='Purchase')
-                insertOrderItemAndUpdateStock($connection, $orderID, $item);
-
+            if($item['type']=='Purchase')
+            insertOrderItemAndUpdateStock($connection, $orderID, $item);
         }
 
         // Clear session data
