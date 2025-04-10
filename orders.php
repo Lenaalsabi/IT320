@@ -14,7 +14,6 @@ if (!isset($_SESSION['customerID'])) {
 
 $customerID = $_SESSION['customerID']; 
 
-// استعلام لعرض الطلبات الحالية فقط
 $query_current = "
 SELECT 
     orders.orderID, orders.customerID, orders.totalPrice AS orderTotalPrice, 
@@ -24,9 +23,19 @@ SELECT
     order_items.status AS itemStatus
 FROM orders
 JOIN order_items ON orders.orderID = order_items.orderID
-WHERE orders.customerID = ? AND orders.status NOT IN ('Delivered', 'Cancelled')
+WHERE orders.customerID = ?
+  AND (
+      orders.status IN ('Pending', 'Shipped')  -- Active orders (not delivered or cancelled)
+      OR (
+          orders.status = 'Delivered' 
+          AND order_items.type = 'Borrow' 
+          AND order_items.status != 'Returned'  -- Borrowed but not returned yet
+      )
+  )
 ORDER BY orders.created_at DESC
 ";
+
+
 
 // استعلام لعرض الطلبات السابقة فقط
 $query_past = "
@@ -38,9 +47,23 @@ SELECT
     order_items.status AS itemStatus
 FROM orders
 JOIN order_items ON orders.orderID = order_items.orderID
-WHERE orders.customerID = ? AND orders.status IN ('Delivered', 'Cancelled')
+WHERE orders.customerID = ?
+  AND (
+      orders.status = 'Cancelled'  -- Any cancelled order
+      OR (
+          orders.status = 'Delivered' 
+          AND order_items.type = 'Purchase'  -- All delivered purchases
+      )
+      OR (
+          orders.status = 'Delivered' 
+          AND order_items.type = 'Borrow' 
+          AND order_items.status = 'Returned'  -- Only returned borrows
+      )
+  )
 ORDER BY orders.created_at DESC
 ";
+
+
 
 // استعلام للطلبات الحالية
 $stmt_current = $connection->prepare($query_current);
@@ -395,6 +418,21 @@ $result_past = $stmt_past->get_result();
                                 <button class="cancel-order-btn" onclick="cancelOrder(<?php echo $order['orderID']; ?>)">Cancel</button>
                             </div>
                         <?php endif; ?>
+                        <?php if ($order['orderType'] == 'Borrow' && $order['orderStatus'] == 'Delivered' && $order['itemStatus'] != 'Returned'): ?>
+    <div class="return-button-container">
+        <form method="post" action="return_item.php?orderID=<?php echo $order['orderID']; ?>" onsubmit="return confirm('Are you sure you want to return this item?');">
+            <button type="submit" class="return-button">Return</button>
+        </form>
+    </div>
+<?php endif; ?>
+<?php if ($order['orderType'] !== 'Purchase' && $order['orderStatus'] !== 'Cancelled' && !($order['orderStatus'] === 'Delivered' && $order['orderType'] === 'Borrow' && $order['itemStatus'] === 'Returned')): ?>
+                            <div class="edit-order-btn-container">             
+                                <button class="edit-order-btn" onclick="openEditForm('<?php echo $order['orderID']; ?>', '<?php echo $order['orderType']; ?>', '<?php echo $order['orderStatus']; ?>', '<?php echo $order['startDate']; ?>', '<?php echo $order['endDate']; ?>', '<?php echo $order['address']; ?>', event)">
+                                    Edit
+                                </button>
+                            </div>
+                        <?php endif; ?>
+
                     </div>
                 </div>
             <?php endwhile; ?>
@@ -408,6 +446,7 @@ $result_past = $stmt_past->get_result();
             <h2 class="section-title"><span class="highlight2">Past</span> orders</h2>
             <?php $hasPastOrders = false; ?>
             <?php while ($order = $result_past->fetch_assoc()): ?>
+                
                 <?php $hasPastOrders = true; ?>
                 <div class="order-card">
                     <div class="order-details">
@@ -420,21 +459,6 @@ $result_past = $stmt_past->get_result();
                         </p>
                         <p class="order-date">Order Date: <?php echo $order['created_at']; ?></p>
 
-                        <?php if ($order['orderType'] !== 'Purchase' && $order['orderStatus'] !== 'Cancelled' && !($order['orderStatus'] === 'Delivered' && $order['orderType'] === 'Borrow' && $order['itemStatus'] === 'Returned')): ?>
-                            <div class="edit-order-btn-container">             
-                                <button class="edit-order-btn" onclick="openEditForm('<?php echo $order['orderID']; ?>', '<?php echo $order['orderType']; ?>', '<?php echo $order['orderStatus']; ?>', '<?php echo $order['startDate']; ?>', '<?php echo $order['endDate']; ?>', '<?php echo $order['address']; ?>', event)">
-                                    Edit
-                                </button>
-                            </div>
-                        <?php endif; ?>
-
-                        <?php if ($order['orderType'] == 'Borrow' && $order['itemStatus'] != 'Returned' && $order['orderStatus'] == 'Delivered'): ?>
-                            <div class="return-button-container">
-                                <form method="post" action="return_item.php?orderID=<?php echo $order['orderID']; ?>" onsubmit="return confirmReturn();">
-                                    <button type="submit" class="return-button">Return</button>
-                                </form>
-                            </div>
-                        <?php endif; ?>
 
                         <div class="order-details-btn-container">
                             <?php
@@ -447,6 +471,7 @@ $result_past = $stmt_past->get_result();
                         </div>
                     </div>
                 </div>
+                
             <?php endwhile; ?>
             <?php if (!$hasPastOrders): ?>
                 <p class="no-orders-message">No past orders found.</p>
@@ -532,43 +557,6 @@ $result_past = $stmt_past->get_result();
                 });
         });
 
-        function fetchOrders() {
-            fetch('fetch_orders.php')
-                .then(response => response.json())
-                .then(data => {
-                    if (!data || data.length === 0) {
-                        console.error("No past orders found.");
-                        return;
-                    }
-
-                    let pastOrdersContainer = document.querySelector(".order-section:nth-of-type(2)");
-                    pastOrdersContainer.innerHTML = `<h2 class="section-title"><span class="highlight2"> Past</span> orders</h2>`;
-
-                    data.forEach(order => {
-                        let orderHTML = `
-                            <div class="order-card">
-                                <div class="order-details">
-                                    <p class="order-id">Order ID: ${order.orderID}</p>
-                                    <p class="price"><img src="images/riyal-removebg-preview.png" style="width:14px;height:14px;"> ${order.orderTotalPrice}</p>
-                                    <p class="delivery-address">Delivery Address: ${order.address}</p>
-                                    <p class="order-status">Status: <span class="highlight3">${order.orderStatus}</span></p>
-                                    <p class="order-date">Order Date: ${order.created_at}</p>
-                                    <div class="items">`;
-
-                        order.items.forEach(item => {
-                            orderHTML += `
-                                <p>ISBN: ${item.ISBN}, Type: ${item.orderType}, Quantity: ${item.quantity}</p>`;
-                        });
-
-                        orderHTML += `</div></div></div>`;
-                        pastOrdersContainer.innerHTML += orderHTML;
-                    });
-                })
-                .catch(error => console.error("Error fetching orders:", error));
-        }
-
-        // تحميل الطلبات عند فتح الصفحة
-        fetchOrders();
 
         function openEditForm(orderID, orderType, orderStatus, startDate, endDate, address) {
             var modal = document.getElementById('editFormContainer');
