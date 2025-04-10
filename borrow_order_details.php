@@ -224,7 +224,7 @@ if ($orderID > 0) {
                     <p><strong>Order Date:</strong> <?php echo $order['created_at']; ?></p>
                     <p><strong>Delivery Address:</strong> <?php echo $order['address']; ?></p>
                     <p><strong>Status:</strong> <?php echo $order['status']; ?></p>
-                    <p><strong>Total Price:</strong> <span><img src="images/riyal-removebg-preview.png" style="width:14px;height:14px;"></span> <?php echo number_format($order['totalPrice'], 2); ?></p>
+                   
                 </div>
 
                 <h3 class="order-items-title">Order Items</h3>

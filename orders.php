@@ -366,7 +366,7 @@ $result_past = $stmt_past->get_result();
             <div class="order-card">
                 <div class="order-details">
                     <p class="order-id">Order ID: <?php echo $order['orderID']; ?></p>
-                    <p class="price"><span><img src="images/riyal-removebg-preview.png" style="width:14px;height:14px;"></span> <?php echo $order['orderTotalPrice']; ?></p>
+                    
                     <p class="order-type">Order Type: <span><?php echo $order['orderType']; ?></span></p>
                     <p class="delivery-address">Delivery Address: <?php echo $order['address']; ?></p>
                     <p class="order-status" data-order-id="<?php echo $order['orderID']; ?>">
